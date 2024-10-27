@@ -54,6 +54,17 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
+        source/Game.cpp
+        source/Game.h
+        source/EntityManager.cpp
+        source/EntityManager.h
+        source/Entity.cpp
+        source/Entity.h
+        source/Player.cpp
+        source/Player.h
+        source/SInput.h
+        source/Actions.cpp
+        source/Actions.h
 )
 
 include(cmake/CompilerFlags.cmake)

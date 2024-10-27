@@ -9,22 +9,17 @@ O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc inchis
 ### Ce imi propun:
 - [ ] Creearea a cel putin 3 "pokeratz"
 - [ ] Fereastra de meniu principal
-- [ ] Fereastra de joc
+- [x] Fereastra de joc
 - [ ] Fereastra de batalie
 - [ ] Implementarea evolutiei
 - [ ] Alte chestii faine
 
 
-### Tema 0
-
-- [1] Nume proiect (poate fi schimbat ulterior)
-- [1] Scurtă descriere a temei alese, ce v-ați propus să implementați
-
 ## Tema 1
 
 #### Cerințe
-- [ ] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
-- [ ] constructori de inițializare cu parametri
+- [x] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
+- [x] constructori de inițializare cu parametri
 - [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->

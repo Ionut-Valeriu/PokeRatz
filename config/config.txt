@@ -1,0 +1,2 @@
+Window 1280 720 60 0
+Font resources/fonts/arial.ttf
