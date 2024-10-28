@@ -40,9 +40,10 @@ class Game {
     // scene play related
     void registerAction (int inputKey, const std::string& actionName);
 
-public:
+    void onEnd();
 
-    Game(const std::string& path);
+public:
+    explicit Game(const std::string& path);
     void run();
 };
 

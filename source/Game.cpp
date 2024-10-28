@@ -15,11 +15,13 @@ void Game::run() {
 
         m_entityManager.update();
 
-        if(!m_paused) {
+        sUserInput();
 
+        if(!m_paused) {
+            sMovement();
         }
 
-        sUserInput();
+
         sRender();
 
         if (!m_paused) currentFrame++;
@@ -70,7 +72,8 @@ void Game::init(const std::string &path) {
 }
 
 void Game::sDoActions(Actions& action) {
-    if(action.name() == "QUIT") { m_running = false; }//onEnd();}
+    if(action.name() == "CLOSE") { onEnd();}
+    else if (action.name() == "PAUSE") { m_paused = true; }
     else { m_player->setAction(action); }
 }
 
@@ -100,8 +103,6 @@ void Game::sUserInput() {
 void Game::sRender() {
     m_window.clear();
 
-    // m_player->draw(m_window);
-
     for (auto &e : m_entityManager.getEntities()) {
         e->draw(m_window);
     }
@@ -122,6 +123,10 @@ const ActionMap & Game::getActionMap() const {
 
 void Game::registerAction(int inputKey, const std::string &actionName) {
     m_actions.insert(std::pair<int, std::string>(inputKey, actionName));
+}
+
+void Game::onEnd() {
+    m_running = false;
 }
 
 Game::Game(const std::string &path) {

@@ -14,6 +14,7 @@ void Entity::init() {
 }
 
 void Entity::draw(sf::RenderWindow &window) {
+    tempShape->setPosition(m_position);
     window.draw(*tempShape);
 }
 

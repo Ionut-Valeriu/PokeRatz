@@ -6,8 +6,7 @@
 #define ENTITY_H
 
 #include <memory>
-
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 class EntityManager;
 

@@ -27,7 +27,7 @@ public:
     std::shared_ptr<Entity> addEntity(const std::string& tag);
     std::shared_ptr<Player> addPlayer(const std::string& tag);
 
-    EntityVec getEntities() { return m_entities; }
+    const EntityVec getEntities() { return m_entities; }
     EntityVec getEntities(const std::string& tag) { return m_entityMap[tag]; }
 
 };

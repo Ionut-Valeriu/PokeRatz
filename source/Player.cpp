@@ -29,7 +29,9 @@ void Player::setAction(Actions &action) {
             std::cerr << "[END] Invalid action name: " << action.name() << std::endl;
         }
     } else {
-        std::cerr << "Invalid action type: " << action.type() << std::endl;
+        std::cerr << "[Player::setAction] Invalid action type: " << action.type() << std::endl;
     }
+
+    std::cout << m_velocity.x << " " << m_velocity.y << std::endl;
 
 }
