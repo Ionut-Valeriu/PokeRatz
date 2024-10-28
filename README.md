@@ -4,7 +4,7 @@
 
 ### Descriere
 
-O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc inchis de pe facebook "Labotatz"
+O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc actual închis de pe facebook "Labotatz"
 
 ### Ce imi propun:
 - [ ] Creearea a cel putin 3 "pokeratz"
@@ -24,8 +24,8 @@ O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc inchis
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
 - [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
-- [ ] cât mai multe `const` (unde este cazul)
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
+- [x] cât mai multe `const` (unde este cazul)
+- [x] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
   - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
 - [ ] scenariu de utilizare a claselor definite:
   - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main

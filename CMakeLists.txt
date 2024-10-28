@@ -62,7 +62,6 @@ add_executable(${PROJECT_NAME}
         source/Entity.h
         source/Player.cpp
         source/Player.h
-        source/SInput.h
         source/Actions.cpp
         source/Actions.h
 )
@@ -105,6 +104,6 @@ endif()
 
 
 include(cmake/CopyHelper.cmake)
-copy_files(FILES tastatura.txt)
+#copy_files(FILES tastatura.txt)
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
-# copy_files(DIRECTORY images sounds)
+copy_files(DIRECTORY resources)

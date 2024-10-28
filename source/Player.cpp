@@ -18,15 +18,15 @@ void Player::setAction(Actions &action) {
         } else if (action.name() == "RIGHT") {
             m_velocity.x = m_speed;
         } else {
-            std::cerr << "[START] Invalid action name: " << action.name() << std::endl;
+            std::cerr << "[Player::setAction - START] Invalid action name: " << action.name() << std::endl;
         }
     } else if (action.type() == "END") {
-        if (action.name() == "UP"|| action.name() == "DOWN") {
-            m_velocity.y = 0;
-        } else if (action.name() == "LEFT"|| action.name() == "RIGHT") {
-            m_velocity.x = 0;
-        } else {
-            std::cerr << "[END] Invalid action name: " << action.name() << std::endl;
+             if (action.name() == "UP"   ) { if (m_velocity.y < 0) { m_velocity.y = 0; } }
+        else if (action.name() == "DOWN" ) { if (m_velocity.y > 0) { m_velocity.y = 0; } }
+        else if (action.name() == "LEFT" ) { if (m_velocity.x < 0) { m_velocity.x = 0; } }
+        else if (action.name() == "RIGHT") { if (m_velocity.x > 0) { m_velocity.x = 0; } }
+        else {
+            std::cerr << "[Player::setAction - END] Invalid action name: " << action.name() << std::endl;
         }
     } else {
         std::cerr << "[Player::setAction] Invalid action type: " << action.type() << std::endl;
