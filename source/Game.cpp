@@ -40,7 +40,6 @@ void Game::init(const std::string &path) {
     registerAction(sf::Keyboard::E, "INTERACT");
 
     m_player = m_entityManager.addPlayer("player");
-    auto test_e = m_entityManager.addEntity("test-entity");
 
     /// todo
     /// temp
@@ -99,6 +98,9 @@ void Game::sUserInput() {
         }
     }
 }
+
+/// todo
+/// entitymanager.draw
 
 void Game::sRender() {
     m_window.clear();
