@@ -43,9 +43,10 @@ protected:
 
 public:
     void init();
-    void draw(sf::RenderWindow& window) const;
 
-    bool collide(const Entity& other) const;
+    void draw(sf::RenderWindow &window) const;
+
+    bool collide(const Entity &other) const;
 
     void updatePos();
 };
