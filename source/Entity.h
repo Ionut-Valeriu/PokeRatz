@@ -5,14 +5,26 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+////////// INCLUDE SECTION //////////
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-class EntityManager;
+////////// DESCRIPTION //////////
 
+/// this class will be used to spawn any entity in the game
+/// those entities have different properties like:
+/// - id (unique)
+/// - tag (category)
+/// - position
+/// - velocity
+/// - sprite & hit-box (current rectangular sha[e)
+/// - different properties
+/// also a method for every aspect of the game
+/// (this is the aiming point, currently not finished)
+
+////////// DEFINITION OF CLASS //////////
 class Entity {
 protected:
-    friend class EntityManager;
 
     bool m_active = true;
     size_t m_id;
@@ -20,11 +32,8 @@ protected:
     sf::Vector2f m_velocity;
     std::string m_tag = "default";
 
-    Entity(size_t id, const std::string &tag);
+    Entity(size_t id, std::string tag);
 
-
-    /// todo
-    ///temp
     std::shared_ptr<sf::RectangleShape> tempShape;
 
     // std::ostream& operator<<(std::ostream &os) const {
@@ -34,7 +43,9 @@ protected:
 
 public:
     void init();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
+
+    bool collide(const Entity& other) const;
 
     void updatePos();
 };
