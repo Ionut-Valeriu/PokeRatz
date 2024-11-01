@@ -9,6 +9,7 @@
 #include <string>
 
 #include "Actions.h"
+#include "Enums.h"
 
 void Game::run() {
     while (m_running) {
@@ -20,7 +21,6 @@ void Game::run() {
         if(!m_paused) {
             sMovement();
         }
-
 
         sRender();
 
@@ -39,7 +39,10 @@ void Game::init(const std::string &path) {
     registerAction(sf::Keyboard::P, "PAUSE");
     registerAction(sf::Keyboard::E, "INTERACT");
 
+    // todo - remove - only for cppcherck
     m_player = m_entityManager.addPlayer("player");
+    auto test = m_entityManager.addEntity("test");
+    test->collide(std::make_shared<Entity> {100, 100});
 
     /// todo
     /// temp
@@ -70,10 +73,23 @@ void Game::init(const std::string &path) {
     std::cout << "Init finished!\n";
 }
 
-void Game::sDoActions(Actions& action) {
-    if(action.name() == "CLOSE") { onEnd();}
-    else if (action.name() == "PAUSE") { m_paused = true; }
-    else { m_player->setAction(action); }
+void Game::sDoActions(const Actions& action) {
+
+    if (action.type() == "START") {
+             if (action.name() == "CLOSE") { onEnd(); }
+        else if (action.name() == "PAUSE") { m_paused = true; }
+        else if (action.name() == "UP"   ) { m_player->setUp(true); }
+        else if (action.name() == "DOWN" ) { m_player->setDown(true); }
+        else if (action.name() == "LEFT" ) { m_player->setLeft(true); }
+        else if (action.name() == "RIGHT") { m_player->setRight(true); }
+    }
+    else if (action.type() == "END") {
+             if (action.name() == "PAUSE") { m_paused = false; }
+        else if (action.name() == "UP"   ) { m_player->setUp(false); }
+        else if (action.name() == "DOWN" ) { m_player->setDown(false); }
+        else if (action.name() == "LEFT" ) { m_player->setLeft(false); }
+        else if (action.name() == "RIGHT") { m_player->setRight(false); }
+    }
 }
 
 void Game::sUserInput() {
@@ -83,8 +99,7 @@ void Game::sUserInput() {
             m_running = false;
         }
 
-        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
-        {
+        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
             // if the current scene does not have an action associated with this key, skip the event
             if (getActionMap().find(event.key.code) == getActionMap().end()) { continue; }
 
@@ -93,26 +108,29 @@ void Game::sUserInput() {
 
             // look up the action and send the action to the scene
 
-            Actions a(getActionMap().at(event.key.code), actionType);
-            sDoActions(a);
+            sDoActions( Actions {getActionMap().at(event.key.code), actionType} );
         }
     }
 }
 
-/// todo
-/// entitymanager.draw
-
 void Game::sRender() {
     m_window.clear();
-
-    for (auto &e : m_entityManager.getEntities()) {
+    for (const std::shared_ptr<Entity> &e: m_entityManager.getEntities()) {
         e->draw(m_window);
     }
-
     m_window.display();
 }
 
 void Game::sMovement() {
+    Move x = STAY;
+    Move y = STAY;
+
+    if (m_player->up()) { y = REVERSE; }
+    if (m_player->down()) { y = GO; }
+    if (m_player->left()) { x = REVERSE; }
+    if (m_player->right()) { x = GO; }
+
+    m_player->setVelocity(x, y);
 
     for (auto&e : m_entityManager.getEntities()) {
         e->updatePos();
