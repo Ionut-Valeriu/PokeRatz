@@ -50,7 +50,7 @@ public:
 
     // getters
     size_t id() const { return m_id; }
-    std::string tag() const { return m_tag; }
+    const std::string &tag() const { return m_tag; }
     bool active() const { return m_active; }
 
     // other methods
