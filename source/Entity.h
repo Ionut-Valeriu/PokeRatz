@@ -32,7 +32,7 @@ protected:
     sf::Vector2f m_velocity;
     std::string m_tag = "default";
 
-    Entity(size_t id, std::string tag);
+
 
     std::shared_ptr<sf::RectangleShape> tempShape;
 
@@ -42,10 +42,18 @@ protected:
     // }
 
 public:
+    Entity(size_t id, std::string tag);
+
     void init();
 
     void draw(sf::RenderWindow &window) const;
 
+    // getters
+    size_t id() const { return m_id; }
+    std::string tag() const { return m_tag; }
+    bool active() const { return m_active; }
+
+    // other methods
     bool collide(const Entity &other) const;
 
     void updatePos();
