@@ -18,6 +18,11 @@ void Entity::draw(sf::RenderWindow &window) const {
     window.draw(*tempShape);
 }
 
+bool Entity::collide(const Entity &other) const {
+    // todo
+    return true;
+}
+
 void Entity::updatePos() {
     m_position += m_velocity;
 }
