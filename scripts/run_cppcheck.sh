@@ -10,4 +10,5 @@ cppcheck --enable=all \
     --suppress=missingIncludeSystem \
     --suppress=unmatchedSuppression \
     --suppress=useStlAlgorithm \
-    --error-exitcode=1
+    --checkers-report=cppchecker_report.txt \
+    --error-exitcode=1 \
