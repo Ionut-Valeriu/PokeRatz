@@ -54,7 +54,7 @@ class Game {
 
     void sMovement();
 
-    void sDoActions(Actions &action);
+    void sDoActions(const Actions &action);
 
     void sUserInput();
 
