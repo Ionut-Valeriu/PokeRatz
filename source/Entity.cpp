@@ -20,6 +20,7 @@ void Entity::draw(sf::RenderWindow &window) const {
 
 bool Entity::collide(const Entity &other) const {
     // todo
+    if (other.m_tag == m_tag) { return false; }
     return true;
 }
 
