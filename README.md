@@ -1,28 +1,43 @@
-# Pokerats
+# PokeRatz
 
+### Description
 
+Very original (i hope)
 
-### Descriere
+The protagonist of this game (you ofc) is living in a world of chaos where he has to pay taxes!
 
-O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc actual închis de pe facebook "Labotatz"
+You hate that and think the government just steal money from you (which actually happens).
+You only have access to rats, a lot of rats, because you have almost no money coz you pay taxes.
+So you manage to upgrade them and somehow trap them into some magic cards (a dude in the hood gave you those).
 
-### Ce imi propun:
-- [ ] Creearea a cel putin 3 "pokeratz"
-- [ ] Fereastra de meniu principal
-- [x] Fereastra de joc
-- [ ] Fereastra de batalie
-- [ ] Implementarea evolutiei
-- [ ] Alte chestii faine
+### My goals for this project are:
 
+- [ ] Separating the creatures in 3 categories that counters each other
+- [ ] Separating the whole game in scenes:
+  - [ ] Main Menu Scene
+  - [x] Default Game Scene
+  - [ ] Battle Scene
+- [ ] Implementing evolution
+- [ ] Adding more things on this list
+
+<!--
+
+# Teme/Milestones 
 
 ## Tema 1
 
 #### Cerințe
-- [x] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
+- [ ] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
 - [x] constructori de inițializare cu parametri
 - [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
+
+-->
+
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
+
+<!--
+
 - [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
 - [x] cât mai multe `const` (unde este cazul)
 - [x] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
@@ -67,62 +82,21 @@ O combinatie intre jocurile de pokemon vechi (de pe GameBoy/DS) si un joc actual
 - [ ] 2 șabloane de proiectare (design patterns)
 - [ ] o clasă șablon cu sens; minim **2 instanțieri**
   - [ ] preferabil și o funcție șablon (template) cu sens; minim 2 instanțieri
+
+-->
+
 <!-- - [ ] o specializare pe funcție/clasă șablon -->
+
+<!--
+
 - [ ] tag de `git`: de exemplu `v0.3` sau `v1.0`
 
-## Instrucțiuni de compilare
+-->
 
-Proiectul este configurat cu CMake.
-
-Instrucțiuni pentru terminal:
-
-0. Biblioteci necesare pe Linux (presupunem sistem de operare bazat pe Debian)
-```sh
-sudo apt-get update && \
-  sudo apt-get install libxrandr-dev \
-    libxcursor-dev \
-    libudev-dev \
-    libopenal-dev \
-    libflac-dev \
-    libvorbis-dev \
-    libgl1-mesa-dev \
-    libegl1-mesa-dev \
-    libdrm-dev \
-    libgbm-dev \
-    libfreetype6-dev
-```
-
-Dacă lipsesc și alte biblioteci, ștergeți folder-ul de build de la pasul 1 și reconfigurați proiectul după ce ați instalat ce lipsea.
-
-1. Pasul de configurare
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-```
-
-Sau pe Windows cu GCC:
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G Ninja
-```
-
-La acest pas putem cere să generăm fișiere de proiect pentru diverse medii de lucru.
-
-
-2. Pasul de compilare
-```sh
-cmake --build build --config Debug --parallel 6
-```
-
-Cu opțiunea `parallel` specificăm numărul de fișiere compilate în paralel.
-
-3. Pasul de instalare (opțional)
-```sh
-cmake --install build --config Debug --prefix install_dir
-```
-
-Vezi și [`scripts/cmake.sh`](scripts/cmake.sh).
-
-## Resurse
+## Resource
 
 - [SFML](https://github.com/SFML/SFML/tree/2.6.1) (Zlib)
-  - [OpenAL](https://openal-soft.org/) (LGPL): din cauza licenței, trebuie distribuită ca shared library
-- adăugați trimiteri către resursele externe care v-au ajutat sau pe care le-ați folosit
+  - [OpenAL](https://openal-soft.org/) (LGPL)
+- [Template](https://github.com/mcmarius/oop-template/tree/sfml)
+- [YouTube Course](https://www.youtube.com/watch?v=S7lXSihz0ac&list=PL_xRyXins848nDj2v-TJYahzvs-XW9sVV) (This is the
+  best free tutorial I foud on game development in sfml)
