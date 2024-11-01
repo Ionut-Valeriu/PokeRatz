@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-DEFAULT_BUILD_DIR="build"
+DEFAULT_BUILD_DIR="cmake-build-debug"
 DEFAULT_BUILD_TYPE="Debug"
 DEFAULT_INSTALL_DIR="install_dir"
 
