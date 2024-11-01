@@ -42,7 +42,8 @@ void Game::init(const std::string &path) {
     // todo - remove - only for cppcherck
     m_player = m_entityManager.addPlayer("player");
     auto test = m_entityManager.addEntity("test");
-    test->collide(std::make_shared<Entity> {100, 100});
+    auto test2 = m_entityManager.addEntity("test");
+    test->collide(*test2);
 
     /// todo
     /// temp
