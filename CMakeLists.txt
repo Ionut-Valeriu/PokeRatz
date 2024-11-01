@@ -64,6 +64,9 @@ add_executable(${PROJECT_NAME}
         source/Player.h
         source/Actions.cpp
         source/Actions.h
+        source/Animation.cpp
+        source/Animation.h
+        source/Enums.h
 )
 
 include(cmake/CompilerFlags.cmake)
