@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
 # for now, the project name is used as the executable name
@@ -54,18 +55,20 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
-        source/Game.cpp
-        source/Game.h
-        source/EntityManager.cpp
-        source/EntityManager.h
-        source/Entity.cpp
-        source/Entity.h
-        source/Player.cpp
-        source/Player.h
         source/Actions.cpp
         source/Actions.h
         source/Animation.cpp
         source/Animation.h
+        source/Components.cpp
+        source/Components.h
+        source/Entity.cpp
+        source/Entity.h
+        source/EntityManager.cpp
+        source/EntityManager.h
+        source/Game.cpp
+        source/Game.h
+        source/Player.cpp
+        source/Player.h
         source/Enums.h
 )
 
