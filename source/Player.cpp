@@ -11,7 +11,7 @@ Player::Player(size_t id, const std::string &tag)
     : Entity(id, tag) {};
 
 void Player::setVelocity(Move x, Move y) const {
-    m_transform->setVelocity( {x * m_speed, y * m_speed} );
+    m_transform->setVelocity( {float(x) * m_speed, float(y) * m_speed} );
 }
 
 // void Player::updatePos() {
