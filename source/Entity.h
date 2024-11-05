@@ -7,7 +7,10 @@
 
 ////////// INCLUDE SECTION //////////
 #include <memory>
+#include <iostream>
 #include <SFML/Graphics.hpp>
+
+#include "Components.h"
 
 ////////// DESCRIPTION //////////
 
@@ -25,21 +28,26 @@
 ////////// DEFINITION OF CLASS //////////
 class Entity {
 protected:
-
-    bool m_active = true;
-    size_t m_id;
-    sf::Vector2f m_position;
-    sf::Vector2f m_velocity;
+    // size 32
     std::string m_tag = "default";
 
-
-
+    // size 16
+    std::shared_ptr<CTransform> m_transform;
     std::shared_ptr<sf::RectangleShape> tempShape;
 
-    // std::ostream& operator<<(std::ostream &os) const {
-    //     os << e.m_id << " (" << e.m_tag << ")";
-    //     return os;
-    // }
+    // size 8
+    size_t m_id;
+
+    // size 1
+    bool m_active = true;
+
+    friend std::ostream & operator<<(std::ostream &os, const Entity &obj) {
+        return os
+        << "m_id: " << obj.m_id << "; m_tag: " << obj.m_tag
+        << "\nm_transform: " << obj.m_transform->getPosition().x
+        << "\ntempShape: " << obj.tempShape << " size: " << sizeof(obj.tempShape)
+        << "m_active: " << obj.m_active << " size: " << sizeof(obj.m_active);
+    }
 
 public:
     Entity(size_t id, std::string tag);
@@ -49,14 +57,19 @@ public:
     void draw(sf::RenderWindow &window) const;
 
     // getters
-    size_t id() const { return m_id; }
-    const std::string &tag() const { return m_tag; }
-    bool active() const { return m_active; }
+    [[nodiscard]] size_t id() const { return m_id; }
+    [[nodiscard]] const std::string &tag() const { return m_tag; }
+    [[nodiscard]] bool active() const { return m_active; }
 
     // other methods
-    bool collide(const Entity &other) const;
+    [[nodiscard]] bool collide(const Entity &other) const;
 
-    void updatePos();
+    [[nodiscard]] float getX() const;
+    [[nodiscard]] float getY() const;
+    [[nodiscard]] float getWidth() const;
+    [[nodiscard]] float getHeight() const;
+
+    void updatePos() const;
 };
 
 

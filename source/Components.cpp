@@ -9,12 +9,11 @@
 bool Component::has() const {return m_exist;}
 
 Component::Component(bool m_exist) : m_exist(m_exist) {}
-Component::Component(const Component &other) : m_exist(other.m_exist) {}
+Component::Component(const Component &other) = default;
 Component &Component::operator=(const Component &other) {
     if (this == &other) return *this;
     m_exist = other.m_exist;
     return *this;
-    auto aux = 1;
 }
 
 // transform component

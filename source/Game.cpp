@@ -5,6 +5,7 @@
 #include "Game.h"
 
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <string>
 
@@ -43,7 +44,13 @@ void Game::init(const std::string &path) {
     m_player = m_entityManager.addPlayer("player");
     auto test = m_entityManager.addEntity("test");
     auto test2 = m_entityManager.addEntity("test");
-    test->collide(*test2);
+    if (test->collide(*test2)) {
+        std::cout << "initial colision\n";
+    } else {
+        std::cout << "NONcollision\n";
+    }
+
+    std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
 
     /// todo
     /// temp
@@ -126,14 +133,18 @@ void Game::sMovement() {
     Move x = STAY;
     Move y = STAY;
 
-    if (m_player->up()) { y = REVERSE; }
-    if (m_player->down()) { y = GO; }
-    if (m_player->left()) { x = REVERSE; }
-    if (m_player->right()) { x = GO; }
+    if (m_player->up() && m_player->getY() > 0)
+        { y = REVERSE; }
+    else if (m_player->down() && m_player->getY()+m_player->getHeight()+m_player->speed() < m_window.getSize().y)
+        { y = GO; }
+    else if (m_player->left() && m_player->getX() > 0)
+        { x = REVERSE; }
+    else if (m_player->right() && m_player->getX()+m_player->getWidth()+m_player->speed() < m_window.getSize().x)
+        { x = GO; }
 
     m_player->setVelocity(x, y);
 
-    for (auto&e : m_entityManager.getEntities()) {
+    for (const auto &e : m_entityManager.getEntities()) {
         e->updatePos();
     }
 }

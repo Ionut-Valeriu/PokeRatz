@@ -23,8 +23,8 @@ public:
     Actions();
     Actions(std::string name, std::string type);
 
-    const std::string& name() const { return m_name; }
-    const std::string& type() const { return m_type; }
+    [[nodiscard]] const std::string& name() const { return m_name; }
+    [[nodiscard]] const std::string& type() const { return m_type; }
 };
 
 #endif //ACTIONS_H

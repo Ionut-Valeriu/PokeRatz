@@ -4,17 +4,18 @@
 
 #include "Entity.h"
 
-Entity::Entity(size_t id, std::string tag) : m_id(id), m_tag(std::move(tag)) {
+Entity::Entity(const size_t id, std::string tag) : m_tag(std::move(tag)), m_id(id) {
     // tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{100, 100});
     init();
 }
 
 void Entity::init() {
-    tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(100, 100));
+    m_transform = std::make_shared<CTransform>(sf::Vector2f{300,200}, sf::Vector2f{0,0});
+    tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{100, 100});
 }
 
 void Entity::draw(sf::RenderWindow &window) const {
-    tempShape->setPosition(m_position);
+    tempShape->setPosition(m_transform->getPosition());
     window.draw(*tempShape);
 }
 
@@ -24,6 +25,19 @@ bool Entity::collide(const Entity &other) const {
     return true;
 }
 
-void Entity::updatePos() {
-    m_position += m_velocity;
+float Entity::getX() const { return m_transform->getPosition().x; }
+float Entity::getY() const { return m_transform->getPosition().y; }
+
+float Entity::getWidth() const {
+    return tempShape->getSize().x;
+}
+
+float Entity::getHeight() const {
+    return tempShape->getSize().y;
+}
+
+void Entity::updatePos() const {
+    if (m_transform->has()) {
+        m_transform->setPosition(m_transform->getPosition() + m_transform->getVelocity());
+    }
 }
