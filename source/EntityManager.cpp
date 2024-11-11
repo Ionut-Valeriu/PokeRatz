@@ -32,16 +32,16 @@ void EntityManager::removeDeadEntities(EntityVec& vec) {
     vec.erase(newEnd, vec.end());
 }
 
-std::shared_ptr<Entity> EntityManager::addEntity(const std::string &tag) {
-    auto e = std::make_shared<Entity>(Entity{m_entityNumber++, tag});
+std::shared_ptr<Entity> EntityManager::addEntity(const std::string &tag, const sf::Texture& texture) {
+    auto e = std::make_shared<Entity>(Entity{m_entitiesSpawned++, tag, texture});
 
     m_entitiesToAdd.push_back(e);
 
     return e;
 }
 
-std::shared_ptr<Player> EntityManager::addPlayer(const std::string &tag) {
-    auto e = std::make_shared<Player>(m_entityNumber++, tag);
+std::shared_ptr<Player> EntityManager::addPlayer(const std::string &tag, const sf::Texture& texture) {
+    auto e = std::make_shared<Player>(m_entitiesSpawned++, tag, texture);
 
     m_entitiesToAdd.push_back(e);
 
