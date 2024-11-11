@@ -26,7 +26,8 @@ Animation::Animation (std::string name, const sf::Texture & t, size_t frameCount
 
 void Animation::update() {
     // todo
-
+    m_frameCount++;
+    m_speed = 0;
     m_currentFrame++;
 
     // todo calculate the frame of animation
