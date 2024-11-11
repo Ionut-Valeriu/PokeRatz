@@ -9,7 +9,7 @@
 ////////// DESCRIPTION //////////
 /// this header contains enums for efficiency
 
-enum Move {
+enum class Move {
     REVERSE = -1,
     STAY = 0,
     GO = 1
