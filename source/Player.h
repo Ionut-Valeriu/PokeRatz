@@ -7,7 +7,6 @@
 
 ////////// INCLUDE SECTION //////////
 #include "Entity.h"
-#include "Actions.h"
 #include "Enums.h"
 
 ////////// DESCRIPTION //////////
@@ -17,7 +16,12 @@
 ////////// DEFINITION OF CLASS //////////
 class Player : public Entity{
     // speed equal to size so it snaps when move
-    float m_speed = tempShape->getSize().x;
+    float m_speed = tempShape->getSize().x / 2;
+
+    size_t m_crrFrame = 0;
+    size_t m_frameLastMove = 0;
+
+    int m_updateSpeed = 5;
 
     bool m_up = false;
     bool m_down = false;
@@ -26,7 +30,7 @@ class Player : public Entity{
 
 public:
 
-    Player(size_t id, const std::string &tag);
+    Player(size_t id, const std::string &tag, const sf::Texture& texture);
 
     //getters
     [[nodiscard]] bool up()    const { return m_up;    }
@@ -42,7 +46,8 @@ public:
     void setRight (bool right) { this->m_right = right; }
 
     // methods
-    void setVelocity(Move x, Move y) const;
+    void setVelocity(Move x, Move y);
+    void incFrame();
 
     // void updatePos();
 };

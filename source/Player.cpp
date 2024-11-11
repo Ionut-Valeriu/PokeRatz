@@ -5,13 +5,20 @@
 #include "Player.h"
 #include "Enums.h"
 
-#include <iostream>
+Player::Player(size_t id, const std::string &tag, const sf::Texture& texture)
+    : Entity(id, tag, texture) {};
 
-Player::Player(size_t id, const std::string &tag)
-    : Entity(id, tag) {};
+void Player::setVelocity(Move x, Move y) {
+    if(x == Move::STAY || y == Move::STAY ) m_transform->setVelocity({0.0f, 0.0f});
 
-void Player::setVelocity(Move x, Move y) const {
-    m_transform->setVelocity( {float(x) * m_speed, float(y) * m_speed} );
+    if (m_crrFrame > m_frameLastMove + m_updateSpeed) {
+        m_frameLastMove = m_crrFrame;
+        m_transform->setVelocity( {static_cast<float>(x) * m_speed, static_cast<float>(y) * m_speed} );
+    }
+}
+
+void Player::incFrame() {
+    m_crrFrame++;
 }
 
 // void Player::updatePos() {
