@@ -10,6 +10,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "Animation.h"
 #include "Components.h"
 
 ////////// DESCRIPTION //////////
@@ -20,7 +21,7 @@
 /// - tag (category)
 /// - position
 /// - velocity
-/// - sprite & hit-box (current rectangular sha[e)
+/// - sprite & hit-box (current rectangular shape)
 /// - different properties
 /// also a method for every aspect of the game
 /// (this is the aiming point, currently not finished)
@@ -34,6 +35,8 @@ protected:
     // size 16
     std::shared_ptr<CTransform> m_transform;
     std::shared_ptr<sf::RectangleShape> tempShape;
+    sf::Texture m_texture;
+    sf::Sprite m_sprite;
 
     // size 8
     size_t m_id;
@@ -41,20 +44,14 @@ protected:
     // size 1
     bool m_active = true;
 
-    friend std::ostream & operator<<(std::ostream &os, const Entity &obj) {
-        return os
-        << "m_id: " << obj.m_id << "; m_tag: " << obj.m_tag
-        << "\nm_transform: " << obj.m_transform->getPosition().x
-        << "\ntempShape: " << obj.tempShape << " size: " << sizeof(obj.tempShape)
-        << "m_active: " << obj.m_active << " size: " << sizeof(obj.m_active);
-    }
+    Animation m_animation;
 
 public:
-    Entity(size_t id, std::string tag);
+    Entity(size_t id, std::string tag, const sf::Texture& texture);
 
-    void init();
+    void init(const sf::Texture& texture);
 
-    void draw(sf::RenderWindow &window) const;
+    void draw(sf::RenderWindow &window);
 
     // getters
     [[nodiscard]] size_t id() const { return m_id; }
@@ -70,6 +67,9 @@ public:
     [[nodiscard]] float getHeight() const;
 
     void updatePos() const;
+    void remove();
+
+    friend std::ostream & operator<<(std::ostream &os, const Entity &obj);
 };
 
 
