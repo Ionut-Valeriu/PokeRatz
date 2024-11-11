@@ -25,11 +25,9 @@ void EntityManager::update() {
 }
 
 void EntityManager::removeDeadEntities(EntityVec& vec) {
-    auto newEnd = std::ranges::remove_if(vec, [](const std::shared_ptr<Entity> &e) {
+    std::erase_if(vec, [](const std::shared_ptr<Entity>& e) {
         return !e->active();
-    }).begin();
-
-    vec.erase(newEnd, vec.end());
+    });
 }
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string &tag, const sf::Texture& texture) {
