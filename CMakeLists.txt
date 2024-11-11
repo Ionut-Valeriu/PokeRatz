@@ -59,6 +59,8 @@ add_executable(${PROJECT_NAME}
         source/Actions.h
         source/Animation.cpp
         source/Animation.h
+        source/Assets.cpp
+        source/Assets.h
         source/Components.cpp
         source/Components.h
         source/Entity.cpp
