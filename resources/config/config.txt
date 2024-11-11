@@ -1,2 +1,2 @@
-Window 1280 720 60 0
-Font resources/fonts/arial.ttf
+Window 1280 720 60 0 60 179 113
+Assets resources/config/assets.txt

@@ -1,0 +1,3 @@
+Font Arial resources/fonts/arial.ttf
+Texture TexPlayer resources/images/test_draw.png
+Animation Stand TexPlayer 1 0
