@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Actions.h"
+#include "Assets.h"
 #include "EntityManager.h"
 
 ////////// DESCRIPTION //////////
@@ -18,6 +19,9 @@
 /// like 2 different ones: GameEngine and Scene
 /// lots of the functionality were based on entity components that were public
 /// so this class just iterates through entities and call specific functions
+///
+/// convention: methods that starts with "s" are assigned to the "system"
+/// this is made to distinct easier the methods form game/scene form the rest
 ///
 /// this class manage the system events:
 /// - initialization
@@ -36,17 +40,36 @@ typedef std::map<int, std::string> ActionMap;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
+    // size 536
+    sf::RenderWindow m_window;
 
-    bool m_running = true;
-    bool m_paused = false;
+    // size 368
+    sf::Text m_text;
+
+    // size 152
+    sf::Font m_font;
+
+    // size 144
+    Assets m_assets;
+
+    // size 104
+    EntityManager m_entityManager;
+
+    // size 48
+    ActionMap m_actions; // this will be implemented o  scene
+
+    // size 16
+    std::shared_ptr<Player> m_player; // this might be temporary (can be implemented on scene)
+
+    // size 8
     size_t currentFrame = 0;
 
-    sf::RenderWindow m_window;
-    sf::Font m_font;
-    sf::Text m_text;
-    std::shared_ptr<Player> m_player; // this might be temporary (can be implemented on scene
-    EntityManager m_entityManager;
-    ActionMap m_actions; // this will be implemented o  scene
+    // size 4
+    sf::Color m_bgColor;
+
+    // size 1
+    bool m_running = true;
+    bool m_paused = false;
 
     void init(const std::string& path);
 
@@ -68,6 +91,8 @@ class Game {
 public:
     explicit Game(const std::string& path);
     void run();
+
+
 };
 
 

@@ -12,6 +12,73 @@
 #include "Actions.h"
 #include "Enums.h"
 
+void Game::init(const std::string &path) {
+
+    // initialization controls
+    registerAction(sf::Keyboard::Escape, "CLOSE");
+    registerAction(sf::Keyboard::W, "UP");
+    registerAction(sf::Keyboard::S, "DOWN");
+    registerAction(sf::Keyboard::A, "LEFT");
+    registerAction(sf::Keyboard::D, "RIGHT");
+    registerAction(sf::Keyboard::P, "PAUSE");
+    registerAction(sf::Keyboard::E, "INTERACT");
+
+    std::ifstream in { path };
+    std::string keyword;
+
+    while(in >> keyword) {
+        if (keyword == "Window") {
+            int width, height, framerate, r_read, g_read, b_read;
+            unsigned char r, g, b;
+            bool fullscreen;
+
+            in >> width >> height >> framerate >> fullscreen >> r_read >> g_read >> b_read;
+            r = r_read; b = b_read; g = g_read;
+
+            m_window.create(sf::VideoMode(width, height), "PokeRatz", fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+            m_window.setFramerateLimit(framerate);
+
+            m_bgColor = sf::Color{r, g, b};
+        }
+        else if (keyword == "Assets") {
+            std::string assetsPath;
+            in >> assetsPath;
+            m_assets.loadFromFile(assetsPath);
+        }
+    }
+
+    in.close();
+    std::cout << "\nInit finished!\n" << m_assets << "\n";
+
+    // todo - remove - only for cppcherck
+
+    std::string testAnimName = "Stand";
+
+    Animation animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
+
+    animationTest = m_assets.getAnimation(testAnimName);
+    animationTest.getSprite();
+    animationTest.getName();
+    m_assets.getTextureMap();
+    m_assets.getAnimationMap();
+
+    m_player = m_entityManager.addPlayer("player", m_assets.getTexture("TexPlayer"));
+    auto test = m_entityManager.addEntity("test", m_assets.getTexture("TexPlayer"));
+    auto test2 = m_entityManager.addEntity("test", m_assets.getTexture("TexPlayer"));
+    if (test->collide(*test2)) {
+        std::cout << "initial collision\n";
+    } else {
+        std::cout << "NOT collision\n";
+    }
+    std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
+
+    test->remove();
+    // test2->remove();
+    //
+
+    m_font = m_assets.getFont("Arial");
+}
+
 void Game::run() {
     while (m_running) {
 
@@ -25,60 +92,11 @@ void Game::run() {
 
         sRender();
 
-        if (!m_paused) currentFrame++;
-    }
-}
-
-void Game::init(const std::string &path) {
-
-    // initialization controls
-    registerAction(sf::Keyboard::Escape, "CLOSE");
-    registerAction(sf::Keyboard::W, "UP");
-    registerAction(sf::Keyboard::S, "DOWN");
-    registerAction(sf::Keyboard::A, "LEFT");
-    registerAction(sf::Keyboard::D, "RIGHT");
-    registerAction(sf::Keyboard::P, "PAUSE");
-    registerAction(sf::Keyboard::E, "INTERACT");
-
-    // todo - remove - only for cppcherck
-    m_player = m_entityManager.addPlayer("player");
-    auto test = m_entityManager.addEntity("test");
-    auto test2 = m_entityManager.addEntity("test");
-    if (test->collide(*test2)) {
-        std::cout << "initial colision\n";
-    } else {
-        std::cout << "NONcollision\n";
-    }
-
-    std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
-
-    /// todo
-    /// temp
-
-    std::ifstream in { path };
-    std::string keyword;
-
-    while(in >> keyword) {
-        if (keyword == "Window") {
-            int width, height, framerate;
-            bool fullscreen;
-
-            in >> width >> height >> framerate >> fullscreen;
-
-            m_window.create(sf::VideoMode(width, height), "PokeRatz", fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
-            m_window.setFramerateLimit(framerate);
-        }
-        else if (keyword == "Font") {
-            std::string fontPath;
-            in >> fontPath;
-            if(!m_font.loadFromFile(fontPath)) {
-                std::cerr<<"Failed to load font file: "<<fontPath<<std::endl;
-                exit(1);
-            }
+        if (!m_paused) {
+            currentFrame++;
+            m_player->incFrame();
         }
     }
-
-    std::cout << "Init finished!\n";
 }
 
 void Game::sDoActions(const Actions& action) {
@@ -115,14 +133,13 @@ void Game::sUserInput() {
             const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
 
             // look up the action and send the action to the scene
-
             sDoActions( Actions {getActionMap().at(event.key.code), actionType} );
         }
     }
 }
 
 void Game::sRender() {
-    m_window.clear();
+    m_window.clear(m_bgColor);
     for (const std::shared_ptr<Entity> &e: m_entityManager.getEntities()) {
         e->draw(m_window);
     }
@@ -130,17 +147,26 @@ void Game::sRender() {
 }
 
 void Game::sMovement() {
-    Move x = STAY;
-    Move y = STAY;
+    Move x = Move::STAY;
+    Move y = Move::STAY;
 
-    if (m_player->up() && m_player->getY() > 0)
-        { y = REVERSE; }
-    else if (m_player->down() && m_player->getY()+m_player->getHeight()+m_player->speed() < m_window.getSize().y)
-        { y = GO; }
-    else if (m_player->left() && m_player->getX() > 0)
-        { x = REVERSE; }
-    else if (m_player->right() && m_player->getX()+m_player->getWidth()+m_player->speed() < m_window.getSize().x)
-        { x = GO; }
+    if (m_player->up()) {
+        if (m_player->getY() > 0)
+        { y = Move::REVERSE; }
+    }
+    else if (m_player->down()) {
+        if(m_player->getY()+m_player->getHeight()+m_player->speed() < m_window.getSize().y)
+        { y = Move::GO; }
+    }
+    else if (m_player->left()) {
+        if(m_player->getX() > 0)
+        { x = Move::REVERSE; }
+    }
+    else if (m_player->right()) {
+        if(m_player->getX()+m_player->getWidth()+m_player->speed() < m_window.getSize().x) {
+            x = Move::GO;
+        }
+    }
 
     m_player->setVelocity(x, y);
 
