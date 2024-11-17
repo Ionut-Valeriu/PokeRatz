@@ -1,4 +1,4 @@
-In this file there are explanation for .txt files for configuration
+In this file you will find explanation for .txt files that are used in configuration:
 
 --- In "resources/config/config.txt" ---
 
