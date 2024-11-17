@@ -5,8 +5,8 @@
 #include "Player.h"
 #include "Enums.h"
 
-Player::Player(size_t id, const std::string &tag, const sf::Texture& texture)
-    : Entity(id, tag, texture) {};
+Player::Player(size_t id, const std::string &tag)
+    : Entity(id, tag) {}
 
 void Player::setVelocity(Move x, Move y) {
     if(x == Move::STAY || y == Move::STAY ) m_transform->setVelocity({0.0f, 0.0f});

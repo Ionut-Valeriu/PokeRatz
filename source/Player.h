@@ -30,7 +30,7 @@ class Player : public Entity{
 
 public:
 
-    Player(size_t id, const std::string &tag, const sf::Texture& texture);
+    Player(size_t id, const std::string &tag);
 
     //getters
     [[nodiscard]] bool up()    const { return m_up;    }
