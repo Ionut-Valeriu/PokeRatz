@@ -44,8 +44,8 @@ public:
     void update(); // adding and removing entities
     void removeDeadEntities(EntityVec& vec); // this is called in update
 
-    std::shared_ptr<Entity> addEntity(const std::string& tag, const sf::Texture& texture);
-    std::shared_ptr<Player> addPlayer(const std::string& tag, const sf::Texture& texture);
+    std::shared_ptr<Entity> addEntity(const std::string& tag);
+    std::shared_ptr<Player> addPlayer(const std::string& tag);
 
     const EntityVec& getEntities() { return m_entities; }
     EntityVec getEntities(const std::string& tag) { return m_entityMap[tag]; }
