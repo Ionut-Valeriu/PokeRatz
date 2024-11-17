@@ -47,14 +47,18 @@ public:
 private:
     sf::Vector2f m_position;
     sf::Vector2f m_velocity;
+    sf::Vector2f m_scale;
+
 public:
     [[nodiscard]] const sf::Vector2f &getPosition() const;
     [[nodiscard]] const sf::Vector2f &getVelocity() const;
+    [[nodiscard]] const sf::Vector2f &getScale() const;
 
     void setPosition(const sf::Vector2f &position);
     void setVelocity(const sf::Vector2f &velocity);
+    void setScale(const sf::Vector2f &scale);
 
-    CTransform(const sf::Vector2f &m_position, const sf::Vector2f &m_velocity);
+    CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale);
 };
 
 ////////// DESCRIPTION //////////
