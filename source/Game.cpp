@@ -62,8 +62,6 @@ void Game::init(const std::string &path) {
 
     animationTest = m_assets.getAnimation(testAnimName);
     animationTest->getSprite();
-    m_assets.getTextureMap();
-    m_assets.getAnimationMap();
 
     auto test = m_entityManager.addEntity("test");
     test->setAnimation(m_assets.getAnimation("MStand"));
