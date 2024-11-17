@@ -81,6 +81,8 @@ class Game {
 
     void sUserInput();
 
+    void sAnimation() const;
+
     const ActionMap& getActionMap() const;
 
     // scene play related

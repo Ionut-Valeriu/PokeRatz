@@ -50,21 +50,27 @@ void Game::init(const std::string &path) {
     in.close();
     std::cout << "\nInit finished!\n" << m_assets << "\n";
 
-    // todo - remove - only for cppcherck
+    // creating the player
+    m_player = m_entityManager.addPlayer("player");
+    m_player->setAnimation(m_assets.getAnimation("PStand"));
 
-    std::string testAnimName = "Stand";
+    // todo - remove - only for cppcheck
 
-    Animation animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
+    std::string testAnimName = "PStand";
+
+    std::shared_ptr<Animation> animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
 
     animationTest = m_assets.getAnimation(testAnimName);
-    animationTest.getSprite();
-    animationTest.getName();
+    animationTest->getSprite();
     m_assets.getTextureMap();
     m_assets.getAnimationMap();
 
-    m_player = m_entityManager.addPlayer("player", m_assets.getTexture("TexPlayer"));
-    auto test = m_entityManager.addEntity("test", m_assets.getTexture("TexPlayer"));
-    auto test2 = m_entityManager.addEntity("test", m_assets.getTexture("TexPlayer"));
+    auto test = m_entityManager.addEntity("test");
+    test->setAnimation(m_assets.getAnimation("MStand"));
+
+    auto test2 = m_entityManager.addEntity("test");
+    test2->setAnimation(m_assets.getAnimation("MStand"));
+
     if (test->collide(*test2)) {
         std::cout << "initial collision\n";
     } else {
@@ -88,6 +94,7 @@ void Game::run() {
 
         if(!m_paused) {
             sMovement();
+            sAnimation();
         }
 
         sRender();
@@ -102,7 +109,7 @@ void Game::run() {
 void Game::sDoActions(const Actions& action) {
 
     if (action.type() == "START") {
-             if (action.name() == "CLOSE") { onEnd(); }
+        if      (action.name() == "CLOSE") { onEnd(); }
         else if (action.name() == "PAUSE") { m_paused = true; }
         else if (action.name() == "UP"   ) { m_player->setUp(true); }
         else if (action.name() == "DOWN" ) { m_player->setDown(true); }
@@ -110,7 +117,7 @@ void Game::sDoActions(const Actions& action) {
         else if (action.name() == "RIGHT") { m_player->setRight(true); }
     }
     else if (action.type() == "END") {
-             if (action.name() == "PAUSE") { m_paused = false; }
+        if      (action.name() == "PAUSE") { m_paused = false; }
         else if (action.name() == "UP"   ) { m_player->setUp(false); }
         else if (action.name() == "DOWN" ) { m_player->setDown(false); }
         else if (action.name() == "LEFT" ) { m_player->setLeft(false); }
@@ -127,7 +134,7 @@ void Game::sUserInput() {
 
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
             // if the current scene does not have an action associated with this key, skip the event
-            if (getActionMap().find(event.key.code) == getActionMap().end()) { continue; }
+            if (!getActionMap().contains(event.key.code)) { continue; }
 
             // determine start or end action by whether it was key pres or release
             const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
@@ -136,6 +143,37 @@ void Game::sUserInput() {
             sDoActions( Actions {getActionMap().at(event.key.code), actionType} );
         }
     }
+}
+
+void Game::sAnimation() const {
+    std::string animationName;
+
+    switch (m_player->state()) {
+        case State::UP:
+            animationName = "PUp";
+        break;
+
+        case State::DOWN:   case State::STAND:
+            animationName = "PStand";
+        break;
+
+        case State::LEFT:   case State::RIGHT:
+            animationName = "PSide";
+            m_player->setScale((m_player->state() == State::LEFT) ? sf::Vector2f{-5.0f, 5.0f} : sf::Vector2f {5.0f, 5.0f});
+        break;
+    };
+
+    if (m_player->getAnimation()->getName() != animationName) {
+        m_player->setAnimation(m_assets.getAnimation(animationName));
+        m_player->getAnimation()->setScale(m_player->getScale());
+    }
+
+    // Animation a = m_assets.getAnimation("PStand");
+    // a.update();
+    m_player->updateAnimation();
+
+    // todo - all E
+
 }
 
 void Game::sRender() {
@@ -151,21 +189,36 @@ void Game::sMovement() {
     Move y = Move::STAY;
 
     if (m_player->up()) {
-        if (m_player->getY() > 0)
-        { y = Move::REVERSE; }
+        if (m_player->getY() > m_player->getHeight()/2) {
+            m_player->setState(State::UP);
+            y = Move::REVERSE;
+        }
     }
     else if (m_player->down()) {
-        if(m_player->getY()+m_player->getHeight()+m_player->speed() < m_window.getSize().y)
-        { y = Move::GO; }
+        if(m_player->getY()+m_player->getHeight()/2+m_player->speed()
+            < static_cast<float>(m_window.getSize().y))
+        {
+            m_player->setState(State::DOWN);
+            y = Move::GO;
+        }
     }
     else if (m_player->left()) {
-        if(m_player->getX() > 0)
-        { x = Move::REVERSE; }
+        if(m_player->getX() > m_player->getWidth()/2) {
+            m_player->setState(State::LEFT);
+            x = Move::REVERSE;
+        }
     }
     else if (m_player->right()) {
-        if(m_player->getX()+m_player->getWidth()+m_player->speed() < m_window.getSize().x) {
+        if(m_player->getX()+m_player->getWidth()/2+m_player->speed()
+            < static_cast<float>(m_window.getSize().x))
+        {
+            m_player->setState(State::RIGHT);
             x = Move::GO;
         }
+    }
+
+    if (x == Move::STAY && y == Move::STAY) {
+        m_player->setState(State::STAND);
     }
 
     m_player->setVelocity(x, y);
