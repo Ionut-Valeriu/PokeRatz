@@ -1,3 +1,11 @@
 Font Arial resources/fonts/arial.ttf
-Texture TexPlayer resources/images/test_draw.png
-Animation Stand TexPlayer 1 0
+Texture TexMonster resources/images/test_draw.png
+Texture TexPlayer resources/images/playerStandV1.png
+Texture TexPlayerUp resources/images/playerUpV1.png
+Texture TexPlayerSide resources/images/playerSideV1.png
+Animation PStand TexPlayer 2 15
+Animation PUp TexPlayerUp 2 15
+Animation PSide TexPlayerSide 2 15
+Animation MStand TexMonster 1 0
+SoundBuffer Play resources/sounds/BumBumBum
+Sound Play Play
