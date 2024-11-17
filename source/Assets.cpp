@@ -5,6 +5,7 @@
 #include <fstream>
 #include <memory>
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 #include "Assets.h"
 
@@ -34,9 +35,26 @@ void Assets::addFont(const std::string &fontName, const std::string &path) {
     }
 }
 
+void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bufferPath) {
+    // m_soundBufferMap[bufferName] = sf::SoundBuffer();
+    //
+    // if (m_soundBufferMap[bufferName].loadFromFile(bufferPath)) {
+    //     std::cout << "Loaded sound buffer: " << bufferPath << std::endl;
+    // } else {
+    //     std::cerr << "Failed to load sound buffer: " << bufferPath << std::endl;
+    //     m_soundBufferMap.erase(bufferName);
+    // }
+}
+
+void Assets::addSound(const std::string &soundName, const std::string &bufferName) {
+    // m_soundMap[soundName] = sf::Sound();
+    // m_soundMap[soundName].setBuffer(m_soundBufferMap[bufferName]);
+}
+
 void Assets::loadFromFile(const std::string &path) {
     std::ifstream file(path);
     std::string str;
+    // todo - enum instead of string
     while(file.good())
     {
         file >> str;
@@ -56,6 +74,16 @@ void Assets::loadFromFile(const std::string &path) {
             file >> name >> fontPath;
             addFont(name, fontPath);
         }
+        else if (str == "SoundBuffer") {
+            std::string name, bufferPath;
+            file >> name >> bufferPath;
+            addSoundBuffer(name, bufferPath);
+        }
+        else if (str == "Sound") {
+            std::string name, buffername;
+            file >> name >> buffername;
+            addSound(name, buffername);
+        }
         else {
             std::cerr << "Unknown Asset Type: " << str << std::endl;
         }
@@ -70,11 +98,11 @@ const sf::Texture & Assets::getTexture(const std::string &textureName) {
     return m_textureMap[textureName];
 }
 
-const Animation & Assets::getAnimation(const std::string &animationName) const {
+std::shared_ptr<Animation> Assets::getAnimation(const std::string &animationName) const {
     if (!m_animationMap.contains(animationName)) {
         std::cerr << "Animation does not exist: " << animationName << std::endl;
     }
-    return m_animationMap.at(animationName);
+    return std::make_shared<Animation>(m_animationMap.at(animationName));
 }
 
 const sf::Font & Assets::getFont(const std::string &fontName) const {
@@ -82,14 +110,6 @@ const sf::Font & Assets::getFont(const std::string &fontName) const {
         std::cerr << "Font does not exist: " << fontName << std::endl;
     }
     return m_fontMap.at(fontName);
-}
-
-const std::map<std::string, sf::Texture> & Assets::getTextureMap() const {
-    return m_textureMap;
-}
-
-const std::map<std::string, Animation> & Assets::getAnimationMap() const {
-    return m_animationMap;
 }
 
 std::ostream & operator<<(std::ostream &os, const Assets &obj) {

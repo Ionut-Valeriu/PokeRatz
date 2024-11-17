@@ -7,32 +7,33 @@
 #include <map>
 #include <ostream>
 #include <string>
+#include <memory>
 
 #include "Animation.h"
 #include <SFML/Graphics.hpp>
-
 
 class Assets {
     // size 48
     std::map<std::string, sf::Texture> m_textureMap;
     std::map<std::string, Animation> m_animationMap;
     std::map<std::string, sf::Font> m_fontMap;
+    // std::map<std::string, sf::SoundBuffer> m_soundBufferMap;
+    // std::map<std::string, sf::Sound> m_soundMap;
 
     void addTexture(const std::string &textureName, const std::string &path);
     void addAnimation(const std::string &animationName, const std::string &textureName, size_t frameCount, size_t speed);
-    void addFont (const std::string& fontName, const std::string& path);
+    void addFont (const std::string& fontName, const std::string& fontPath);
+    void addSoundBuffer (const std::string& bufferName, const std::string& bufferPath);
+    void addSound (const std::string& soundName, const std::string& bufferName);
 
 public:
     Assets() = default;
 
     void loadFromFile(const std::string& path);
 
-    const sf::Texture& getTexture(const std::string &textureName);
-    const Animation& getAnimation(const std::string& animationName) const;
-    const sf::Font& getFont(const std::string& fontName) const;
-
-    const std::map<std::string, sf::Texture>& getTextureMap() const;
-    const std::map<std::string, Animation>& getAnimationMap() const;
+    [[nodiscard]] const sf::Texture& getTexture(const std::string &textureName);
+    [[nodiscard]] std::shared_ptr<Animation> getAnimation(const std::string &animationName) const;
+    [[nodiscard]] const sf::Font& getFont(const std::string& fontName) const;
 
     friend std::ostream & operator<<(std::ostream &os, const Assets &obj);
 };
