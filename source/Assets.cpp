@@ -35,7 +35,7 @@ void Assets::addFont(const std::string &fontName, const std::string &path) {
     }
 }
 
-void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bufferPath) {
+// void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bufferPath) {
     // m_soundBufferMap[bufferName] = sf::SoundBuffer();
     //
     // if (m_soundBufferMap[bufferName].loadFromFile(bufferPath)) {
@@ -44,12 +44,12 @@ void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bu
     //     std::cerr << "Failed to load sound buffer: " << bufferPath << std::endl;
     //     m_soundBufferMap.erase(bufferName);
     // }
-}
+// }
 
-void Assets::addSound(const std::string &soundName, const std::string &bufferName) {
+// void Assets::addSound(const std::string &soundName, const std::string &bufferName) {
     // m_soundMap[soundName] = sf::Sound();
     // m_soundMap[soundName].setBuffer(m_soundBufferMap[bufferName]);
-}
+// }
 
 void Assets::loadFromFile(const std::string &path) {
     std::ifstream file(path);
@@ -74,16 +74,16 @@ void Assets::loadFromFile(const std::string &path) {
             file >> name >> fontPath;
             addFont(name, fontPath);
         }
-        else if (str == "SoundBuffer") {
-            std::string name, bufferPath;
-            file >> name >> bufferPath;
-            addSoundBuffer(name, bufferPath);
-        }
-        else if (str == "Sound") {
-            std::string name, buffername;
-            file >> name >> buffername;
-            addSound(name, buffername);
-        }
+        // else if (str == "SoundBuffer") {
+        //     std::string name, bufferPath;
+        //     file >> name >> bufferPath;
+        //     addSoundBuffer(name, bufferPath);
+        // }
+        // else if (str == "Sound") {
+        //     std::string name, buffername;
+        //     file >> name >> buffername;
+        //     addSound(name, buffername);
+        // }
         else {
             std::cerr << "Unknown Asset Type: " << str << std::endl;
         }

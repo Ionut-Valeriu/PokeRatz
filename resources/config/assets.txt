@@ -7,5 +7,3 @@ Animation PStand TexPlayer 2 15
 Animation PUp TexPlayerUp 2 15
 Animation PSide TexPlayerSide 2 15
 Animation MStand TexMonster 1 0
-SoundBuffer Play resources/sounds/BumBumBum
-Sound Play Play
