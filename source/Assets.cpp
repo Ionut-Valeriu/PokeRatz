@@ -10,14 +10,12 @@
 #include "Assets.h"
 
 void Assets::addTexture(const std::string &textureName, const std::string &path) {
-    m_textureMap[textureName] = sf::Texture();
-
-    if (m_textureMap[textureName].loadFromFile(path)) {
+    if(auto texture = sf::Texture(); texture.loadFromFile(path)) {
+        m_textureMap.emplace( textureName, std::move(texture) );
         m_textureMap[textureName].setSmooth(false);
         std::cout << "Loaded texture: " << path << std::endl;
     } else {
         std::cerr << "Failed to load texture: " << path << std::endl;
-        m_textureMap.erase(textureName);
     }
 }
 
@@ -26,30 +24,27 @@ void Assets::addAnimation(const std::string &animationName, const std::string &t
 }
 
 void Assets::addFont(const std::string &fontName, const std::string &path) {
-    m_fontMap[fontName] = sf::Font();
-    if(m_fontMap[fontName].loadFromFile(path)) {
+    if(auto font = sf::Font(); font.loadFromFile(path)) {
+        m_fontMap.emplace( fontName, std::move(font) );
         std::cout << "Loaded font: " << path << std::endl;
     } else {
         std::cerr << "Failed to load font: " << path << std::endl;
-        m_fontMap.erase(fontName);
     }
 }
 
-// void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bufferPath) {
-    // m_soundBufferMap[bufferName] = sf::SoundBuffer();
-    //
-    // if (m_soundBufferMap[bufferName].loadFromFile(bufferPath)) {
-    //     std::cout << "Loaded sound buffer: " << bufferPath << std::endl;
-    // } else {
-    //     std::cerr << "Failed to load sound buffer: " << bufferPath << std::endl;
-    //     m_soundBufferMap.erase(bufferName);
-    // }
-// }
+void Assets::addSoundBuffer(const std::string &bufferName, const std::string &bufferPath) {
+    if (auto soundBuffer = sf::SoundBuffer(); soundBuffer.loadFromFile(bufferPath)) {
+        m_soundBufferMap.emplace( bufferName, std::move(soundBuffer) );
+        std::cout << "Loaded sound buffer: " << bufferPath << std::endl;
+    } else {
+        std::cerr << "Failed to load sound buffer: " << bufferPath << std::endl;
+    }
+}
 
-// void Assets::addSound(const std::string &soundName, const std::string &bufferName) {
-    // m_soundMap[soundName] = sf::Sound();
-    // m_soundMap[soundName].setBuffer(m_soundBufferMap[bufferName]);
-// }
+void Assets::addSound(const std::string &soundName, const std::string &bufferName) {
+    m_soundMap[soundName] = sf::Sound();
+    m_soundMap[soundName].setBuffer(m_soundBufferMap[bufferName]);
+}
 
 void Assets::loadFromFile(const std::string &path) {
     std::ifstream file(path);
@@ -74,16 +69,16 @@ void Assets::loadFromFile(const std::string &path) {
             file >> name >> fontPath;
             addFont(name, fontPath);
         }
-        // else if (str == "SoundBuffer") {
-        //     std::string name, bufferPath;
-        //     file >> name >> bufferPath;
-        //     addSoundBuffer(name, bufferPath);
-        // }
-        // else if (str == "Sound") {
-        //     std::string name, buffername;
-        //     file >> name >> buffername;
-        //     addSound(name, buffername);
-        // }
+        else if (str == "SoundBuffer") {
+            std::string name, bufferPath;
+            file >> name >> bufferPath;
+            addSoundBuffer(name, bufferPath);
+        }
+        else if (str == "Sound") {
+            std::string name, buffername;
+            file >> name >> buffername;
+            addSound(name, buffername);
+        }
         else {
             std::cerr << "Unknown Asset Type: " << str << std::endl;
         }
@@ -110,6 +105,10 @@ const sf::Font & Assets::getFont(const std::string &fontName) const {
         std::cerr << "Font does not exist: " << fontName << std::endl;
     }
     return m_fontMap.at(fontName);
+}
+
+const sf::Sound & Assets::getSound(const std::string &soundName) const {
+    return m_soundMap.at(soundName);
 }
 
 std::ostream & operator<<(std::ostream &os, const Assets &obj) {
