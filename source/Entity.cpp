@@ -11,10 +11,11 @@ Entity::Entity(const size_t id, std::string tag)
 }
 
 void Entity::init() {
-    m_transform = std::make_shared<CTransform>(sf::Vector2f{300,200}, sf::Vector2f{0,0}, sf::Vector2f{5.0f, 5.0f});
-    tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{100, 100});
+    m_transform = std::make_shared<CTransform>(sf::Vector2f{160,160},
+        sf::Vector2f{0,0}, sf::Vector2f{5.0f, 5.0f});
+    tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{80, 80});
     tempShape->setFillColor(sf::Color{0,0,0,0});
-    tempShape->setOrigin(sf::Vector2f(50,50));
+    tempShape->setOrigin(sf::Vector2f(40,40));
     tempShape->setOutlineColor(sf::Color{255,255,255,255});
     tempShape->setOutlineThickness(2);
 }
@@ -49,13 +50,22 @@ float Entity::getHeight() const {
     return tempShape->getSize().y;
 }
 
-void Entity::setScale(const sf::Vector2f &scale) {
+void Entity::setScale(const sf::Vector2f &scale) const {
     m_transform->setScale(scale);
+    // m_animation->setScale(scale);
     // tempShape->setScale(scale);
 }
 
 sf::Vector2f Entity::getScale() const {
     return m_transform->getScale();
+}
+
+void Entity::setPosition(const sf::Vector2f &position) {
+    m_transform->setPosition(position);
+}
+
+void Entity::setBorderT(const int thickness) const {
+    tempShape->setOutlineThickness(thickness);
 }
 
 void Entity::updatePos() const {
@@ -68,8 +78,9 @@ void Entity::updateAnimation() const {
     m_animation->update();
 }
 
-void Entity::setAnimation(std::shared_ptr<Animation> anim) {
-    m_animation = anim;
+void Entity::setAnimation(Animation &anim) {
+    m_animation = std::make_shared<Animation>(anim);
+    m_animation->setScale(m_transform->getScale());
 }
 
 void Entity::setState(const State &state) {

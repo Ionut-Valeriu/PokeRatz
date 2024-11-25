@@ -67,11 +67,15 @@ public:
     [[nodiscard]] float getY() const;
     [[nodiscard]] float getWidth() const;
     [[nodiscard]] float getHeight() const;
-    void setScale (const sf::Vector2f &scale);
-    sf::Vector2f getScale() const;
+
+    [[nodiscard]] sf::Vector2f getScale() const;
+    void setScale (const sf::Vector2f &scale) const;
+
+    void setPosition(const sf::Vector2f &position);
+    void setBorderT(const int thickness) const;
 
     // setters
-    void setAnimation(std::shared_ptr<Animation> anim);
+    void setAnimation(Animation &anim);
     void setState(const State &state);
 
     // updates
