@@ -11,7 +11,7 @@ Entity::Entity(const size_t id, std::string tag)
 }
 
 void Entity::init() {
-    m_transform = std::make_shared<CTransform>(sf::Vector2f{160,160},
+    m_transform = std::make_shared<CTransform>(sf::Vector2f{200,200},
         sf::Vector2f{0,0}, sf::Vector2f{5.0f, 5.0f});
     tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{80, 80});
     tempShape->setFillColor(sf::Color{0,0,0,0});
@@ -26,7 +26,6 @@ void Entity::draw(sf::RenderWindow &window) const {
 
     window.draw(*tempShape);
     window.draw(m_animation->getSprite());
-    // window.draw(m_animation->getSprite());
 }
 
 std::shared_ptr<Animation> Entity::getAnimation() const {
@@ -35,8 +34,10 @@ std::shared_ptr<Animation> Entity::getAnimation() const {
 
 bool Entity::collide(const Entity &other) const {
     // todo
-    if (other.m_tag != m_tag) { return false; }
-    return true;
+    if (m_transform->getPosition().x == other.m_transform->getPosition().x &&
+        m_transform->getPosition().y == other.m_transform->getPosition().y)
+    {return true;}
+    return false;
 }
 
 float Entity::getX() const { return m_transform->getPosition().x; }
@@ -80,7 +81,6 @@ void Entity::updateAnimation() const {
 
 void Entity::setAnimation(Animation &anim) {
     m_animation = std::make_shared<Animation>(anim);
-    m_animation->setScale(m_transform->getScale());
 }
 
 void Entity::setState(const State &state) {
