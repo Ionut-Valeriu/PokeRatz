@@ -7,6 +7,7 @@
 
 ////////// INCLUDE SECTION //////////
 #include <SFML/Graphics.hpp>
+#include <string>
 
 ////////// DESCRIPTION //////////
 
@@ -25,7 +26,7 @@ class Animation {
 
     // 8
     sf::Vector2f m_size = { 1, 1 };
-    sf::Vector2f m_scale = { 4, 4 };
+    sf::Vector2f m_scale = { 5.0f, 5.0f };
     size_t m_animationFrame = 1;
     size_t m_gameFrame = 0;
     size_t m_speed = 1;
@@ -50,8 +51,5 @@ public:
 
     friend std::ostream & operator<<(std::ostream &os, const Animation &obj);
 };
-
-#include <string>
-
 
 #endif //ANIMATION_H
