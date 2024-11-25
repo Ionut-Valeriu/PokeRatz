@@ -59,6 +59,7 @@ sf::Sprite & Animation::getSprite() { return m_sprite; }
 
 void Animation::setScale(const sf::Vector2f &scale) {
     m_scale = scale;
+    m_sprite.scale(m_scale.x, m_scale.y);
 }
 
 std::ostream & operator<<(std::ostream &os, const Animation &obj) {
