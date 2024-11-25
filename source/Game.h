@@ -20,8 +20,8 @@
 /// lots of the functionality were based on entity components that were public
 /// so this class just iterates through entities and call specific functions
 ///
-/// convention: methods that starts with "s" are assigned to the "system"
-/// this is made to distinct easier the methods form game/scene form the rest
+/// convention: methods that start with "s" are assigned to the "system"
+/// this is implemented to separate game and scene methods from the rest
 ///
 /// this class manage the system events:
 /// - initialization
@@ -71,6 +71,9 @@ class Game {
     bool m_running = true;
     bool m_paused = false;
 
+    sf::Sound m_sound;
+    sf::View m_view{{200.0f, 200.0f}, {1024.0f, 576.0f}};
+
     void init(const std::string& path);
 
     void sRender();
@@ -81,7 +84,7 @@ class Game {
 
     void sUserInput();
 
-    void sAnimation() const;
+    void sAnimation();
 
     const ActionMap& getActionMap() const;
 
@@ -89,6 +92,8 @@ class Game {
     void registerAction (int inputKey, const std::string& actionName);
 
     void onEnd();
+
+    // void sLvlBuilder(std::string path);
 
 public:
     explicit Game(const std::string& path);
