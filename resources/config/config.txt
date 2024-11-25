@@ -1,2 +1,2 @@
-Window 1280 720 60 0 60 179 113
+Window 1920 1080 60 0 60 179 113
 Assets resources/config/assets.txt
