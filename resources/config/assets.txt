@@ -3,7 +3,13 @@ Texture TexMonster resources/images/test_draw.png
 Texture TexPlayer resources/images/playerStandV1.png
 Texture TexPlayerUp resources/images/playerUpV1.png
 Texture TexPlayerSide resources/images/playerSideV1.png
+Texture TexGrass resources/images/grass.png
+Texture TexBlock resources/images/Tile_block.png
 Animation PStand TexPlayer 2 15
 Animation PUp TexPlayerUp 2 15
 Animation PSide TexPlayerSide 2 15
 Animation MStand TexMonster 1 0
+Animation Grass TexGrass 1 0
+Animation Block TexBlock 1 0
+SoundBuffer ThemeBuff resources/sounds/BumBumBum
+Sound Main ThemeBuff
