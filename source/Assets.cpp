@@ -93,18 +93,18 @@ const sf::Texture & Assets::getTexture(const std::string &textureName) {
     return m_textureMap[textureName];
 }
 
-std::shared_ptr<Animation> Assets::getAnimation(const std::string &animationName) const {
+Animation& Assets::getAnimation(const std::string &animationName) {
     if (!m_animationMap.contains(animationName)) {
         std::cerr << "Animation does not exist: " << animationName << std::endl;
     }
-    return std::make_shared<Animation>(m_animationMap.at(animationName));
+    return m_animationMap.at(animationName);
 }
 
-const sf::Font & Assets::getFont(const std::string &fontName) const {
+const sf::Font & Assets::getFont(const std::string &fontName) {
     if (!m_fontMap.contains(fontName)) {
         std::cerr << "Font does not exist: " << fontName << std::endl;
     }
-    return m_fontMap.at(fontName);
+    return m_fontMap[fontName];
 }
 
 const sf::Sound & Assets::getSound(const std::string &soundName) const {

@@ -32,8 +32,8 @@ public:
     void loadFromFile(const std::string& path);
 
     [[nodiscard]] const sf::Texture& getTexture(const std::string &textureName);
-    [[nodiscard]] std::shared_ptr<Animation> getAnimation(const std::string &animationName) const;
-    [[nodiscard]] const sf::Font& getFont(const std::string& fontName) const;
+    [[nodiscard]] Animation& getAnimation(const std::string &animationName);
+    [[nodiscard]] const sf::Font& getFont(const std::string& fontName);
     [[nodiscard]] const sf::Sound& getSound(const std::string& soundName) const;
 
     friend std::ostream & operator<<(std::ostream &os, const Assets &obj);
