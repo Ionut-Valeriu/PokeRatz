@@ -2,16 +2,16 @@
 // Created by ionut on 22.10.2024.
 //
 
-#include "Game.h"
+#include "../headers/Game.h"
 
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <string>
 
-#include "Actions.h"
-#include "Enums.h"
-#include "Assets.h"
+#include "../headers/Actions.h"
+#include "../headers/Enums.h"
+#include "../headers/Assets.h"
 
 void Game::init(const std::string &path) {
     // initialization controls

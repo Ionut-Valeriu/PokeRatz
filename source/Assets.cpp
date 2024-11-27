@@ -7,7 +7,7 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 
-#include "Assets.h"
+#include "../headers/Assets.h"
 
 void Assets::addTexture(const std::string &textureName, const std::string &path) {
     if(auto texture = sf::Texture(); texture.loadFromFile(path)) {

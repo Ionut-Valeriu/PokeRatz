@@ -2,7 +2,7 @@
 // Created by ionut on 22.10.2024.
 //
 
-#include "Entity.h"
+#include "../headers/Entity.h"
 
 Entity::Entity(const size_t id, std::string tag)
     : m_tag(std::move(tag)), m_id(id)

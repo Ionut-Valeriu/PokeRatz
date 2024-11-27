@@ -2,7 +2,7 @@
 // Created by ionut on 04.11.2024.
 //
 
-#include "Components.h"
+#include "../headers/Components.h"
 
 // base component
 

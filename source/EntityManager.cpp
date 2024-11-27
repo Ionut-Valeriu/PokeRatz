@@ -2,7 +2,7 @@
 // Created by ionut on 22.10.2024.
 //
 
-#include "EntityManager.h"
+#include "../headers/EntityManager.h"
 
 #include <memory>
 #include <iostream>

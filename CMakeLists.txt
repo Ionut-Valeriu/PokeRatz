@@ -52,26 +52,26 @@ endif()
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
-    main.cpp
-    generated/src/Helper.cpp
-    env_fixes.h
+        main.cpp
+        # headers
+        headers/Actions.h
+        headers/Assets.h
+        headers/Animation.h
+        headers/Entity.h
+        headers/Components.h
+        headers/EntityManager.h
+        headers/Game.h
+        headers/Player.h
+        headers/Enums.h
+        # source
         source/Actions.cpp
-        source/Actions.h
         source/Animation.cpp
-        source/Animation.h
         source/Assets.cpp
-        source/Assets.h
         source/Components.cpp
-        source/Components.h
         source/Entity.cpp
-        source/Entity.h
         source/EntityManager.cpp
-        source/EntityManager.h
         source/Game.cpp
-        source/Game.h
         source/Player.cpp
-        source/Player.h
-        source/Enums.h
 )
 
 include(cmake/CompilerFlags.cmake)

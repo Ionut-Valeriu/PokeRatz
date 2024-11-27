@@ -2,8 +2,8 @@
 // Created by ionut on 22.10.2024.
 //
 
-#include "Player.h"
-#include "Enums.h"
+#include "../headers/Player.h"
+#include "../headers/Enums.h"
 
 Player::Player(size_t id, const std::string &tag)
     : Entity(id, tag) {}

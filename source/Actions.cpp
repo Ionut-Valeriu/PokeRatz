@@ -2,7 +2,7 @@
 // Created by ionut on 23.10.2024.
 //
 
-#include "Actions.h"
+#include "../headers/Actions.h"
 
 Actions::Actions() : m_name("NONE"), m_type("NONE") {}
 
