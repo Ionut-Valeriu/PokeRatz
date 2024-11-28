@@ -61,12 +61,12 @@ sf::Vector2f Entity::getScale() const {
     return m_transform->getScale();
 }
 
-void Entity::setPosition(const sf::Vector2f &position) {
+void Entity::setPosition(const sf::Vector2f &position) const {
     m_transform->setPosition(position);
 }
 
 void Entity::setBorderT(const int thickness) const {
-    tempShape->setOutlineThickness(thickness);
+    tempShape->setOutlineThickness(static_cast<float>(thickness));
 }
 
 void Entity::updatePos() const {

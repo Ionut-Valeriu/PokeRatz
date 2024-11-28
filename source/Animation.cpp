@@ -13,7 +13,7 @@ Animation::Animation() = default;
 Animation::Animation(const std::string &name, const sf::Texture &t)
     : Animation(name, t, 1, 0) {}
 
-Animation::Animation (std::string name, const sf::Texture & t, size_t frameCount, size_t speed)
+Animation::Animation (std::string name, const sf::Texture & t, const size_t frameCount, const size_t speed)
             : m_sprite(t)
             , m_name(std::move(name))
             , m_size (sf::Vector2f(static_cast<float>(t.getSize().x), static_cast<float>(t.getSize().y)))
@@ -32,13 +32,13 @@ Animation::Animation (std::string name, const sf::Texture & t, size_t frameCount
 void Animation::update() {
     m_gameFrame++;
 
-    auto animFrame = static_cast<int>(m_gameFrame / m_speed) % m_animationFrame;
+    const auto animFrame = static_cast<int>(m_gameFrame / m_speed) % m_animationFrame;
     std::cout << "\n\nanim\n\n"
     << m_gameFrame << "\n" << m_speed << "\n"
     << animFrame << std::endl;
 
-    const sf::IntRect rect(static_cast<int>(static_cast<float>(animFrame) * m_size.x / m_animationFrame),
-        0, (m_size.x / m_animationFrame),
+    const sf::IntRect rect(static_cast<int>(static_cast<float>(animFrame) * m_size.x / static_cast<float>(m_animationFrame)),
+        0, static_cast<int>(m_size.x / static_cast<float>(m_animationFrame)),
         static_cast<int>(m_size.y));
 
     m_sprite.setTextureRect(rect);

@@ -5,7 +5,7 @@
 #include "../headers/Player.h"
 #include "../headers/Enums.h"
 
-Player::Player(size_t id, const std::string &tag)
+Player::Player(const size_t id, const std::string &tag)
     : Entity(id, tag) {}
 
 void Player::setVelocity(Move x, Move y) {

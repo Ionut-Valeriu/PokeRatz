@@ -71,8 +71,8 @@ public:
     [[nodiscard]] sf::Vector2f getScale() const;
     void setScale (const sf::Vector2f &scale) const;
 
-    void setPosition(const sf::Vector2f &position);
-    void setBorderT(const int thickness) const;
+    void setPosition(const sf::Vector2f &position) const;
+    void setBorderT(int thickness) const;
 
     // setters
     void setAnimation(Animation &anim);

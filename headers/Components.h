@@ -41,15 +41,13 @@ public:
 
 ////////// DEFINITION OF CLASS //////////
 class CTransform : public Component {
-public:
-    CTransform() = default;
-
-private:
     sf::Vector2f m_position;
     sf::Vector2f m_velocity;
     sf::Vector2f m_scale;
 
 public:
+    CTransform() = default;
+
     [[nodiscard]] const sf::Vector2f &getPosition() const;
     [[nodiscard]] const sf::Vector2f &getVelocity() const;
     [[nodiscard]] const sf::Vector2f &getScale() const;
@@ -59,26 +57,6 @@ public:
     void setScale(const sf::Vector2f &scale);
 
     CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale);
-};
-
-////////// DESCRIPTION //////////
-
-///
-
-////////// DEFINITION OF CLASS //////////
-class CBoundingBox
-{
-public:
-    sf::CircleShape circle;
-
-    CBoundingBox(float radius, int points, const sf::Color & fill, const sf::Color outline, float thickness)
-        : circle(radius, points)
-    {
-        circle.setFillColor(fill);
-        circle.setOutlineColor(outline);
-        circle.setOutlineThickness(thickness);
-        circle.setOrigin(radius, radius);
-    }
 };
 
 #endif //COMPONENTS_H

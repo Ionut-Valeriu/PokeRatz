@@ -42,7 +42,7 @@ class EntityManager {
 
 public:
     void update(); // adding and removing entities
-    void removeDeadEntities(EntityVec& vec); // this is called in update
+    static void removeDeadEntities(EntityVec& vec); // this is called in update
 
     std::shared_ptr<Entity> addEntity(const std::string& tag);
     std::shared_ptr<Player> addPlayer(const std::string& tag);

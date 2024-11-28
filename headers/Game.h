@@ -46,6 +46,9 @@ class Game {
     // size 368
     sf::Text m_text;
 
+    // size 168
+    sf::View m_view{{200.0f, 200.0f}, {1024.0f, 576.0f}};
+
     // size 152
     sf::Font m_font;
 
@@ -57,6 +60,9 @@ class Game {
 
     // size 48
     ActionMap m_actions; // this will be implemented o  scene
+
+    // size 24
+    sf::Sound m_sound;
 
     // size 16
     std::shared_ptr<Player> m_player; // this might be temporary (can be implemented on scene)
@@ -71,8 +77,6 @@ class Game {
     bool m_running = true;
     bool m_paused = false;
 
-    sf::Sound m_sound;
-    sf::View m_view{{200.0f, 200.0f}, {1024.0f, 576.0f}};
 
     void init(const std::string& path);
 

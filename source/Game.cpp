@@ -53,36 +53,37 @@ void Game::init(const std::string &path) {
 
     // todo - move & from file
     // map creation
-    for (int j = 1; j < m_window.getSize().y / 40.0f ; j++) {
-        for (int i = 1; i < m_window.getSize().x / 80.0f - 1 ; i++) {
+    for (int j = 1; j < m_window.getSize().y / 40 ; j++) {
+        for (int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
             auto e = m_entityManager.addEntity("Grass");
             e->setAnimation(m_assets.getAnimation("Grass"));
-            e->setPosition({i*80.0f + 40.0f, j*80.0f + 40.0f});
+            e->setPosition({static_cast<float>(i) * 80.0f + 40.0f, static_cast<float>(j)*80.0f + 40.0f});
             e->setBorderT(0);
         }
     }
 
     // left
-    for (int j = 0; j < m_window.getSize().y / 80.0f ; j++) {
+    for (int j = 0; j < m_window.getSize().y / 80 ; j++) {
             auto e = m_entityManager.addEntity("Block");
             e->setAnimation(m_assets.getAnimation("Block"));
-            e->setPosition({40.0f, j*80.0f + 40.0f});
+            e->setPosition({40.0f, static_cast<float>(j)*80.0f + 40.0f});
             e->setBorderT(0);
     }
 
     // right
-    for (int j = 0; j < m_window.getSize().y / 80.0f ; j++) {
+    for (int j = 0; j < m_window.getSize().y / 80 ; j++) {
         auto e = m_entityManager.addEntity("Block");
         e->setAnimation(m_assets.getAnimation("Block"));
-        e->setPosition({m_window.getSize().x - 40.0f, j*80.0f + 40.0f});
+        e->setPosition({static_cast<float>(m_window.getSize().x) - 40.0f,
+                            static_cast<float>(j)*80.0f + 40.0f} );
         e->setBorderT(0);
     }
 
     //up
-    for (int i = 1; i < m_window.getSize().x / 80.0f - 1 ; i++) {
+    for (int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
         auto e = m_entityManager.addEntity("Block");
         e->setAnimation(m_assets.getAnimation("Block"));
-        e->setPosition({i*80.0f + 40.0f, 40.0f});
+        e->setPosition({static_cast<float>(i)*80.0f + 40.0f, 40.0f});
         e->setBorderT(0);
     }
 
@@ -187,7 +188,7 @@ void Game::sUserInput() {
             if (!getActionMap().contains(event.key.code)) { continue; }
 
             // determine start or end action by whether it was key pres or release
-            const std::string actionType = (event.type == sf::Event::KeyPressed) ? "START" : "END";
+            const std::string actionType = event.type == sf::Event::KeyPressed ? "START" : "END";
 
             // look up the action and send the action to the scene
             sDoActions( Actions {getActionMap().at(event.key.code), actionType} );
@@ -216,7 +217,7 @@ void Game::sAnimation()  {
             animationName = "PSide";
             m_player->setScale({5.0f, 5.0f});
         break;
-    };
+    }
 
     m_player->getAnimation()->setScale(m_player->getScale());
     if (m_player->getAnimation()->getName() != animationName) {
@@ -243,8 +244,8 @@ void Game::sRender() {
 }
 
 void Game::sMovement() {
-    Move x = Move::STAY;
-    Move y = Move::STAY;
+    auto x = Move::STAY;
+    auto y = Move::STAY;
 
     if (m_player->up()) {
         if (m_player->getY() > m_player->getHeight()/2 + 80.0f) {
@@ -297,7 +298,7 @@ const ActionMap & Game::getActionMap() const {
 }
 
 void Game::registerAction(int inputKey, const std::string &actionName) {
-    m_actions.insert(std::pair<int, std::string>(inputKey, actionName));
+    m_actions.insert({inputKey, actionName});
 }
 
 void Game::onEnd() {

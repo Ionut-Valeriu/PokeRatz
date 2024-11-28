@@ -40,10 +40,10 @@ public:
     [[nodiscard]] float speed()const { return m_speed; }
 
     // setters
-    void setUp    (bool up)    { this->m_up    = up;    }
-    void setDown  (bool down)  { this->m_down  = down;  }
-    void setLeft  (bool left)  { this->m_left  = left;  }
-    void setRight (bool right) { this->m_right = right; }
+    void setUp    (const bool up)    { this->m_up    = up;    }
+    void setDown  (const bool down)  { this->m_down  = down;  }
+    void setLeft  (const bool left)  { this->m_left  = left;  }
+    void setRight (const bool right) { this->m_right = right; }
 
     // methods
     void setVelocity(Move x, Move y);

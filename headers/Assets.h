@@ -4,14 +4,19 @@
 
 #ifndef ASSETS_H
 #define ASSETS_H
+
+////////// INCLUDE SECTION //////////
 #include <map>
 #include <string>
-#include <memory>
-
-#include "Animation.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "Animation.h"
+////////// DESCRIPTION //////////
+
+///
+
+////////// DEFINITION OF CLASS //////////
 class Assets {
     // size 48
     std::map<std::string, sf::Texture> m_textureMap;

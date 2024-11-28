@@ -8,7 +8,7 @@
 
 bool Component::has() const {return m_exist;}
 
-Component::Component(bool m_exist) : m_exist(m_exist) {}
+Component::Component(const bool m_exist) : m_exist(m_exist) {}
 Component::Component(const Component &other) = default;
 Component &Component::operator=(const Component &other) {
     if (this == &other) return *this;
@@ -26,4 +26,4 @@ void CTransform::setVelocity(const sf::Vector2f &velocity) { m_velocity = veloci
 void CTransform::setScale(const sf::Vector2f &scale)       { m_scale = scale;       }
 
 CTransform::CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale)
-    : Component(true), m_position(position), m_velocity(velocity), m_scale(scale) {};
+    : Component(true), m_position(position), m_velocity(velocity), m_scale(scale) {}

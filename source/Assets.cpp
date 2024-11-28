@@ -19,16 +19,16 @@ void Assets::addTexture(const std::string &textureName, const std::string &path)
     }
 }
 
-void Assets::addAnimation(const std::string &animationName, const std::string &textureName, size_t frameCount, size_t speed) {
+void Assets::addAnimation(const std::string &animationName, const std::string &textureName, const size_t frameCount, const size_t speed) {
     m_animationMap[animationName] = Animation(animationName, getTexture(textureName), frameCount, speed);
 }
 
-void Assets::addFont(const std::string &fontName, const std::string &path) {
-    if(auto font = sf::Font(); font.loadFromFile(path)) {
+void Assets::addFont(const std::string &fontName, const std::string &fontPath) {
+    if(auto font = sf::Font(); font.loadFromFile(fontPath)) {
         m_fontMap.emplace( fontName, std::move(font) );
-        std::cout << "Loaded font: " << path << std::endl;
+        std::cout << "Loaded font: " << fontPath << std::endl;
     } else {
-        std::cerr << "Failed to load font: " << path << std::endl;
+        std::cerr << "Failed to load font: " << fontPath << std::endl;
     }
 }
 
@@ -75,9 +75,9 @@ void Assets::loadFromFile(const std::string &path) {
             addSoundBuffer(name, bufferPath);
         }
         else if (str == "Sound") {
-            std::string name, buffername;
-            file >> name >> buffername;
-            addSound(name, buffername);
+            std::string name, bufferName;
+            file >> name >> bufferName;
+            addSound(name, bufferName);
         }
         else {
             std::cerr << "Unknown Asset Type: " << str << std::endl;
@@ -113,18 +113,18 @@ const sf::Sound & Assets::getSound(const std::string &soundName) const {
 
 std::ostream & operator<<(std::ostream &os, const Assets &obj) {
     os << "Assets:\n--Textures:\n";
-    for (const auto &pair : obj.m_textureMap) {
-        os << "----" << pair.first << std::endl;
+    for (const auto &[fst, snd] : obj.m_textureMap) {
+        os << "----" << fst << std::endl;
     }
 
     os << "--Animations:\n";
-    for (const auto &pair : obj.m_animationMap) {
-        os << "----" << pair.first << pair.second << std::endl;
+    for (const auto &[fst, snd] : obj.m_animationMap) {
+        os << "----" << fst << snd << std::endl;
     }
 
     os << "--Fonts:\n";
-    for (const auto &pair : obj.m_fontMap) {
-        os << "----" << pair.first << std::endl;
+    for (const auto &[fst, snd] : obj.m_fontMap) {
+        os << "----" << fst << std::endl;
     }
 
     return os;
