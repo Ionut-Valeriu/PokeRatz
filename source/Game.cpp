@@ -53,8 +53,8 @@ void Game::init(const std::string &path) {
 
     // todo - move & from file
     // map creation
-    for (int j = 1; j < m_window.getSize().y / 40 ; j++) {
-        for (int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
+    for (unsigned int j = 1; j < m_window.getSize().y / 40 ; j++) {
+        for (unsigned int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
             auto e = m_entityManager.addEntity("Grass");
             e->setAnimation(m_assets.getAnimation("Grass"));
             e->setPosition({static_cast<float>(i) * 80.0f + 40.0f, static_cast<float>(j)*80.0f + 40.0f});
@@ -63,7 +63,7 @@ void Game::init(const std::string &path) {
     }
 
     // left
-    for (int j = 0; j < m_window.getSize().y / 80 ; j++) {
+    for (unsigned int j = 0; j < m_window.getSize().y / 80 ; j++) {
             auto e = m_entityManager.addEntity("Block");
             e->setAnimation(m_assets.getAnimation("Block"));
             e->setPosition({40.0f, static_cast<float>(j)*80.0f + 40.0f});
@@ -71,7 +71,7 @@ void Game::init(const std::string &path) {
     }
 
     // right
-    for (int j = 0; j < m_window.getSize().y / 80 ; j++) {
+    for (unsigned int j = 0; j < m_window.getSize().y / 80 ; j++) {
         auto e = m_entityManager.addEntity("Block");
         e->setAnimation(m_assets.getAnimation("Block"));
         e->setPosition({static_cast<float>(m_window.getSize().x) - 40.0f,
@@ -80,7 +80,7 @@ void Game::init(const std::string &path) {
     }
 
     //up
-    for (int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
+    for (unsigned int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
         auto e = m_entityManager.addEntity("Block");
         e->setAnimation(m_assets.getAnimation("Block"));
         e->setPosition({static_cast<float>(i)*80.0f + 40.0f, 40.0f});
