@@ -30,7 +30,7 @@ class Player : public Entity{
 
 public:
 
-    Player(size_t id, const std::string &tag);
+    Player(size_t id, const std::string &tag, const size_t& drawLevel = 1);
 
     //getters
     [[nodiscard]] bool up()    const { return m_up;    }

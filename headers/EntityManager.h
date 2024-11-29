@@ -27,11 +27,13 @@
 ////////// SHORTCUTS //////////
 typedef std::vector<std::shared_ptr<Entity>> EntityVec;
 typedef std::map<std::string, EntityVec> EntityMap;
+typedef std::map<size_t, EntityVec> EntityDrawMap;
 
 ////////// DEFINITION OF CLASS //////////
 class EntityManager {
     // size 48
     EntityMap m_entityMap;     // the entity map on the 2nd point in the description
+    EntityDrawMap m_entityDrawMap;
 
     // size 24
     EntityVec m_entities;      // vector to store all current entities
@@ -39,16 +41,21 @@ class EntityManager {
 
     // size 8
     size_t m_entitiesSpawned = 1;
+    size_t m_maxDrawLevel = 1;
 
 public:
     void update(); // adding and removing entities
     static void removeDeadEntities(EntityVec& vec); // this is called in update
 
-    std::shared_ptr<Entity> addEntity(const std::string& tag);
-    std::shared_ptr<Player> addPlayer(const std::string& tag);
+    std::shared_ptr<Entity> addEntity(const std::string& tag, const size_t& drawLevel = 1);
+    std::shared_ptr<Player> addPlayer(const std::string& tag, const size_t& drawLevel = 1);
 
     const EntityVec& getEntities() { return m_entities; }
-    EntityVec getEntities(const std::string& tag) { return m_entityMap[tag]; }
+    const EntityVec& getEntities(const std::string& tag) { return m_entityMap[tag]; }
+    const EntityVec& getEntitiesOnLevel(const size_t& level){ return m_entityDrawMap[level]; }
+
+    // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }
+    [[nodiscard]] size_t getMaxDrawLevel() const { return m_maxDrawLevel; }
 
 };
 

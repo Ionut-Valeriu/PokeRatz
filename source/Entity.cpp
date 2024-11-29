@@ -4,8 +4,8 @@
 
 #include "../headers/Entity.h"
 
-Entity::Entity(const size_t id, std::string tag)
-    : m_tag(std::move(tag)), m_id(id)
+Entity::Entity(const size_t id, std::string tag, const size_t drawLevel = 1)
+    : m_tag(std::move(tag)), m_id(id), m_drawLevel(drawLevel)
 {
     init();
 }
@@ -34,9 +34,12 @@ std::shared_ptr<Animation> Entity::getAnimation() const {
 
 bool Entity::collide(const Entity &other) const {
     // todo
+    std::cout << "Entity::collide?\nCrr: " <<
+        m_transform->getPosition().x << ", " << m_transform->getPosition().y <<
+        "\nOth: " << other.m_transform->getPosition().x << ", " <<other.m_transform->getPosition().y <<"\n";
     if (m_transform->getPosition().x == other.m_transform->getPosition().x &&
         m_transform->getPosition().y == other.m_transform->getPosition().y)
-    {return true;}
+    { return true; }
     return false;
 }
 

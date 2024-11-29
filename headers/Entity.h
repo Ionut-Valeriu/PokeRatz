@@ -41,12 +41,13 @@ protected:
 
     // size 8
     size_t m_id;
+    size_t m_drawLevel; /// 1 is first render (ex: background), the higher number = the closest to the camera
 
     // size 1
     bool m_active = true;
 
 public:
-    Entity(size_t id, std::string tag);
+    Entity(size_t id, std::string tag, size_t drawLevel);
 
     void init();
 
@@ -54,6 +55,7 @@ public:
 
     // getters
     [[nodiscard]] size_t id() const { return m_id; }
+    [[nodiscard]] size_t level() const { return m_drawLevel; }
     [[nodiscard]] const std::string &tag() const { return m_tag; }
     [[nodiscard]] bool active() const { return m_active; }
     [[nodiscard]] State state() const { return m_state; }

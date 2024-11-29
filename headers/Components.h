@@ -6,7 +6,6 @@
 #define COMPONENTS_H
 
 ////////// INCLUDE SECTION //////////
-#include <iostream>
 #include <SFML/Graphics.hpp>
 
 ////////// DESCRIPTION //////////

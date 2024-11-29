@@ -99,7 +99,7 @@ void Game::init(const std::string &path) {
     //
 
     // creating the player
-    m_player = m_entityManager.addPlayer("player");
+    m_player = m_entityManager.addPlayer("player", 3);
     m_player->setAnimation(m_assets.getAnimation("PStand"));
     m_player->setPosition({800.0f, 800.0f});
 
@@ -135,6 +135,15 @@ void Game::init(const std::string &path) {
     m_sound.setLoop(true);
     m_sound.play();
 }
+
+// void Game::levelLoader(const std::string &path) {
+//     std::ifstream in { path };
+//     std::string keyword;
+//
+//     while(in >> keyword) {
+//         //a
+//     }
+// }
 
 void Game::run() {
     while (m_running) {
@@ -237,9 +246,12 @@ void Game::sRender() {
     m_view.setCenter(m_player->getX(), m_player->getY());
     m_window.setView(m_view);
 
-    for (const std::shared_ptr<Entity> &e: m_entityManager.getEntities()) {
-        e->draw(m_window);
+    for (size_t i = 1; i <= m_entityManager.getMaxDrawLevel(); i++ ) {
+        for (const std::shared_ptr<Entity> &e: m_entityManager.getEntitiesOnLevel(i)) {
+            e->draw(m_window);
+        }
     }
+
     m_window.display();
 }
 
