@@ -33,9 +33,6 @@ void Animation::update() {
     m_gameFrame++;
 
     const auto animFrame = static_cast<int>(m_gameFrame / m_speed) % m_animationFrame;
-    std::cout << "\n\nanim\n\n"
-    << m_gameFrame << "\n" << m_speed << "\n"
-    << animFrame << std::endl;
 
     const sf::IntRect rect(static_cast<int>(static_cast<float>(animFrame) * m_size.x / static_cast<float>(m_animationFrame)),
         0, static_cast<int>(m_size.x / static_cast<float>(m_animationFrame)),
