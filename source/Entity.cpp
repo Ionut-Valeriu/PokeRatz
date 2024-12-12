@@ -34,9 +34,6 @@ std::shared_ptr<Animation> Entity::getAnimation() const {
 
 bool Entity::collide(const Entity &other) const {
     // todo
-    std::cout << "Entity::collide?\nCrr: " <<
-        m_transform->getPosition().x << ", " << m_transform->getPosition().y <<
-        "\nOth: " << other.m_transform->getPosition().x << ", " <<other.m_transform->getPosition().y <<"\n";
     if (m_transform->getPosition().x == other.m_transform->getPosition().x &&
         m_transform->getPosition().y == other.m_transform->getPosition().y)
     { return true; }
