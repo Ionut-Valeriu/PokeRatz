@@ -18,13 +18,16 @@
 
 ////////// DEFINITION OF CLASS //////////
 class Animation {
-    // 288
+    // size 288
     sf::Sprite m_sprite;
 
-    // 32
+    // size 32
     std::string m_name = "none";
 
-    // 8
+    // size 16
+    sf::IntRect m_rect;
+
+    // size 8
     sf::Vector2f m_size = { 1, 1 };
     sf::Vector2f m_scale = { 5.0f, 5.0f };
     size_t m_animationFrame = 1;
@@ -48,6 +51,9 @@ public:
 
     // setters
     void setScale (const sf::Vector2f &scale);
+    void setRect (const sf::IntRect &rect);
+    void setRect (const sf::Vector2i &v1, const sf::Vector2i &v2);
+    void setRect (int i1, int i2, int i3, int i4);
 
     friend std::ostream & operator<<(std::ostream &os, const Animation &obj);
 };

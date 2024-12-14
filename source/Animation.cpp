@@ -34,12 +34,14 @@ void Animation::update() {
 
     const auto animFrame = static_cast<int>(m_gameFrame / m_speed) % m_animationFrame;
 
-    const sf::IntRect rect(static_cast<int>(static_cast<float>(animFrame) * m_size.x / static_cast<float>(m_animationFrame)),
-        0, static_cast<int>(m_size.x / static_cast<float>(m_animationFrame)),
-        static_cast<int>(m_size.y));
+    m_rect = {
+        static_cast<int>(static_cast<float>(animFrame) * m_size.x / static_cast<float>(m_animationFrame)),
+        0,
+        static_cast<int>(m_size.x / static_cast<float>(m_animationFrame)),
+        static_cast<int>(m_size.y)
+    };
 
-    m_sprite.setTextureRect(rect);
-
+    m_sprite.setTextureRect(m_rect);
     m_sprite.setScale(m_scale);
 }
 
@@ -57,6 +59,23 @@ sf::Sprite & Animation::getSprite() { return m_sprite; }
 void Animation::setScale(const sf::Vector2f &scale) {
     m_scale = scale;
     m_sprite.scale(m_scale.x, m_scale.y);
+    if (m_sprite.getTexture()->isRepeated())
+        m_sprite.setTextureRect(sf::IntRect(0, 0, static_cast<int>(scale.x), static_cast<int>(scale.y)));
+}
+
+void Animation::setRect(const sf::IntRect &rect) {
+    m_rect = rect;
+    m_sprite.setTextureRect(m_rect);
+}
+
+void Animation::setRect(const sf::Vector2i &v1, const sf::Vector2i &v2) {
+    m_rect = {v1.x, v1.y, v2.x, v2.y};
+    m_sprite.setTextureRect(m_rect);
+}
+
+void Animation::setRect(const int i1, const int i2, const int i3, const int i4) {
+    m_rect = {i1, i2, i3, i4};
+    m_sprite.setTextureRect(m_rect);
 }
 
 std::ostream & operator<<(std::ostream &os, const Animation &obj) {

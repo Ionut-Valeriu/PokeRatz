@@ -47,7 +47,7 @@ class Game {
     sf::Text m_text;
 
     // size 168
-    sf::View m_view{{200.0f, 200.0f}, {1024.0f, 576.0f}};
+    sf::View m_view;
 
     // size 152
     sf::Font m_font;
@@ -79,7 +79,7 @@ class Game {
 
 
     void init(const std::string& path);
-    // void levelLoader(const std::string& path);
+    void levelLoader(const std::string& path);
 
     void sRender();
 
@@ -97,8 +97,6 @@ class Game {
     void registerAction (int inputKey, const std::string& actionName);
 
     void onEnd();
-
-    // void sLvlBuilder(std::string path);
 
 public:
     explicit Game(const std::string& path);

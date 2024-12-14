@@ -9,10 +9,11 @@
 
 #include "../headers/Assets.h"
 
-void Assets::addTexture(const std::string &textureName, const std::string &path) {
+void Assets::addTexture(const std::string &textureName, const std::string &path, const bool repeated) {
     if(auto texture = sf::Texture(); texture.loadFromFile(path)) {
+        texture.setRepeated(repeated);
+        texture.setSmooth(false);
         m_textureMap.emplace( textureName, std::move(texture) );
-        m_textureMap[textureName].setSmooth(false);
         std::cout << "Loaded texture: " << path << std::endl;
     } else {
         std::cerr << "Failed to load texture: " << path << std::endl;
@@ -55,8 +56,9 @@ void Assets::loadFromFile(const std::string &path) {
         file >> str;
         if (str == "Texture") {
             std::string name, texturePath;
-            file >> name >> texturePath;
-            addTexture(name, texturePath);
+            bool repeated;
+            file >> name >> texturePath >> repeated;
+            addTexture(name, texturePath, repeated);
         }
         else if (str == "Animation") {
             std::string name, texture;

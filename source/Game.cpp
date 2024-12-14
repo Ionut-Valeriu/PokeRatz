@@ -14,6 +14,7 @@
 #include "../headers/Assets.h"
 
 void Game::init(const std::string &path) {
+
     // initialization controls
     registerAction(sf::Keyboard::Escape, "CLOSE");
     registerAction(sf::Keyboard::W, "UP");
@@ -40,91 +41,41 @@ void Game::init(const std::string &path) {
             m_window.setFramerateLimit(framerate);
 
             m_bgColor = sf::Color{r, g, b};
-        }
-        else if (keyword == "Assets") {
+        } else if (keyword == "Assets") {
             std::string assetsPath;
             in >> assetsPath;
             m_assets.loadFromFile(assetsPath);
+        } else {
+            std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
+            exit(1);
         }
     }
 
     in.close();
     std::cout << "\nInit finished!\n" << m_assets << "\n";
 
-    // todo - move & from file
-    // map creation
-    for (unsigned int j = 1; j < m_window.getSize().y / 40 ; j++) {
-        for (unsigned int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
-            auto e = m_entityManager.addEntity("Grass");
-            e->setAnimation(m_assets.getAnimation("Grass"));
-            e->setPosition({static_cast<float>(i) * 80.0f + 40.0f, static_cast<float>(j)*80.0f + 40.0f});
-            e->setBorderT(0);
-        }
-    }
-
-    // left
-    for (unsigned int j = 0; j < m_window.getSize().y / 80 ; j++) {
-            auto e = m_entityManager.addEntity("Block");
-            e->setAnimation(m_assets.getAnimation("Block"));
-            e->setPosition({40.0f, static_cast<float>(j)*80.0f + 40.0f});
-            e->setBorderT(0);
-    }
-
-    // right
-    for (unsigned int j = 0; j < m_window.getSize().y / 80 ; j++) {
-        auto e = m_entityManager.addEntity("Block");
-        e->setAnimation(m_assets.getAnimation("Block"));
-        e->setPosition({static_cast<float>(m_window.getSize().x) - 40.0f,
-                            static_cast<float>(j)*80.0f + 40.0f} );
-        e->setBorderT(0);
-    }
-
-    //up
-    for (unsigned int i = 1; i < m_window.getSize().x / 80 - 1 ; i++) {
-        auto e = m_entityManager.addEntity("Block");
-        e->setAnimation(m_assets.getAnimation("Block"));
-        e->setPosition({static_cast<float>(i)*80.0f + 40.0f, 40.0f});
-        e->setBorderT(0);
-    }
-
-    //down
-
-    // auto e = m_entityManager.addEntity("Grass");
-    // e->setAnimation(m_assets.getAnimation("Grass"));
-    // e->setScale({ m_window.getSize().x / 80.0f, m_window.getSize().y / 80.0f});
-    // e->getAnimation()->setScale(e->getScale());
-    // e->setPosition({m_window.getSize().x / 2.0f, m_window.getSize().y / 2.0f});
-    // e->setBorderT(0);
-    // std::cout << "dimensions " << m_window.getSize().x << " " << m_window.getSize().y << "\n";
-    //
-
-    // creating the player
-    m_player = m_entityManager.addPlayer("player", 3);
-    m_player->setAnimation(m_assets.getAnimation("PStand"));
-    m_player->setPosition({800.0f, 800.0f});
-
     // todo - remove - only for cppcheck
 
-    std::string testAnimName = "PStand";
+    // std::string testAnimName = "PStand";
+    //
+    // std::shared_ptr<Animation> animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
+    //
+    // animationTest = std::make_shared<Animation>(m_assets.getAnimation(testAnimName));
+    // animationTest->getSprite();
 
-    std::shared_ptr<Animation> animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
+    // auto test = m_entityManager.addEntity("test");
+    // test->setAnimation(m_assets.getAnimation("MStand"));
+    // test->setPosition({400.0f, 400.0f});
+    //
+    // auto test2 = m_entityManager.addEntity("test");
+    // test2->setAnimation(m_assets.getAnimation("MStand"));
 
-    animationTest = std::make_shared<Animation>(m_assets.getAnimation(testAnimName));
-    animationTest->getSprite();
-
-    auto test = m_entityManager.addEntity("test");
-    test->setAnimation(m_assets.getAnimation("MStand"));
-    test->setPosition({400.0f, 400.0f});
-
-    auto test2 = m_entityManager.addEntity("test");
-    test2->setAnimation(m_assets.getAnimation("MStand"));
-
-    if (test->collide(*test2)) {
-        std::cout << "initial collision\n";
-    } else {
-        std::cout << "NOT collision\n";
-    }
-    std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
+    // if (test->collide(*test2)) {
+    //     std::cout << "initial collision\n";
+    // } else {
+    //     std::cout << "NOT collision\n";
+    // }
+    // std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
 
     // test->remove();
     // test2->remove();
@@ -134,16 +85,51 @@ void Game::init(const std::string &path) {
     m_sound = m_assets.getSound("Main");
     m_sound.setLoop(true);
     m_sound.play();
+
+    levelLoader("resources/config/MainMap.txt");
 }
 
-// void Game::levelLoader(const std::string &path) {
-//     std::ifstream in { path };
-//     std::string keyword;
-//
-//     while(in >> keyword) {
-//         //a
-//     }
-// }
+void Game::levelLoader(const std::string &path) {
+    std::ifstream in (path);
+    std::string keyword;
+
+    while (in >> keyword) {
+        std::cout << "Loading " << keyword << "\n";
+
+        if (keyword == "Player") {
+            std::string defAnim;
+            float X, Y;
+            size_t dL;
+
+            in >> defAnim >> dL >> X >> Y;
+
+            m_player = m_entityManager.addPlayer("player", dL);
+            m_player->setAnimation(m_assets.getAnimation(defAnim));
+            m_player->setPosition({m_player->getWidth() * X + m_player->getWidth()/2,
+                              static_cast<float>(m_window.getSize().y) - m_player->getHeight()*Y - m_player->getHeight()/2});
+
+            continue;
+        }
+        if (keyword == "View") {
+            float W, H;
+            in >> W >> H;
+            m_view.reset({0, 0, W, H});
+            continue;
+        }
+
+
+        sf::Vector2i scale, rect, pos;
+        in >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
+
+        auto block = m_entityManager.addEntity(keyword);
+        block->setAnimation(m_assets.getAnimation(keyword));
+        block->setPosition({block->getWidth()*static_cast<float>(pos.x) + block->getWidth()/2,
+                              static_cast<float>(m_window.getSize().y) - block->getHeight()*static_cast<float>(pos.y) - block->getHeight()/2});
+
+        block->getAnimation()->setRect(sf::IntRect{0, 0, rect.x * 16, rect.y * 16});
+        block->setBorderT(0);
+    }
+}
 
 void Game::run() {
     while (m_running) {
@@ -316,11 +302,6 @@ void Game::registerAction(int inputKey, const std::string &actionName) {
 void Game::onEnd() {
     m_running = false;
 }
-
-// void Game::sLvlBuilder(std::string path) {
-//     std::ifstream in (path);
-//     std::string line;
-// }
 
 Game::Game(const std::string &path) {
     init(path);
