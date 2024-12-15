@@ -45,6 +45,10 @@ void Game::init(const std::string &path) {
             std::string assetsPath;
             in >> assetsPath;
             m_assets.loadFromFile(assetsPath);
+        } else if (keyword == "Level") {
+            std::string levelPath;
+            in >> levelPath;
+            levelLoader("resources/config/MainMap.txt");
         } else {
             std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
             exit(1);
@@ -55,38 +59,11 @@ void Game::init(const std::string &path) {
     std::cout << "\nInit finished!\n" << m_assets << "\n";
 
     // todo - remove - only for cppcheck
-
-    // std::string testAnimName = "PStand";
-    //
-    // std::shared_ptr<Animation> animationTest;//{testAnimName, m_assets.getTexture("TexPlayer")};
-    //
-    // animationTest = std::make_shared<Animation>(m_assets.getAnimation(testAnimName));
-    // animationTest->getSprite();
-
-    // auto test = m_entityManager.addEntity("test");
-    // test->setAnimation(m_assets.getAnimation("MStand"));
-    // test->setPosition({400.0f, 400.0f});
-    //
-    // auto test2 = m_entityManager.addEntity("test");
-    // test2->setAnimation(m_assets.getAnimation("MStand"));
-
-    // if (test->collide(*test2)) {
-    //     std::cout << "initial collision\n";
-    // } else {
-    //     std::cout << "NOT collision\n";
-    // }
-    // std::cout << *m_player << "\n\n" << *test << "\n\n" << *test2 << "\n";
-
-    // test->remove();
-    // test2->remove();
-    //
-
     m_font = m_assets.getFont("Arial");
-    m_sound = m_assets.getSound("Main");
-    m_sound.setLoop(true);
-    m_sound.play();
+    //
 
-    levelLoader("resources/config/MainMap.txt");
+
+    m_sound.play();
 }
 
 void Game::levelLoader(const std::string &path) {
@@ -116,7 +93,16 @@ void Game::levelLoader(const std::string &path) {
             m_view.reset({0, 0, W, H});
             continue;
         }
+        if (keyword == "Sound") {
+            std::string musicName;
+            bool looping;
+            in >> musicName >> looping;
+            m_sound = m_assets.getSound(musicName);
+            m_sound.setLoop(looping);
+            continue;
+        }
 
+        // else choose an animation for a non-moving entity
 
         sf::Vector2i scale, rect, pos;
         in >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
