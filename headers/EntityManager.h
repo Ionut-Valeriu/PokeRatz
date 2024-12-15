@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Entity.h"
 #include "Player.h"
@@ -47,8 +48,8 @@ public:
     void update(); // adding and removing entities
     static void removeDeadEntities(EntityVec& vec); // this is called in update
 
-    std::shared_ptr<Entity> addEntity(const std::string& tag, const size_t& drawLevel = 1);
-    std::shared_ptr<Player> addPlayer(const std::string& tag, const size_t& drawLevel = 1);
+    template <class T>
+    std::shared_ptr<T> addEntity(const std::string &tag, const size_t& drawLevel = 1);
 
     const EntityVec& getEntities() { return m_entities; }
     const EntityVec& getEntities(const std::string& tag) { return m_entityMap[tag]; }

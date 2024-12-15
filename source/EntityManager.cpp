@@ -35,22 +35,17 @@ void EntityManager::removeDeadEntities(EntityVec& vec) {
     });
 }
 
-std::shared_ptr<Entity> EntityManager::addEntity(const std::string &tag, const size_t& drawLevel) {
+template <class T>
+std::shared_ptr<T> EntityManager::addEntity(const std::string &tag, const size_t& drawLevel) {
     m_maxDrawLevel = m_maxDrawLevel < drawLevel ? drawLevel : m_maxDrawLevel;
 
-    auto e = std::make_shared<Entity>(Entity{m_entitiesSpawned++, tag, drawLevel});
+    auto e = std::make_shared<T>(m_entitiesSpawned++, tag, drawLevel);
 
     m_entitiesToAdd.push_back(e);
-
     return e;
 }
-
-std::shared_ptr<Player> EntityManager::addPlayer(const std::string &tag, const size_t& drawLevel) {
-    m_maxDrawLevel = m_maxDrawLevel < drawLevel ? drawLevel : m_maxDrawLevel;
-
-    auto e = std::make_shared<Player>(m_entitiesSpawned++, tag, drawLevel);
-
-    m_entitiesToAdd.push_back(e);
-
-    return e;
-}
+// ? de ce e nevoie de astea ?
+// ? ar fi ok sa fac asa si la calse noi doar adaug aici ?
+// ? sau doar pun definita in header (asa nu mai am nevoie sa scriu explicit pt fiecare clasa) ?
+template std::shared_ptr<Entity> EntityManager::addEntity<Entity>(const std::string &tag, const size_t& drawLevel);
+template std::shared_ptr<Player> EntityManager::addEntity<Player>(const std::string &tag, const size_t& drawLevel);
