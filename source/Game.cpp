@@ -29,6 +29,10 @@ void Game::init(const std::string &path) {
     std::string keyword;
 
     while(in >> keyword) {
+        if (keyword == "--") {
+            std::getline(in, keyword);
+            continue;
+        }
         if (keyword == "Window") {
             int width, height, framerate, r_read, g_read, b_read;
             unsigned char r, g, b;
@@ -71,6 +75,11 @@ void Game::levelLoader(const std::string &path) {
     std::string keyword;
 
     while (in >> keyword) {
+        if (keyword == "--") {
+            std::getline(in, keyword);
+            continue;
+        }
+
         std::cout << "Loading " << keyword << "\n";
 
         if (keyword == "Player") {
