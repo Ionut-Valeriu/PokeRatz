@@ -7,6 +7,10 @@
 #include <memory>
 #include <iostream>
 
+#include "Player.h"
+#include "Background.h"
+#include "Monster.h"
+
 void EntityManager::update() {
     // adding new entities
     for (auto& e : m_entitiesToAdd) {
@@ -44,8 +48,6 @@ std::shared_ptr<T> EntityManager::addEntity(const std::string &tag, const size_t
     m_entitiesToAdd.push_back(e);
     return e;
 }
-// ? de ce e nevoie de astea ?
-// ? ar fi ok sa fac asa si la calse noi doar adaug aici ?
-// ? sau doar pun definita in header (asa nu mai am nevoie sa scriu explicit pt fiecare clasa) ?
-template std::shared_ptr<Entity> EntityManager::addEntity<Entity>(const std::string &tag, const size_t& drawLevel);
 template std::shared_ptr<Player> EntityManager::addEntity<Player>(const std::string &tag, const size_t& drawLevel);
+template std::shared_ptr<Background> EntityManager::addEntity<Background>(const std::string &tag, const size_t& drawLevel);
+template std::shared_ptr<Monster> EntityManager::addEntity<Monster>(const std::string &tag, const size_t& drawLevel);
