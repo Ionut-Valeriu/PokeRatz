@@ -20,7 +20,7 @@ void Player::setVelocity(Move x, Move y) {
 void Player::incFrame() { m_crrFrame++; }
 
 void Player::onCollide(bool solid) {
-    if (isSolid()) m_transform->goToLastPos();
+    if (solid) m_transform->goToLastPos();
 }
 
 void Player::showTip(std::ostream &os) const {
