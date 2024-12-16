@@ -105,6 +105,8 @@ public:
 
     void remove();
 
+    virtual ~Entity() = default;
+
     friend std::ostream &operator<<(std::ostream &os, const Entity &obj);
 
 private:

@@ -10,14 +10,12 @@
 
 class Monster : public Entity {
     // size 8
-    size_t points = 0;
+    // size_t points = 0;
 
 public:
     Monster(size_t id, const std::string &tag, size_t drawLevel, size_t points = 0);
 
     void onCollide(bool solid) override;
-
-    ~Monster() = default;
 
 private:
     void showTip(std::ostream &os) const override;
