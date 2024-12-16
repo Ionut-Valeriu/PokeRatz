@@ -12,7 +12,6 @@
 #include <memory>
 
 #include "Entity.h"
-#include "Player.h"
 
 ////////// DESCRIPTION //////////
 
@@ -52,7 +51,6 @@ public:
     std::shared_ptr<T> addEntity(const std::string &tag, const size_t& drawLevel = 1);
 
     const EntityVec& getEntities() { return m_entities; }
-    const EntityVec& getEntities(const std::string& tag) { return m_entityMap[tag]; }
     const EntityVec& getEntitiesOnLevel(const size_t& level){ return m_entityDrawMap[level]; }
 
     // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }
