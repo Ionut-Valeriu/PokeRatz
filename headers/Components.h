@@ -18,16 +18,19 @@
 class Component {
 protected:
     bool m_exist = false;
+
 public:
-    [[nodiscard]] bool has () const;
+    [[nodiscard]] bool has() const;
 
     Component() = default;
+
     explicit Component(bool m_exist);
 
     Component(const Component &other);
-    Component & operator=(const Component &other);
 
-    friend std::ostream & operator<<(std::ostream &os, const Component &obj) {
+    Component &operator=(const Component &other);
+
+    friend std::ostream &operator<<(std::ostream &os, const Component &obj) {
         return os << "m_exist: " << obj.m_exist;
     }
 
@@ -41,6 +44,7 @@ public:
 ////////// DEFINITION OF CLASS //////////
 class CTransform : public Component {
     sf::Vector2f m_position;
+    sf::Vector2f m_lastPos;
     sf::Vector2f m_velocity;
     sf::Vector2f m_scale;
 
@@ -48,12 +52,18 @@ public:
     CTransform() = default;
 
     [[nodiscard]] const sf::Vector2f &getPosition() const;
-    [[nodiscard]] const sf::Vector2f &getVelocity() const;
+
     [[nodiscard]] const sf::Vector2f &getScale() const;
 
     void setPosition(const sf::Vector2f &position);
+
     void setVelocity(const sf::Vector2f &velocity);
+
     void setScale(const sf::Vector2f &scale);
+
+    void updatePos();
+
+    void goToLastPos();
 
     CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale);
 };
