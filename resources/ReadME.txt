@@ -1,6 +1,8 @@
 In this file you will find explanation for .txt files that are used in configuration:
 
+----------------------------------------
 --- In "resources/config/config.txt" ---
+----------------------------------------
 
 -The configuration for WINDOW is the following:
 Window W H FR FS R G B
@@ -16,7 +18,9 @@ Assets path
     Keyword                                                             Assets
     Path of assets config file, usually "resources/config/assets.txt"   path    std::string
 
+----------------------------------------
 --- In "resources/config/assets.txt" ---
+----------------------------------------
 
 -The configuration for FONT is the following:
 Font name path
@@ -25,10 +29,11 @@ Font name path
     Path to the font, usually "resources/fonts/*.ttf"   path    std::string
 
 -The configuration for TEXTURE is the following:
-Texture name path
+Texture name path repeated
     Keyword                                                 Texture
-    Name of the texture                                     name    std::string
-    Path to the texture, usually "resources/images/*.png"   path    std::string
+    Name of the texture                                     name        std::string
+    Path to the texture, usually "resources/images/*.png"   path        std::string
+    If the texture should be set as repeated or not         repeated    bool
 
 -The configuration for ANIMATION is the following:
 Animation A_name T_name FR S
