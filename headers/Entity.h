@@ -37,21 +37,26 @@ protected:
     // size 16
     std::shared_ptr<CTransform> m_transform;
     std::shared_ptr<sf::RectangleShape> tempShape;
+    std::shared_ptr<sf::CircleShape> m_origin;
     std::shared_ptr<Animation> m_animation;
 
     // size 8
     size_t m_id;
-    size_t m_drawLevel; /// 1 is first render (ex: background), the higher number = the closest to the camera
+    size_t m_drawLevel; // 1 is first render (ex: background), the higher number = the closest to the camera
 
     // size 1
     bool m_active = true;
+    bool m_solid = true; // this will push the player back
 
 public:
     Entity(size_t id, std::string tag, size_t drawLevel);
 
     void init();
 
-    void draw(sf::RenderWindow &window) const;
+    void setRect(sf::IntRect rect);
+
+    void draw(sf::RenderWindow &window, bool s, bool r, bool o) const;
+
 
     // getters
     [[nodiscard]] size_t id() const { return m_id; }
@@ -59,36 +64,52 @@ public:
     [[nodiscard]] const std::string &tag() const { return m_tag; }
     [[nodiscard]] bool active() const { return m_active; }
     [[nodiscard]] State state() const { return m_state; }
+
     [[nodiscard]] std::shared_ptr<Animation> getAnimation() const;
 
     // other methods
     [[nodiscard]] bool collide(const Entity &other) const;
 
+    virtual void onCollide(bool solid) = 0;
+
     // transform methods
     [[nodiscard]] float getX() const;
+
     [[nodiscard]] float getY() const;
+
     [[nodiscard]] float getWidth() const;
+
     [[nodiscard]] float getHeight() const;
 
     [[nodiscard]] sf::Vector2f getScale() const;
-    void setScale (const sf::Vector2f &scale) const;
+
+    void setScale(const sf::Vector2f &scale) const;
 
     void setPosition(const sf::Vector2f &position) const;
+
     void setBorderT(int thickness) const;
 
     // setters
     void setAnimation(Animation &anim);
+
     void setState(const State &state);
 
     // updates
     void updatePos() const;
+
     void updateAnimation() const;
+
+    [[nodiscard]] bool isSolid() const;
+
+    // [[nodiscard]] bool isRemovable() const;
 
     void remove();
 
-    friend std::ostream & operator<<(std::ostream &os, const Entity &obj);
-};
+    friend std::ostream &operator<<(std::ostream &os, const Entity &obj);
 
+private:
+    virtual void showTip(std::ostream &os) const;
+};
 
 
 #endif //ENTITY_H

@@ -5,20 +5,26 @@
 #include "../headers/Player.h"
 #include "../headers/Enums.h"
 
-Player::Player(const size_t id, const std::string &tag, const size_t& drawLevel)
-    : Entity(id, tag, drawLevel) {}
+Player::Player(const size_t id, const std::string &tag, const size_t &drawLevel)
+    : Entity(id, tag, drawLevel) { init(); }
 
 void Player::setVelocity(Move x, Move y) {
-    if(x == Move::STAY || y == Move::STAY ) m_transform->setVelocity({0.0f, 0.0f});
+    if (x == Move::STAY || y == Move::STAY) m_transform->setVelocity({0.0f, 0.0f});
 
     if (m_crrFrame > m_frameLastMove + m_updateSpeed) {
         m_frameLastMove = m_crrFrame;
-        m_transform->setVelocity( {static_cast<float>(x) * m_speed, static_cast<float>(y) * m_speed} );
+        m_transform->setVelocity({static_cast<float>(x) * m_speed, static_cast<float>(y) * m_speed});
     }
 }
 
-void Player::incFrame() {
-    m_crrFrame++;
+void Player::incFrame() { m_crrFrame++; }
+
+void Player::onCollide(bool solid) {
+    if (isSolid()) m_transform->goToLastPos();
+}
+
+void Player::showTip(std::ostream &os) const {
+    os << "Player\n";
 }
 
 // void Player::updatePos() {

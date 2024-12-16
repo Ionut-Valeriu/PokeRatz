@@ -14,9 +14,9 @@
 /// - movement
 
 ////////// DEFINITION OF CLASS //////////
-class Player : public Entity{
+class Player : public Entity {
     // speed equal to size so it snaps when move
-    float m_speed = tempShape->getSize().x / 2;
+    float m_speed = tempShape->getSize().x;
 
     size_t m_crrFrame = 0;
     size_t m_frameLastMove = 0;
@@ -29,27 +29,30 @@ class Player : public Entity{
     bool m_right = false;
 
 public:
-
-    Player(size_t id, const std::string &tag, const size_t& drawLevel = 1);
+    Player(size_t id, const std::string &tag, const size_t &drawLevel = 1);
 
     //getters
-    [[nodiscard]] bool up()    const { return m_up;    }
-    [[nodiscard]] bool down()  const { return m_down;  }
-    [[nodiscard]] bool left()  const { return m_left;  }
+    [[nodiscard]] bool up() const { return m_up; }
+    [[nodiscard]] bool down() const { return m_down; }
+    [[nodiscard]] bool left() const { return m_left; }
     [[nodiscard]] bool right() const { return m_right; }
-    [[nodiscard]] float speed()const { return m_speed; }
+    // [[nodiscard]] float speed()const { return m_speed; }
 
     // setters
-    void setUp    (const bool up)    { this->m_up    = up;    }
-    void setDown  (const bool down)  { this->m_down  = down;  }
-    void setLeft  (const bool left)  { this->m_left  = left;  }
-    void setRight (const bool right) { this->m_right = right; }
+    void setUp(const bool up) { this->m_up = up; }
+    void setDown(const bool down) { this->m_down = down; }
+    void setLeft(const bool left) { this->m_left = left; }
+    void setRight(const bool right) { this->m_right = right; }
 
     // methods
     void setVelocity(Move x, Move y);
+
     void incFrame();
 
-    // void updatePos();
+    void onCollide(bool solid) override;
+
+private:
+    void showTip(std::ostream &os) const override;
 };
 
 #endif //PLAYER_H
