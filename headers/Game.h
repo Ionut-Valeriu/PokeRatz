@@ -11,6 +11,7 @@
 #include "Actions.h"
 #include "Assets.h"
 #include "EntityManager.h"
+#include "Player.h"
 
 ////////// DESCRIPTION //////////
 
@@ -77,19 +78,15 @@ class Game {
     bool m_running = true;
     bool m_paused = false;
 
-
     void init(const std::string& path);
     void levelLoader(const std::string& path);
 
-    void sRender();
-
-    void sMovement();
-
-    void sDoActions(const Actions &action);
-
     void sUserInput();
-
+    void sDoActions(const Actions &action);
+    void sCollision();
+    void sMovement();
     void sAnimation();
+    void sRender();
 
     const ActionMap& getActionMap() const;
 
