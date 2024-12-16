@@ -55,23 +55,29 @@ add_executable(${PROJECT_NAME}
         main.cpp
         # headers
         headers/Actions.h
-        headers/Assets.h
         headers/Animation.h
-        headers/Entity.h
+        headers/Assets.h
+        headers/Background.h
         headers/Components.h
+        headers/Entity.h
         headers/EntityManager.h
-        headers/Game.h
-        headers/Player.h
         headers/Enums.h
+        headers/Game.h
+        headers/Monster.h
+        headers/Player.h
+
         # source
         source/Actions.cpp
         source/Animation.cpp
         source/Assets.cpp
+        source/Background.cpp
         source/Components.cpp
         source/Entity.cpp
         source/EntityManager.cpp
         source/Game.cpp
+        source/Monster.cpp
         source/Player.cpp
+
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -80,6 +86,7 @@ include(cmake/CompilerFlags.cmake)
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE headers)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
