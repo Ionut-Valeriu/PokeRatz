@@ -5,11 +5,10 @@
 #include "../headers/Background.h"
 
 Background::Background(size_t id, const std::string &tag, size_t drawLevel)
-        : Entity(id, tag, drawLevel) {init();}
+    : Entity(id, tag, drawLevel) { init(); }
 
-void Background::onCollide() {
-    //todo
-    std::cout << "you hit something\n";
+void Background::onCollide(bool solid) {
+    std::cout << "you hit something " << (solid ? "solid" : "soft") << "\n";
 }
 
 void Background::showTip(std::ostream &os) const {
