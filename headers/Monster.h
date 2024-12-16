@@ -15,7 +15,6 @@ class Monster : public Entity {
 
     public:
     Monster(size_t id, const std::string &tag, size_t drawLevel, size_t points = 0);
-    void init() override;
 
     void onCollide() override;
 

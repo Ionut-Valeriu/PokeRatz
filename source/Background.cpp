@@ -7,12 +7,6 @@
 Background::Background(size_t id, const std::string &tag, size_t drawLevel)
         : Entity(id, tag, drawLevel) {init();}
 
-void Background::init() {
-    tempShape->setOutlineThickness(0);
-    m_solid = true;
-    m_removable = false;
-}
-
 void Background::onCollide() {
     //todo
     std::cout << "you hit something\n";
