@@ -18,7 +18,6 @@
 #include "Player.h"
 
 void Game::init(const std::string &path) {
-
     // initialization controls
     registerAction(sf::Keyboard::Escape, "CLOSE");
     registerAction(sf::Keyboard::W, "UP");
@@ -27,12 +26,15 @@ void Game::init(const std::string &path) {
     registerAction(sf::Keyboard::D, "RIGHT");
     registerAction(sf::Keyboard::P, "PAUSE");
     registerAction(sf::Keyboard::E, "INTERACT");
+    registerAction(sf::Keyboard::Num1, "SPRITES");
+    registerAction(sf::Keyboard::Num2, "SHAPES");
+    registerAction(sf::Keyboard::Num3, "ORIGIN");
 
     // loading assets and settings
-    std::ifstream in { path };
+    std::ifstream in{path};
     std::string keyword;
 
-    while(in >> keyword) {
+    while (in >> keyword) {
         if (keyword == "--") {
             std::getline(in, keyword);
             continue;
@@ -43,9 +45,12 @@ void Game::init(const std::string &path) {
             bool fullscreen;
 
             in >> width >> height >> framerate >> fullscreen >> r_read >> g_read >> b_read;
-            r = r_read; b = b_read; g = g_read;
+            r = r_read;
+            b = b_read;
+            g = g_read;
 
-            m_window.create(sf::VideoMode(width, height), "PokeRatz", fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+            m_window.create(sf::VideoMode(width, height), "PokeRatz",
+                            fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
             m_window.setFramerateLimit(framerate);
 
             m_bgColor = sf::Color{r, g, b};
@@ -71,8 +76,10 @@ void Game::init(const std::string &path) {
 
     auto block = m_entityManager.addEntity<Monster>("monster");
     block->setAnimation(m_assets.getAnimation("MStand"));
-    block->setPosition({block->getWidth()*10.0f + block->getWidth()/2,
-                          static_cast<float>(m_window.getSize().y) - block->getHeight()*10.0f - block->getHeight()/2});
+    block->setPosition({
+        block->getWidth() * 10.0f + block->getWidth() / 2,
+        static_cast<float>(m_window.getSize().y) - block->getHeight() * 10.0f - block->getHeight() / 2
+    });
 
     block->getAnimation()->setRect(sf::IntRect{0, 0, 1 * 16, 1 * 16});
     block->setBorderT(0);
@@ -83,7 +90,7 @@ void Game::init(const std::string &path) {
 }
 
 void Game::levelLoader(const std::string &path) {
-    std::ifstream in (path);
+    std::ifstream in(path);
     std::string keyword;
 
     while (in >> keyword) {
@@ -102,8 +109,10 @@ void Game::levelLoader(const std::string &path) {
 
             m_player = m_entityManager.addEntity<Player>("player", dL);
             m_player->setAnimation(m_assets.getAnimation(defAnim));
-            m_player->setPosition({m_player->getWidth() * X + m_player->getWidth()/2,
-                              static_cast<float>(m_window.getSize().y) - m_player->getHeight()*Y - m_player->getHeight()/2});
+            m_player->setPosition({
+                m_player->getWidth() * X + m_player->getWidth() / 2,
+                static_cast<float>(m_window.getSize().y) - m_player->getHeight() * Y - m_player->getHeight() / 2
+            });
             continue;
         }
         if (keyword == "View") {
@@ -127,8 +136,11 @@ void Game::levelLoader(const std::string &path) {
 
         auto block = m_entityManager.addEntity<Background>(keyword);
         block->setAnimation(m_assets.getAnimation(keyword));
-        block->setPosition({block->getWidth()*static_cast<float>(pos.x) + block->getWidth()/2,
-                              static_cast<float>(m_window.getSize().y) - block->getHeight()*static_cast<float>(pos.y) - block->getHeight()/2});
+        block->setPosition({
+            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() / 2,
+            static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) - block->
+            getHeight() / 2
+        });
 
         block->setRect({0, 0, rect.x * 16, rect.y * 16});
         block->setBorderT(1);
@@ -140,7 +152,7 @@ void Game::run() {
         m_entityManager.update();
 
         sUserInput();
-        if(!m_paused) {
+        if (!m_paused) {
             sMovement();
             sCollision();
             sAnimation();
@@ -154,20 +166,22 @@ void Game::run() {
     }
 }
 
-void Game::sDoActions(const Actions& action) {
+void Game::sDoActions(const Actions &action) {
     if (action.type() == "START") {
-        if      (action.name() == "CLOSE") { onEnd(); }
-        else if (action.name() == "PAUSE") { m_paused = !m_paused; }
-        else if (action.name() == "UP"   ) { m_player->setUp(true); }
-        else if (action.name() == "DOWN" ) { m_player->setDown(true); }
-        else if (action.name() == "LEFT" ) { m_player->setLeft(true); }
-        else if (action.name() == "RIGHT") { m_player->setRight(true); }
-    }
-    else if (action.type() == "END") {
-        if      (action.name() == "UP"   ) { m_player->setUp(false); }
-        else if (action.name() == "DOWN" ) { m_player->setDown(false); }
-        else if (action.name() == "LEFT" ) { m_player->setLeft(false); }
-        else if (action.name() == "RIGHT") { m_player->setRight(false); }
+        if (action.name() == "UP") { m_player->setUp(true); } else if (
+            action.name() == "DOWN") { m_player->setDown(true); } else if (
+            action.name() == "LEFT") { m_player->setLeft(true); } else if (
+            action.name() == "RIGHT") { m_player->setRight(true); } else if (
+            action.name() == "SPRITES") { m_drawSprites = !m_drawSprites; } else if (
+            action.name() == "SHAPES") { m_drawOutline = !m_drawOutline; } else if (
+            action.name() == "ORIGIN") { m_drawOrigin = !m_drawOrigin; } else if (action.name() == "PAUSE") {
+            m_paused = !m_paused;
+        } else if (action.name() == "CLOSE") { onEnd(); }
+    } else if (action.type() == "END") {
+        if (action.name() == "UP") { m_player->setUp(false); } else if (
+            action.name() == "DOWN") { m_player->setDown(false); } else if (action.name() == "LEFT") {
+            m_player->setLeft(false);
+        } else if (action.name() == "RIGHT") { m_player->setRight(false); }
     }
 }
 
@@ -191,27 +205,28 @@ void Game::sUserInput() {
     }
 }
 
-void Game::sAnimation()  {
+void Game::sAnimation() {
     std::string animationName;
 
     switch (m_player->state()) {
         case State::UP:
             animationName = "PUp";
-        break;
+            break;
 
-        case State::DOWN:   case State::STAND:
+        case State::DOWN:
+        case State::STAND:
             animationName = "PStand";
-        break;
+            break;
 
         case State::LEFT:
             animationName = "PSide";
             m_player->setScale({-5.0f, 5.0f});
-        break;
+            break;
 
         case State::RIGHT:
             animationName = "PSide";
             m_player->setScale({5.0f, 5.0f});
-        break;
+            break;
     }
 
     m_player->getAnimation()->setScale(m_player->getScale());
@@ -224,14 +239,16 @@ void Game::sAnimation()  {
     m_player->updateAnimation();
 
     // todo - all E
-
 }
 
 void Game::sCollision() {
-    for(auto& e : m_entityManager.getEntities()) {
-        if(e->isSolid() && m_player->collide(*e)) {
-            m_player->onCollide();
-            e->onCollide();
+    auto vec = m_entityManager.getEntities();
+    for (auto e1 = vec.begin(); e1 + 1 != vec.end(); e1++) {
+        for (auto e2 = e1 + 1; e2 != vec.end(); e2++) {
+            if ((*e1)->collide(**e2)) {
+                (*e1)->onCollide((*e2)->isSolid());
+                (*e2)->onCollide((*e1)->isSolid());
+            }
         }
     }
 }
@@ -241,9 +258,9 @@ void Game::sRender() {
     m_view.setCenter(m_player->getX(), m_player->getY());
     m_window.setView(m_view);
 
-    for (size_t i = 1; i <= m_entityManager.getMaxDrawLevel(); i++ ) {
+    for (size_t i = 1; i <= m_entityManager.getMaxDrawLevel(); i++) {
         for (const std::shared_ptr<Entity> &e: m_entityManager.getEntitiesOnLevel(i)) {
-            e->draw(m_window);
+            e->draw(m_window, m_drawSprites, m_drawOutline, m_drawOrigin);
         }
     }
 
@@ -255,58 +272,33 @@ void Game::sMovement() {
     auto y = Move::STAY;
 
     if (m_player->up()) {
-        // if (m_player->getY() > m_player->getHeight()/2 + 80.0f) {
-            m_player->setState(State::UP);
-            y = Move::REVERSE;
-        // }
-    }
-    else if (m_player->down()) {
-        // if(m_player->getY()+m_player->getHeight()/2+m_player->speed()
-        //     < static_cast<float>(m_window.getSize().y) * 2.0f + 40.0f)
-        // {
-            m_player->setState(State::DOWN);
-            y = Move::GO;
-        // }
-    }
-    else if (m_player->left()) {
-        // if(m_player->getX() > m_player->getWidth()/2 + 80.0f) {
-            m_player->setState(State::LEFT);
-            x = Move::REVERSE;
-        // }
-    }
-    else if (m_player->right()) {
-        // if(m_player->getX()+m_player->getWidth()/2+m_player->speed()
-        //     < static_cast<float>(m_window.getSize().x) - 40.0f)
-        // {
-            m_player->setState(State::RIGHT);
-            x = Move::GO;
-        // }
+        m_player->setState(State::UP);
+        y = Move::REVERSE;
+    } else if (m_player->down()) {
+        m_player->setState(State::DOWN);
+        y = Move::GO;
+    } else if (m_player->left()) {
+        m_player->setState(State::LEFT);
+        x = Move::REVERSE;
+    } else if (m_player->right()) {
+        m_player->setState(State::RIGHT);
+        x = Move::GO;
     }
 
     if (x == Move::STAY && y == Move::STAY) {
         m_player->setState(State::STAND);
     }
-
     m_player->setVelocity(x, y);
 
-    // todo - for all e
-    // for (const auto &e : m_entityManager.getEntities("player")) {}
-    m_player->updatePos();
-
-}
-
-const ActionMap & Game::getActionMap() const {
-    return m_actions;
+    for (const auto &e: m_entityManager.getEntities()) {
+        e->updatePos();
+    }
 }
 
 void Game::registerAction(int inputKey, const std::string &actionName) {
     m_actions.insert({inputKey, actionName});
 }
 
-void Game::onEnd() {
-    m_running = false;
-}
+void Game::onEnd() { m_running = false; }
 
-Game::Game(const std::string &path) {
-    init(path);
-}
+Game::Game(const std::string &path) { init(path); }

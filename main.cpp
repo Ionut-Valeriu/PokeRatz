@@ -1,9 +1,8 @@
 #include <SFML/Graphics.hpp>
 
-#include "headers/Game.h"
+#include "Game.h"
 
 int main() {
-
     Game g("resources/config/config.txt");
     g.run();
 

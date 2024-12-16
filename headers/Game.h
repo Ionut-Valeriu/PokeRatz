@@ -78,30 +78,38 @@ class Game {
     bool m_running = true;
     bool m_paused = false;
 
-    void init(const std::string& path);
-    void levelLoader(const std::string& path);
+    bool m_drawSprites = true;
+    bool m_drawOutline = true;
+    bool m_drawOrigin = true;
+
+    void init(const std::string &path);
+
+    void levelLoader(const std::string &path);
 
     void sUserInput();
+
     void sDoActions(const Actions &action);
+
     void sCollision();
+
     void sMovement();
+
     void sAnimation();
+
     void sRender();
 
-    const ActionMap& getActionMap() const;
+    const ActionMap &getActionMap() const { return m_actions; }
 
     // scene play related
-    void registerAction (int inputKey, const std::string& actionName);
+    void registerAction(int inputKey, const std::string &actionName);
 
     void onEnd();
 
 public:
-    explicit Game(const std::string& path);
+    explicit Game(const std::string &path);
+
     void run();
-
-
 };
-
 
 
 #endif //GAME_H
