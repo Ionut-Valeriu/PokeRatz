@@ -13,7 +13,7 @@ class Monster : public Entity {
     // size_t points = 0;
 
 public:
-    Monster(size_t id, const std::string &tag, size_t drawLevel, size_t points = 0);
+    Monster(size_t id, const std::string &tag, size_t drawLevel);
 
     void onCollide(bool solid) override;
 
