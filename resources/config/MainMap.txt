@@ -14,7 +14,7 @@ Block 5 5 1 9 21 6
 
 Grass 5 5 4 7 17 5
 
-Player PStand 3 2 2
+Player PStand 5 5 3 2 1
 View 1920 1080
 Sound Main 1
 

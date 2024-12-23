@@ -17,24 +17,24 @@
 ////////// DEFINITION OF CLASS //////////
 class Component {
 protected:
-    bool m_exist = false;
+    bool m_exist;
 
 public:
-    [[nodiscard]] bool has() const;
-
-    Component() = default;
-
-    explicit Component(bool m_exist);
+    // constructors & operators & destructors
+    explicit Component(bool m_exist = true);
 
     Component(const Component &other);
 
     Component &operator=(const Component &other);
 
+    ~Component() = default;
+
+    // other functions
+    [[nodiscard]] bool has() const;
+
     friend std::ostream &operator<<(std::ostream &os, const Component &obj) {
         return os << "m_exist: " << obj.m_exist;
     }
-
-    ~Component() = default;
 };
 
 ////////// DESCRIPTION //////////
@@ -51,21 +51,44 @@ class CTransform : public Component {
 public:
     CTransform() = default;
 
+    CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale);
+
+    // getters
     [[nodiscard]] const sf::Vector2f &getPosition() const;
 
     [[nodiscard]] const sf::Vector2f &getScale() const;
 
+    // setters
     void setPosition(const sf::Vector2f &position);
 
     void setVelocity(const sf::Vector2f &velocity);
 
     void setScale(const sf::Vector2f &scale);
 
+    // other functions
     void updatePos();
 
     void goToLastPos();
+};
 
-    CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale);
+////////// DESCRIPTION //////////
+
+///
+
+////////// DEFINITION OF CLASS //////////
+class CBoundingBox : public Component {
+    sf::IntRect m_boundingRect;
+
+public:
+    CBoundingBox() = default;
+
+    // [[nodiscard]] sf::IntRect getBoundingRect() const {
+    //     return m_boundingRect;
+    // }
+
+    void setBoundingRect(const sf::IntRect &m_bounding_box) {
+        m_boundingRect = m_bounding_box;
+    }
 };
 
 #endif //COMPONENTS_H

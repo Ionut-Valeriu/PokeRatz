@@ -36,6 +36,7 @@ protected:
 
     // size 16
     std::shared_ptr<CTransform> m_transform;
+    std::shared_ptr<CBoundingBox> m_boundingBox;
     std::shared_ptr<sf::RectangleShape> tempShape;
     std::shared_ptr<sf::CircleShape> m_origin;
     std::shared_ptr<Animation> m_animation;
@@ -56,7 +57,6 @@ public:
     void setRect(sf::IntRect rect);
 
     void draw(sf::RenderWindow &window, bool s, bool r, bool o) const;
-
 
     // getters
     [[nodiscard]] size_t id() const { return m_id; }

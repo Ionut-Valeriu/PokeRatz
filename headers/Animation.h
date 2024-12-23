@@ -24,9 +24,6 @@ class Animation {
     // size 32
     std::string m_name = "none";
 
-    // size 16
-    sf::IntRect m_rect;
-
     // size 8
     sf::Vector2f m_size = { 1, 1 };
     sf::Vector2f m_scale = { 5.0f, 5.0f };
@@ -36,13 +33,12 @@ class Animation {
 
 public:
     // constructors
-    Animation(); // plain animation - just for fast tests
+    Animation() = default;
     Animation (const std::string &name, const sf::Texture &t); // static sprite
     Animation (std::string name, const sf::Texture &t, size_t frameCount, size_t speed); // moving animation
 
     // methods
     void update();
-    // bool hasEnded() const;
 
     // getters
     const std::string &getName() const;
@@ -52,8 +48,6 @@ public:
     // setters
     void setScale (const sf::Vector2f &scale);
     void setRect (const sf::IntRect &rect);
-    void setRect (const sf::Vector2i &v1, const sf::Vector2i &v2);
-    void setRect (int i1, int i2, int i3, int i4);
 
     friend std::ostream & operator<<(std::ostream &os, const Animation &obj);
 };

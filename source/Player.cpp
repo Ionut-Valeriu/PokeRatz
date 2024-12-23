@@ -6,7 +6,9 @@
 #include "../headers/Enums.h"
 
 Player::Player(const size_t id, const std::string &tag, const size_t &drawLevel)
-    : Entity(id, tag, drawLevel) { init(); }
+    : Entity(id, tag, drawLevel) {
+    // init();
+}
 
 void Player::setVelocity(Move x, Move y) {
     if (x == Move::STAY || y == Move::STAY) m_transform->setVelocity({0.0f, 0.0f});
@@ -20,6 +22,7 @@ void Player::setVelocity(Move x, Move y) {
 void Player::incFrame() { m_crrFrame++; }
 
 void Player::onCollide(bool solid) {
+    std::cout << "ouch\n";
     if (solid) m_transform->goToLastPos();
 }
 

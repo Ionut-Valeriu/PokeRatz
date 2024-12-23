@@ -16,7 +16,9 @@
 ////////// DEFINITION OF CLASS //////////
 class Player : public Entity {
     // speed equal to size so it snaps when move
-    float m_speed = tempShape->getSize().x;
+    // todo
+    // float m_speed = tempShape->getSize().x;
+    float m_speed = 80.0f;
 
     size_t m_crrFrame = 0;
     size_t m_frameLastMove = 0;

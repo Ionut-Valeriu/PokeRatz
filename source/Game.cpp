@@ -75,13 +75,14 @@ void Game::init(const std::string &path) {
     m_font = m_assets.getFont("Arial");
 
     auto block = m_entityManager.addEntity<Monster>("monster");
+    block->init();
     block->setAnimation(m_assets.getAnimation("MStand"));
     block->setPosition({
         block->getWidth() * 10.0f + block->getWidth() / 2,
         static_cast<float>(m_window.getSize().y) - block->getHeight() * 10.0f - block->getHeight() / 2
     });
 
-    block->getAnimation()->setRect(sf::IntRect{0, 0, 1 * 16, 1 * 16});
+    block->setRect(sf::IntRect{0, 0, 1 * 16, 1 * 16});
     block->setBorderT(0);
     //
 
@@ -100,21 +101,7 @@ void Game::levelLoader(const std::string &path) {
         }
 
         std::cout << "Loading " << keyword << "\n";
-        if (keyword == "Player") {
-            std::string defAnim;
-            float X, Y;
-            size_t dL;
 
-            in >> defAnim >> dL >> X >> Y;
-
-            m_player = m_entityManager.addEntity<Player>("player", dL);
-            m_player->setAnimation(m_assets.getAnimation(defAnim));
-            m_player->setPosition({
-                m_player->getWidth() * X + m_player->getWidth() / 2,
-                static_cast<float>(m_window.getSize().y) - m_player->getHeight() * Y - m_player->getHeight() / 2
-            });
-            continue;
-        }
         if (keyword == "View") {
             float W, H;
             in >> W >> H;
@@ -129,21 +116,48 @@ void Game::levelLoader(const std::string &path) {
             m_sound.setLoop(looping);
             continue;
         }
+        if (keyword == "Player") {
+            std::string defAnim;
+            sf::Vector2f scale;
+            float X, Y;
+            size_t dL;
+
+            in >> defAnim >> scale.x >> scale.y >> dL >> X >> Y;
+
+            m_player = m_entityManager.addEntity<Player>("player", dL);
+            m_player->init();
+            m_player->setAnimation(m_assets.getAnimation(defAnim));
+            m_player->setPosition({
+                m_player->getWidth() * X + m_player->getWidth() / 2,
+                static_cast<float>(m_window.getSize().y) - m_player->getHeight() * Y - m_player->getHeight() / 2
+            });
+
+            m_player->setScale(scale);
+            continue;
+        }
 
         // else choose an animation for a non-moving entity
-        sf::Vector2i scale, rect, pos;
+        sf::Vector2f scale;
+        sf::Vector2i rect, pos;
+
         in >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
 
         auto block = m_entityManager.addEntity<Background>(keyword);
+        block->init();
         block->setAnimation(m_assets.getAnimation(keyword));
         block->setPosition({
-            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() / 2,
-            static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) - block->
-            getHeight() / 2
-        });
 
+            // block->getAnimation()->getSprite().getGlobalBounds().width / 2.0f + block->getWidth() * static_cast<float>(pos.x)
+            // static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) - block->
+            // getHeight() / 2
+
+            // * int rect
+            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() * rect.x / 2,
+            static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) +
+            block->getHeight() * rect.y / 2
+        });
         block->setRect({0, 0, rect.x * 16, rect.y * 16});
-        block->setBorderT(1);
+        // block->setScale(scale);
     }
 }
 

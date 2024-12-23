@@ -8,7 +8,9 @@ Background::Background(size_t id, const std::string &tag, size_t drawLevel)
     : Entity(id, tag, drawLevel) { init(); }
 
 void Background::onCollide(bool solid) {
-    std::cout << "you hit something " << (solid ? "solid" : "soft") << "\n";
+    if (solid) { std::cout << "solid" << std::endl; }
+    std::cout << "obj at " << m_transform->getPosition().x << "," << m_transform->getPosition().y << std::endl;
+    // std::cout << "you hit something " << (solid ? "solid" : "soft") << "\n";
 }
 
 void Background::showTip(std::ostream &os) const {

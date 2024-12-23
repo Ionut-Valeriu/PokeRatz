@@ -6,45 +6,53 @@
 
 Entity::Entity(const size_t id, std::string tag, const size_t drawLevel = 1)
     : m_tag(std::move(tag)), m_id(id), m_drawLevel(drawLevel) {
-    init();
+    // init();
 }
 
 void Entity::init() {
-    m_transform = std::make_shared<CTransform>(sf::Vector2f{200, 200},
-                                               sf::Vector2f{0, 0}, sf::Vector2f{5.0f, 5.0f});
+    // m_transform = std::make_shared<CTransform>(sf::Vector2f{200, 200},
+    // sf::Vector2f{0, 0}, sf::Vector2f{5.0f, 5.0f});
+
+    m_transform = std::make_shared<CTransform>();
+    m_boundingBox = std::make_shared<CBoundingBox>();
+
     tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{80, 80});
-    tempShape->setFillColor(sf::Color{0, 0, 0, 0});
-    tempShape->setOrigin(sf::Vector2f(40, 40));
-    tempShape->setOutlineColor(sf::Color{255, 255, 255, 255});
-    tempShape->setOutlineThickness(2);
+    tempShape->setFillColor({0, 0, 0, 0}); // transparent interor/fill
+    tempShape->setOutlineColor(sf::Color{255, 255, 255, 255}); // white outline
+    tempShape->setOutlineThickness(1); // dimension of the outline
+
+    tempShape->setOrigin(sf::Vector2f(tempShape->getSize() / 2.0f));
+
 
     m_origin = std::make_shared<sf::CircleShape>(5.0f);
     m_origin->setFillColor(sf::Color{255, 255, 255, 255});
     m_origin->setOrigin(sf::Vector2f(m_origin->getRadius() / 2.0f, m_origin->getRadius() / 2.0f));
-    m_origin->setPosition(tempShape->getOrigin());
+    m_origin->setPosition(tempShape->getPosition());
 }
 
 void Entity::setRect(sf::IntRect rect) {
+    // m_rectttt = rect;
+    m_boundingBox->setBoundingRect(rect);
     m_animation->setRect(rect);
+
     tempShape->setSize(sf::Vector2f(rect.width * m_animation->getSprite().getScale().x,
                                     rect.height * m_animation->getSprite().getScale().y));
-    // tempShape->setOrigin(sf::Vector2f(rect.width / 2, rect.height / 2));
+
+    // tempShape->setSize(sf::Vector2f(rect.width ,rect.height ));
+    tempShape->setOrigin(sf::Vector2f(tempShape->getSize().x / 2, tempShape->getSize().y / 2));
+
+    // m_origin->setPosition(tempShape->getPosition());
 }
 
 void Entity::draw(sf::RenderWindow &window, bool s, bool r, bool o) const {
     tempShape->setPosition(m_transform->getPosition());
+    m_origin->setPosition(m_animation->getSprite().getPosition());
+
     m_animation->getSprite().setPosition(m_transform->getPosition());
 
-    if (s) {
-        window.draw(m_animation->getSprite());
-    }
-    if (r) {
-        window.draw(*tempShape);
-    }
-    if (o) {
-        // todo
-        window.draw(*m_origin);
-    }
+    if (s) { window.draw(m_animation->getSprite()); }
+    if (r) { window.draw(*tempShape); }
+    if (o) { window.draw(*m_origin); }
 }
 
 std::shared_ptr<Animation> Entity::getAnimation() const {
@@ -52,9 +60,15 @@ std::shared_ptr<Animation> Entity::getAnimation() const {
 }
 
 bool Entity::collide(const Entity &other) const {
-    // todo
-    if (m_transform->getPosition().x == other.m_transform->getPosition().x &&
-        m_transform->getPosition().y == other.m_transform->getPosition().y) {
+    auto p = tempShape->getSize();
+    auto o = other.tempShape->getSize();
+    sf::Vector2f hp = {p.x / 2, p.y / 2};
+    sf::Vector2f ho = {o.x / 2, o.y / 2};
+
+    auto dx = abs(m_transform->getPosition().x - other.m_transform->getPosition().x);
+    auto dy = abs(m_transform->getPosition().y - other.m_transform->getPosition().y);
+
+    if (hp.x + ho.x > dx && hp.y + ho.y > dy) {
         return true;
     }
     return false;
@@ -74,7 +88,9 @@ float Entity::getHeight() const {
 void Entity::setScale(const sf::Vector2f &scale) const {
     m_transform->setScale(scale);
     // m_animation->setScale(scale);
+    // tempShape->setSize({ tempShape->getSize().x * scale.x, tempShape->getSize().y * scale.y });
     // tempShape->setScale(scale);
+    // tempShape->setOutlineThickness(1);
 }
 
 sf::Vector2f Entity::getScale() const {
@@ -83,6 +99,8 @@ sf::Vector2f Entity::getScale() const {
 
 void Entity::setPosition(const sf::Vector2f &position) const {
     m_transform->setPosition(position);
+    // tempShape->setPosition(m_transform->getPosition());
+    // m_origin->setPosition(tempShape->getOrigin());
 }
 
 void Entity::setBorderT(const int thickness) const {
