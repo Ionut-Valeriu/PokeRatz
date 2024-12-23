@@ -79,8 +79,8 @@ class Game {
     bool m_paused = false;
 
     bool m_drawSprites = true;
-    bool m_drawOutline = true;
-    bool m_drawOrigin = true;
+    bool m_drawOutline = false;
+    bool m_drawOrigin = false;
 
     void init(const std::string &path);
 

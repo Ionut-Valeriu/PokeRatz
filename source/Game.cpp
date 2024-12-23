@@ -61,7 +61,7 @@ void Game::init(const std::string &path) {
         } else if (keyword == "Level") {
             std::string levelPath;
             in >> levelPath;
-            levelLoader("resources/config/MainMap.txt");
+            levelLoader(levelPath);
         } else {
             std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
             exit(1);
@@ -91,60 +91,63 @@ void Game::init(const std::string &path) {
 }
 
 void Game::levelLoader(const std::string &path) {
+    std::cout << "Loading level " << path << "\n";
+
     std::ifstream in(path);
-    std::string keyword;
+    char type;
 
-    while (in >> keyword) {
-        if (keyword == "--") {
-            std::getline(in, keyword);
-            continue;
-        }
-
-        std::cout << "Loading " << keyword << "\n";
-
-        if (keyword == "View") {
-            float W, H;
-            in >> W >> H;
-            m_view.reset({0, 0, W, H});
-            continue;
-        }
-        if (keyword == "Sound") {
-            std::string musicName;
-            bool looping;
-            in >> musicName >> looping;
-            m_sound = m_assets.getSound(musicName);
-            m_sound.setLoop(looping);
-            continue;
-        }
-        if (keyword == "Player") {
-            std::string defAnim;
-            sf::Vector2f scale;
-            float X, Y;
-            size_t dL;
-
-            in >> defAnim >> scale.x >> scale.y >> dL >> X >> Y;
-
-            m_player = m_entityManager.addEntity<Player>("player", dL);
-            m_player->init();
-            m_player->setAnimation(m_assets.getAnimation(defAnim));
-            m_player->setPosition({
-                m_player->getWidth() * X + m_player->getWidth() / 2,
-                static_cast<float>(m_window.getSize().y) - m_player->getHeight() * Y - m_player->getHeight() / 2
-            });
-
-            m_player->setScale(scale);
-            continue;
-        }
-
-        // else choose an animation for a non-moving entity
+    while (in >> type) {
         sf::Vector2f scale;
         sf::Vector2i rect, pos;
+        std::string animation;
 
-        in >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
+        std::shared_ptr<Entity> block;
 
-        auto block = m_entityManager.addEntity<Background>(keyword);
+        // The cases are ordered by frequency of occurrence,
+        // from the most frequent to the least frequent.
+        switch (type) {
+            // background
+            case 'B':
+                block = m_entityManager.addEntity<Background>("Background");
+                break;
+            // monster
+            case 'M':
+                block = m_entityManager.addEntity<Monster>("Monster");
+                break;
+            // player
+            case 'P':
+                m_player = m_entityManager.addEntity<Player>("Player", 3);
+                block = m_player;
+                break;
+            // comments
+            case '-': { continue; }
+            // sound
+            case 'S': {
+                std::string musicName;
+                bool looping;
+                in >> musicName >> looping;
+                std::cout << musicName << "\n";
+                m_sound = m_assets.getSound(musicName);
+                m_sound.setLoop(looping);
+                continue;
+            }
+            // view
+            case 'V': {
+                float W, H;
+                in >> W >> H;
+                m_view.reset({0, 0, W, H});
+                continue;
+            }
+            default:
+                std::cerr << "Unrecognized character: " << type << "in the level loader\n";
+                exit(1);
+        }
+
+        std::cout << type << "\n";;
+        in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
+
         block->init();
-        block->setAnimation(m_assets.getAnimation(keyword));
+        block->setAnimation(m_assets.getAnimation(animation));
         block->setPosition({
 
             // block->getAnimation()->getSprite().getGlobalBounds().width / 2.0f + block->getWidth() * static_cast<float>(pos.x)
@@ -157,7 +160,7 @@ void Game::levelLoader(const std::string &path) {
             block->getHeight() * rect.y / 2
         });
         block->setRect({0, 0, rect.x * 16, rect.y * 16});
-        // block->setScale(scale);
+        block->setScale(scale);
     }
 }
 
