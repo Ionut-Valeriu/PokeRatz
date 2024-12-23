@@ -17,8 +17,7 @@
 class Player : public Entity {
     // speed equal to size so it snaps when move
     // todo
-    // float m_speed = tempShape->getSize().x;
-    float m_speed = 80.0f;
+    float m_speed = tempShape->getSize().x;
 
     size_t m_crrFrame = 0;
     size_t m_frameLastMove = 0;
@@ -31,7 +30,7 @@ class Player : public Entity {
     bool m_right = false;
 
 public:
-    Player(size_t id, const std::string &tag, const size_t &drawLevel = 1);
+    explicit Player(size_t id,const size_t &drawLevel = 3);
 
     //getters
     [[nodiscard]] bool up() const { return m_up; }

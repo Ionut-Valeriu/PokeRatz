@@ -31,7 +31,6 @@
 class Entity {
 protected:
     // size 32
-    std::string m_tag = "default";
     State m_state = State::STAND;
 
     // size 16
@@ -50,7 +49,7 @@ protected:
     bool m_solid = true; // this will push the player back
 
 public:
-    Entity(size_t id, std::string tag, size_t drawLevel);
+    Entity(size_t id, size_t drawLevel);
 
     void init();
 
@@ -61,7 +60,6 @@ public:
     // getters
     [[nodiscard]] size_t id() const { return m_id; }
     [[nodiscard]] size_t level() const { return m_drawLevel; }
-    [[nodiscard]] const std::string &tag() const { return m_tag; }
     [[nodiscard]] bool active() const { return m_active; }
     [[nodiscard]] State state() const { return m_state; }
 
@@ -83,16 +81,17 @@ public:
 
     [[nodiscard]] sf::Vector2f getScale() const;
 
+
+    // setters
     void setScale(const sf::Vector2f &scale) const;
 
     void setPosition(const sf::Vector2f &position) const;
 
-    void setBorderT(int thickness) const;
-
-    // setters
     void setAnimation(Animation &anim);
 
     void setState(const State &state);
+
+    void setSolidity(bool solid);
 
     // updates
     void updatePos() const;

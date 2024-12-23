@@ -9,7 +9,7 @@
 
 class Background : public Entity {
 public:
-    Background(size_t id, const std::string &tag, size_t drawLevel);
+    explicit Background(size_t id, size_t drawLevel = 1);
 
     void onCollide(bool solid) override;
 

@@ -51,7 +51,7 @@ const std::string &Animation::getName() const { return m_name; }
 
 const sf::Vector2f &Animation::getSize() const { return m_size; }
 
-sf::Sprite &Animation::getSprite() { return m_sprite; }
+sf::Sprite & Animation::getSprite() { return m_sprite; }
 
 void Animation::setScale(const sf::Vector2f &scale) {
     m_scale = scale;

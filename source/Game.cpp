@@ -73,17 +73,6 @@ void Game::init(const std::string &path) {
 
     // todo - remove - only for cppcheck
     m_font = m_assets.getFont("Arial");
-
-    auto block = m_entityManager.addEntity<Monster>("monster");
-    block->init();
-    block->setAnimation(m_assets.getAnimation("MStand"));
-    block->setPosition({
-        block->getWidth() * 10.0f + block->getWidth() / 2,
-        static_cast<float>(m_window.getSize().y) - block->getHeight() * 10.0f - block->getHeight() / 2
-    });
-
-    block->setRect(sf::IntRect{0, 0, 1 * 16, 1 * 16});
-    block->setBorderT(0);
     //
 
 
@@ -97,9 +86,7 @@ void Game::levelLoader(const std::string &path) {
     char type;
 
     while (in >> type) {
-        sf::Vector2f scale;
-        sf::Vector2i rect, pos;
-        std::string animation;
+
 
         std::shared_ptr<Entity> block;
 
@@ -108,19 +95,23 @@ void Game::levelLoader(const std::string &path) {
         switch (type) {
             // background
             case 'B':
-                block = m_entityManager.addEntity<Background>("Background");
+                block = m_entityManager.addEntity<Background>(1);
                 break;
             // monster
             case 'M':
-                block = m_entityManager.addEntity<Monster>("Monster");
+                block = m_entityManager.addEntity<Monster>(2);
                 break;
             // player
             case 'P':
-                m_player = m_entityManager.addEntity<Player>("Player", 3);
+                m_player = m_entityManager.addEntity<Player>(3);
                 block = m_player;
                 break;
             // comments
-            case '-': { continue; }
+            case '-': {
+                std::string rest;
+                std::getline(in, rest);
+                continue;
+            }
             // sound
             case 'S': {
                 std::string musicName;
@@ -144,23 +135,24 @@ void Game::levelLoader(const std::string &path) {
         }
 
         std::cout << type << "\n";;
-        in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y;
 
-        block->init();
+        sf::Vector2f scale;
+        sf::Vector2i rect, pos;
+        std::string animation;
+        bool solid;
+
+        in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
+
+        // block->init();
         block->setAnimation(m_assets.getAnimation(animation));
         block->setPosition({
-
-            // block->getAnimation()->getSprite().getGlobalBounds().width / 2.0f + block->getWidth() * static_cast<float>(pos.x)
-            // static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) - block->
-            // getHeight() / 2
-
-            // * int rect
             block->getWidth() * static_cast<float>(pos.x) + block->getWidth() * rect.x / 2,
             static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) +
             block->getHeight() * rect.y / 2
         });
         block->setRect({0, 0, rect.x * 16, rect.y * 16});
         block->setScale(scale);
+        block->setSolidity(solid);
     }
 }
 

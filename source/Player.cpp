@@ -5,9 +5,8 @@
 #include "../headers/Player.h"
 #include "../headers/Enums.h"
 
-Player::Player(const size_t id, const std::string &tag, const size_t &drawLevel)
-    : Entity(id, tag, drawLevel) {
-    // init();
+Player::Player(const size_t id, const size_t &drawLevel)
+    : Entity(id, drawLevel) {
 }
 
 void Player::setVelocity(Move x, Move y) {
@@ -22,7 +21,6 @@ void Player::setVelocity(Move x, Move y) {
 void Player::incFrame() { m_crrFrame++; }
 
 void Player::onCollide(bool solid) {
-    std::cout << "ouch\n";
     if (solid) m_transform->goToLastPos();
 }
 

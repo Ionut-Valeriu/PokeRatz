@@ -5,8 +5,10 @@
 #include "Entity.h"
 #include "Monster.h"
 
-Monster::Monster(size_t id, const std::string &tag, size_t drawLevel)
-    : Entity(id, tag, drawLevel) { init(); }
+Monster::Monster(size_t id,// const std::string &tag,
+    size_t drawLevel)
+    : Entity(id, //tag,
+        drawLevel) { init(); }
 
 void Monster::onCollide(bool solid) {
     if (solid) { m_transform->goToLastPos(); } else {

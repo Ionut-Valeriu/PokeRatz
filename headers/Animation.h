@@ -25,8 +25,8 @@ class Animation {
     std::string m_name = "none";
 
     // size 8
-    sf::Vector2f m_size = { 1, 1 };
-    sf::Vector2f m_scale = { 5.0f, 5.0f };
+    sf::Vector2f m_size = {1, 1};
+    sf::Vector2f m_scale = {5.0f, 5.0f};
     size_t m_animationFrame = 1;
     size_t m_gameFrame = 0;
     size_t m_speed = 1;
@@ -34,22 +34,26 @@ class Animation {
 public:
     // constructors
     Animation() = default;
-    Animation (const std::string &name, const sf::Texture &t); // static sprite
-    Animation (std::string name, const sf::Texture &t, size_t frameCount, size_t speed); // moving animation
+
+    Animation(const std::string &name, const sf::Texture &t); // static sprite
+    Animation(std::string name, const sf::Texture &t, size_t frameCount, size_t speed); // moving animation
 
     // methods
     void update();
 
     // getters
     const std::string &getName() const;
+
     const sf::Vector2f &getSize() const;
+
     sf::Sprite &getSprite();
 
     // setters
-    void setScale (const sf::Vector2f &scale);
-    void setRect (const sf::IntRect &rect);
+    void setScale(const sf::Vector2f &scale);
 
-    friend std::ostream & operator<<(std::ostream &os, const Animation &obj);
+    void setRect(const sf::IntRect &rect);
+
+    friend std::ostream &operator<<(std::ostream &os, const Animation &obj);
 };
 
 #endif //ANIMATION_H

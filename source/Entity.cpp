@@ -4,29 +4,22 @@
 
 #include "Entity.h"
 
-Entity::Entity(const size_t id, std::string tag, const size_t drawLevel = 1)
-    : m_tag(std::move(tag)), m_id(id), m_drawLevel(drawLevel) {
-    // init();
+Entity::Entity(const size_t id, const size_t drawLevel = 1)
+    : m_id(id), m_drawLevel(drawLevel) {
+    init();
 }
 
 void Entity::init() {
-    // m_transform = std::make_shared<CTransform>(sf::Vector2f{200, 200},
-    // sf::Vector2f{0, 0}, sf::Vector2f{5.0f, 5.0f});
-
     m_transform = std::make_shared<CTransform>();
     m_boundingBox = std::make_shared<CBoundingBox>();
 
     tempShape = std::make_shared<sf::RectangleShape>(sf::Vector2f{80, 80});
     tempShape->setFillColor({0, 0, 0, 0}); // transparent interor/fill
-    tempShape->setOutlineColor(sf::Color{255, 255, 255, 255}); // white outline
     tempShape->setOutlineThickness(1); // dimension of the outline
-
-    tempShape->setOrigin(sf::Vector2f(tempShape->getSize() / 2.0f));
-
+    tempShape->setOrigin({tempShape->getSize() / 2.0f});
 
     m_origin = std::make_shared<sf::CircleShape>(5.0f);
-    m_origin->setFillColor(sf::Color{255, 255, 255, 255});
-    m_origin->setOrigin(sf::Vector2f(m_origin->getRadius() / 2.0f, m_origin->getRadius() / 2.0f));
+    m_origin->setOrigin({m_origin->getRadius() / 2.0f, m_origin->getRadius() / 2.0f});
     m_origin->setPosition(tempShape->getPosition());
 }
 
@@ -103,10 +96,6 @@ void Entity::setPosition(const sf::Vector2f &position) const {
     // m_origin->setPosition(tempShape->getOrigin());
 }
 
-void Entity::setBorderT(const int thickness) const {
-    tempShape->setOutlineThickness(static_cast<float>(thickness));
-}
-
 void Entity::updatePos() const {
     if (m_transform->has()) {
         m_transform->updatePos();
@@ -129,6 +118,10 @@ void Entity::setState(const State &state) {
     m_state = state;
 }
 
+void Entity::setSolidity(const bool solid) {
+    m_solid = solid;
+}
+
 void Entity::remove() { m_active = false; }
 
 std::ostream &operator<<(std::ostream &os, const Entity &obj) {
@@ -136,7 +129,7 @@ std::ostream &operator<<(std::ostream &os, const Entity &obj) {
 
     obj.showTip(os);
 
-    os << "\n m_id: " << obj.m_id << "; m_tag: " << obj.m_tag
+    os << "\n m_id: " << obj.m_id
             << "\n m_transform: " << obj.m_transform->getPosition().x
             << "\n tempShape: " << obj.tempShape << " size: " << sizeof(obj.tempShape)
             << "\n m_active: " << obj.m_active << " size: " << sizeof(obj.m_active)
