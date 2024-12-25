@@ -259,6 +259,14 @@ void Game::sCollision() {
     for (auto e1 = vec.begin(); e1 + 1 != vec.end(); e1++) {
         for (auto e2 = e1 + 1; e2 != vec.end(); e2++) {
             if ((*e1)->collide(**e2)) {
+                if (auto m1 = std::dynamic_pointer_cast<Monster>(*e1)){
+                    std::cout << "You win\n";
+                    onEnd();
+                }   else if (auto m2 = std::dynamic_pointer_cast<Monster>(*e2)) {
+                    std::cout << "You win\n";
+                    onEnd();
+                }
+
                 (*e1)->onCollide((*e2)->isSolid());
                 (*e2)->onCollide((*e1)->isSolid());
             }
