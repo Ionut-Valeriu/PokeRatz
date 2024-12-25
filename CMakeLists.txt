@@ -62,6 +62,7 @@ add_executable(${PROJECT_NAME}
         headers/Entity.h
         headers/EntityManager.h
         headers/Enums.h
+        headers/Exceptions.h
         headers/Game.h
         headers/Monster.h
         headers/Player.h
@@ -74,6 +75,7 @@ add_executable(${PROJECT_NAME}
         source/Components.cpp
         source/Entity.cpp
         source/EntityManager.cpp
+        source/Exceptions.cpp
         source/Game.cpp
         source/Monster.cpp
         source/Player.cpp

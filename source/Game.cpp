@@ -16,6 +16,7 @@
 #include "Entity.h"
 #include "Monster.h"
 #include "Player.h"
+#include "Exceptions.h"
 
 void Game::init(const std::string &path) {
     // initialization controls
@@ -32,40 +33,45 @@ void Game::init(const std::string &path) {
 
     // loading assets and settings
     std::ifstream in{path};
-    std::string keyword;
 
-    while (in >> keyword) {
-        if (keyword == "--") {
-            std::getline(in, keyword);
-            continue;
+    try {
+        std::string keyword;
+        while (in >> keyword) {
+            if (keyword[0] == '-') {
+                std::getline(in, keyword);
+                continue;
+            }
+            if (keyword == "Window") {
+                int width, height, framerate, r_read, g_read, b_read;
+                unsigned char r, g, b;
+                bool fullscreen;
+
+                in >> width >> height >> framerate >> fullscreen >> r_read >> g_read >> b_read;
+                r = r_read;
+                b = b_read;
+                g = g_read;
+
+                m_window.create(sf::VideoMode(width, height), "PokeRatz",
+                                fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+                m_window.setFramerateLimit(framerate);
+
+                m_bgColor = sf::Color{r, g, b};
+            } else if (keyword == "Assets") {
+                std::string assetsPath;
+                in >> assetsPath;
+                m_assets.loadFromFile(assetsPath);
+            } else if (keyword == "Level") {
+                std::string levelPath;
+                in >> levelPath;
+                levelLoader(levelPath);
+            } else {
+                std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
+                exit(1);
+            }
         }
-        if (keyword == "Window") {
-            int width, height, framerate, r_read, g_read, b_read;
-            unsigned char r, g, b;
-            bool fullscreen;
-
-            in >> width >> height >> framerate >> fullscreen >> r_read >> g_read >> b_read;
-            r = r_read;
-            b = b_read;
-            g = g_read;
-
-            m_window.create(sf::VideoMode(width, height), "PokeRatz",
-                            fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
-            m_window.setFramerateLimit(framerate);
-
-            m_bgColor = sf::Color{r, g, b};
-        } else if (keyword == "Assets") {
-            std::string assetsPath;
-            in >> assetsPath;
-            m_assets.loadFromFile(assetsPath);
-        } else if (keyword == "Level") {
-            std::string levelPath;
-            in >> levelPath;
-            levelLoader(levelPath);
-        } else {
-            std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
-            exit(1);
-        }
+    } catch (const asset_error &e) {
+        std::cerr << "Asset error:\n" << e.what();
+        exit(1);
     }
 
     in.close();
@@ -86,8 +92,6 @@ void Game::levelLoader(const std::string &path) {
     char type;
 
     while (in >> type) {
-
-
         std::shared_ptr<Entity> block;
 
         // The cases are ordered by frequency of occurrence,
@@ -146,9 +150,9 @@ void Game::levelLoader(const std::string &path) {
         // block->init();
         block->setAnimation(m_assets.getAnimation(animation));
         block->setPosition({
-            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() * rect.x / 2,
+            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() * static_cast<float>(rect.x) / 2.0f,
             static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) +
-            block->getHeight() * rect.y / 2
+            block->getHeight() * static_cast<float>(rect.y) / 2.0f
         });
         block->setRect({0, 0, rect.x * 16, rect.y * 16});
         block->setScale(scale);
@@ -183,14 +187,14 @@ void Game::sDoActions(const Actions &action) {
             action.name() == "RIGHT") { m_player->setRight(true); } else if (
             action.name() == "SPRITES") { m_drawSprites = !m_drawSprites; } else if (
             action.name() == "SHAPES") { m_drawOutline = !m_drawOutline; } else if (
-            action.name() == "ORIGIN") { m_drawOrigin = !m_drawOrigin; } else if (action.name() == "PAUSE") {
-            m_paused = !m_paused;
-        } else if (action.name() == "CLOSE") { onEnd(); }
+            action.name() == "ORIGIN") { m_drawOrigin = !m_drawOrigin; } else if (
+            action.name() == "PAUSE") { m_paused = !m_paused; } else if (
+            action.name() == "CLOSE") { onEnd(); }
     } else if (action.type() == "END") {
         if (action.name() == "UP") { m_player->setUp(false); } else if (
-            action.name() == "DOWN") { m_player->setDown(false); } else if (action.name() == "LEFT") {
-            m_player->setLeft(false);
-        } else if (action.name() == "RIGHT") { m_player->setRight(false); }
+            action.name() == "DOWN") { m_player->setDown(false); } else if (
+            action.name() == "LEFT") { m_player->setLeft(false); } else if (
+            action.name() == "RIGHT") { m_player->setRight(false); }
     }
 }
 

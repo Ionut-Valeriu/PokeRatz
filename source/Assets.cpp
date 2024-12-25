@@ -7,7 +7,8 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 
-#include "../headers/Assets.h"
+#include "Assets.h"
+#include "Exceptions.h"
 
 void Assets::addTexture(const std::string &textureName, const std::string &path, const bool repeated) {
     if(auto texture = sf::Texture(); texture.loadFromFile(path)) {
@@ -49,6 +50,8 @@ void Assets::addSound(const std::string &soundName, const std::string &bufferNam
 
 void Assets::loadFromFile(const std::string &path) {
     std::ifstream file(path);
+
+
     std::string str;
     // todo - enum instead of string
     while(file.good())
@@ -82,7 +85,7 @@ void Assets::loadFromFile(const std::string &path) {
             addSound(name, bufferName);
         }
         else {
-            std::cerr << "Unknown Asset Type: " << str << std::endl;
+            throw(asset_error{"Unknown Asset Type: " + str + "\n"});
         }
     }
     file.close();
