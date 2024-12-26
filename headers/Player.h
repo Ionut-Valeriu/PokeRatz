@@ -45,6 +45,10 @@ public:
     void setRight(const bool right) { this->m_right = right; }
 
     // other methods
+    void setLeft();
+
+    void setRight();
+
     void setVelocity(Move x, Move y);
 
     void incFrame();

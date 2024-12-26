@@ -233,19 +233,19 @@ void Game::sAnimation() {
 
         case State::LEFT:
             animationName = "PSide";
-            m_player->setScale({-5.0f, 5.0f});
+            m_player->setLeft();
             break;
 
         case State::RIGHT:
             animationName = "PSide";
-            m_player->setScale({5.0f, 5.0f});
+            m_player->setRight();
             break;
     }
 
-    m_player->getAnimation()->setScale(m_player->getScale());
     if (m_player->getAnimation()->getName() != animationName) {
         m_player->setAnimation(m_assets.getAnimation(animationName));
     }
+    m_player->getAnimation()->setScale(m_player->getScale());
 
     m_player->updateAnimation();
 
