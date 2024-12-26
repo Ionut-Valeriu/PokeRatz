@@ -8,8 +8,8 @@
 #include <iostream>
 
 #include "Player.h"
-#include "Background.h"
-#include "Monster.h"
+
+size_t EntityManager::m_entitiesSpawned = 1;
 
 void EntityManager::update() {
     // adding new entities

@@ -11,10 +11,11 @@
 
 ////////// DESCRIPTION //////////
 
-/// this class will manage an animation
-/// will move the rectangle of sprite over the texture
+/// - manage an animation
+/// - move the rectangle of sprite over the texture
 /// to create the illusion of moving
-/// will have m_speed which determine
+/// or to multiply it, creating illusion of multiple objects
+/// - will have m_speed which determine the speed of the frames
 
 ////////// DEFINITION OF CLASS //////////
 class Animation {

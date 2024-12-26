@@ -138,7 +138,7 @@ void Game::levelLoader(const std::string &path) {
                 exit(1);
         }
 
-        std::cout << type << "\n";;
+        std::cout << type << "\n";
 
         sf::Vector2f scale;
         sf::Vector2i rect, pos;
@@ -247,8 +247,6 @@ void Game::sAnimation() {
         m_player->setAnimation(m_assets.getAnimation(animationName));
     }
 
-    // Animation a = m_assets.getAnimation("PStand");
-    // a.update();
     m_player->updateAnimation();
 
     // todo - all E
@@ -259,16 +257,16 @@ void Game::sCollision() {
     for (auto e1 = vec.begin(); e1 + 1 != vec.end(); e1++) {
         for (auto e2 = e1 + 1; e2 != vec.end(); e2++) {
             if ((*e1)->collide(**e2)) {
-                if (auto m1 = std::dynamic_pointer_cast<Monster>(*e1)){
-                    std::cout << "You win\n";
-                    onEnd();
-                }   else if (auto m2 = std::dynamic_pointer_cast<Monster>(*e2)) {
+                (*e1)->onCollide((*e2)->isSolid());
+                (*e2)->onCollide((*e1)->isSolid());
+
+                auto m1 = std::dynamic_pointer_cast<Monster>(*e1);
+                auto m2 = std::dynamic_pointer_cast<Monster>(*e2);
+
+                if ((m2 != nullptr) ^ (m1 != nullptr)) {
                     std::cout << "You win\n";
                     onEnd();
                 }
-
-                (*e1)->onCollide((*e2)->isSolid());
-                (*e2)->onCollide((*e1)->isSolid());
             }
         }
     }

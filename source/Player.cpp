@@ -24,7 +24,7 @@ void Player::onCollide(bool solid) {
     if (solid) m_transform->goToLastPos();
 }
 
-void Player::showTip(std::ostream &os) const {
+void Player::showType(std::ostream &os) const {
     os << "Player\n";
 }
 

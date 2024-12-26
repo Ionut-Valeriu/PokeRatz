@@ -5,10 +5,15 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+////////// INCLUDE SECTION //////////
 #include "Entity.h"
 
+////////// DESCRIPTION //////////
 
-class Monster : public Entity {
+/// child of entity, used for elements of the monsters/enemies
+
+////////// DEFINITION OF CLASS //////////
+class Monster final : public Entity {
     // size 8
     // size_t points = 0;
 
@@ -18,7 +23,7 @@ public:
     void onCollide(bool solid) override;
 
 private:
-    void showTip(std::ostream &os) const override;
+    void showType(std::ostream &os) const override;
 };
 
 

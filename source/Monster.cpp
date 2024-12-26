@@ -15,6 +15,6 @@ void Monster::onCollide(bool solid) {
     }
 }
 
-void Monster::showTip(std::ostream &os) const {
+void Monster::showType(std::ostream &os) const {
     os << "Monster\n";
 }

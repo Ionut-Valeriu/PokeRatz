@@ -73,18 +73,18 @@ public:
 
 ////////// DESCRIPTION //////////
 
-///
+/// this class help for collision detection
 
 ////////// DEFINITION OF CLASS //////////
+
+/// todo
 class CBoundingBox : public Component {
     sf::IntRect m_boundingRect;
+    sf::Vector2f m_size;
+    sf::Vector2f m_halfSize;
 
 public:
     CBoundingBox() = default;
-
-    // [[nodiscard]] sf::IntRect getBoundingRect() const {
-    //     return m_boundingRect;
-    // }
 
     void setBoundingRect(const sf::IntRect &m_bounding_box) {
         m_boundingRect = m_bounding_box;

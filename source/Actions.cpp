@@ -4,7 +4,6 @@
 
 #include "Actions.h"
 
-Actions::Actions() = default;
-
-Actions::Actions(std::string name, std::string type) : m_name(std::move(name)), m_type(std::move(type)) {
+Actions::Actions(std::string name, std::string type)
+    : m_name(std::move(name)), m_type(std::move(type)) {
 }

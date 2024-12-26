@@ -39,7 +39,7 @@ class EntityManager {
     EntityVec m_entitiesToAdd; // vector to store entities that will be added // this evicts some bugs
 
     // size 8
-    size_t m_entitiesSpawned = 1;
+    static size_t m_entitiesSpawned;
     size_t m_maxDrawLevel = 1;
 
 public:

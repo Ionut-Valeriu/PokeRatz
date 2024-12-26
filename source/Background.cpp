@@ -2,18 +2,17 @@
 // Created by ionut on 15.12.2024.
 //
 
-#include "../headers/Background.h"
+#include "Background.h"
 
 Background::Background(size_t id, size_t drawLevel)
     : Entity(id, drawLevel) { init(); }
 
 void Background::onCollide(bool solid) {
-    // todo
     if (solid) {
-        std::cout << "solid" << std::endl;
+        std::cout << "2 or more solids are overlapping.\n";
     }
 }
 
-void Background::showTip(std::ostream &os) const {
+void Background::showType(std::ostream &os) const {
     os << "Background\n";
 }

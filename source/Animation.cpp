@@ -42,16 +42,11 @@ void Animation::update() {
     m_sprite.setScale(m_scale);
 }
 
-// bool Animation::hasEnded() const {
-//     if ((m_gameFrame / m_speed) % m_animationFrame == m_animationFrame - 1 && m_gameFrame % m_speed == m_speed - 1) return true;
-//     return false;
-// }
-
 const std::string &Animation::getName() const { return m_name; }
 
 const sf::Vector2f &Animation::getSize() const { return m_size; }
 
-sf::Sprite & Animation::getSprite() { return m_sprite; }
+sf::Sprite &Animation::getSprite() { return m_sprite; }
 
 void Animation::setScale(const sf::Vector2f &scale) {
     m_scale = scale;
@@ -64,15 +59,6 @@ void Animation::setRect(const sf::IntRect &rect) {
     m_sprite.setTextureRect(rect);
     m_sprite.setOrigin({static_cast<float>(rect.width) / 2.0f, static_cast<float>(rect.height) / 2.0f});
 }
-
-// ? ar avea rost ?
-// void Animation::setRect(const sf::Vector2i &v1, const sf::Vector2i &v2) {
-//     m_sprite.setTextureRect({v1.x, v1.y, v2.x, v2.y});
-// }
-//
-// void Animation::setRect(const int i1, const int i2, const int i3, const int i4) {
-//     m_sprite.setTextureRect({i1, i2, i3, i4});
-// }
 
 std::ostream &operator<<(std::ostream &os, const Animation &obj) {
     return os << "animation: " << obj.m_name << ", speed: " << obj.m_speed

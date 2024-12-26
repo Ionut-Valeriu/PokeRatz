@@ -10,11 +10,11 @@
 #include "Enums.h"
 
 ////////// DESCRIPTION //////////
-/// extended version of Entity class, add the following functions:
-/// - movement
+
+/// child of Entity class, implementing the player with movement
 
 ////////// DEFINITION OF CLASS //////////
-class Player : public Entity {
+class Player final : public Entity {
     // speed equal to size so it snaps when move
     // todo
     float m_speed = tempShape->getSize().x;
@@ -30,14 +30,13 @@ class Player : public Entity {
     bool m_right = false;
 
 public:
-    explicit Player(size_t id,const size_t &drawLevel = 3);
+    explicit Player(size_t id, const size_t &drawLevel = 3);
 
     //getters
     [[nodiscard]] bool up() const { return m_up; }
     [[nodiscard]] bool down() const { return m_down; }
     [[nodiscard]] bool left() const { return m_left; }
     [[nodiscard]] bool right() const { return m_right; }
-    // [[nodiscard]] float speed()const { return m_speed; }
 
     // setters
     void setUp(const bool up) { this->m_up = up; }
@@ -45,7 +44,7 @@ public:
     void setLeft(const bool left) { this->m_left = left; }
     void setRight(const bool right) { this->m_right = right; }
 
-    // methods
+    // other methods
     void setVelocity(Move x, Move y);
 
     void incFrame();
@@ -53,7 +52,7 @@ public:
     void onCollide(bool solid) override;
 
 private:
-    void showTip(std::ostream &os) const override;
+    void showType(std::ostream &os) const override;
 };
 
 #endif //PLAYER_H

@@ -24,12 +24,13 @@ void Entity::init() {
 }
 
 void Entity::setRect(sf::IntRect rect) {
-    // m_rectttt = rect;
     m_boundingBox->setBoundingRect(rect);
     m_animation->setRect(rect);
 
-    tempShape->setSize(sf::Vector2f(rect.width * m_animation->getSprite().getScale().x,
-                                    rect.height * m_animation->getSprite().getScale().y));
+    tempShape->setSize({
+        static_cast<float>(rect.width) * m_animation->getSprite().getScale().x,
+        static_cast<float>(rect.height) * m_animation->getSprite().getScale().y
+    });
 
     // tempShape->setSize(sf::Vector2f(rect.width ,rect.height ));
     tempShape->setOrigin(sf::Vector2f(tempShape->getSize().x / 2, tempShape->getSize().y / 2));
@@ -127,7 +128,7 @@ void Entity::remove() { m_active = false; }
 std::ostream &operator<<(std::ostream &os, const Entity &obj) {
     os << "Type: ";
 
-    obj.showTip(os);
+    obj.showType(os);
 
     os << "\n m_id: " << obj.m_id
             << "\n m_transform: " << obj.m_transform->getPosition().x
@@ -138,6 +139,6 @@ std::ostream &operator<<(std::ostream &os, const Entity &obj) {
     return os;
 }
 
-void Entity::showTip(std::ostream &os) const {
+void Entity::showType(std::ostream &os) const {
     os << "Entity\n";
 }

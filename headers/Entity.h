@@ -109,7 +109,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Entity &obj);
 
 private:
-    virtual void showTip(std::ostream &os) const;
+    virtual void showType(std::ostream &os) const;
 };
 
 

@@ -2,7 +2,7 @@
 // Created by ionut on 04.11.2024.
 //
 
-#include "../headers/Components.h"
+#include "Components.h"
 
 // base component
 
@@ -20,9 +20,6 @@ Component &Component::operator=(const Component &other) {
 }
 
 // transform component
-
-// CTransform::CTransform() : Component(true) {
-// }
 
 CTransform::CTransform(const sf::Vector2f &position, const sf::Vector2f &velocity, const sf::Vector2f &scale)
     : Component(true), m_position(position), m_velocity(velocity), m_scale(scale) {

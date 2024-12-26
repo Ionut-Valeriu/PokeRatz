@@ -10,8 +10,8 @@
 
 ////////// DESCRIPTION //////////
 
-///this class is used to define the action that can take part in a scene
-///they are defined in init and specific to the scene, not the player/entity
+/// this class is used to define the action that can take part in a scene
+/// they are defined in init and specific to the scene, not the player/entity
 
 ////////// DEFINITION OF CLASS //////////
 class Actions {
@@ -19,8 +19,6 @@ class Actions {
     std::string m_type = "NONE";
 
 public:
-    Actions();
-
     Actions(std::string name, std::string type);
 
     [[nodiscard]] const std::string &name() const { return m_name; }
