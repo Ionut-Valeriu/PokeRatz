@@ -55,6 +55,10 @@ void Assets::loadFromFile(const std::string &path) {
 
     while (file.good()) {
         file >> str;
+        if (str[0] == '-') {
+            std::getline(file, str);
+            continue;
+        }
         if (str == "Texture") {
             std::string name, texturePath;
             bool repeated;
@@ -78,7 +82,7 @@ void Assets::loadFromFile(const std::string &path) {
             file >> name >> bufferName;
             addSound(name, bufferName);
         } else {
-            throw asset_error{"Unknown Asset Type: " + str + "\n"};
+            throw asset_error{str};
         }
     }
     file.close();

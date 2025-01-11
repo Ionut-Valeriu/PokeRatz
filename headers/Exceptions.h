@@ -18,6 +18,11 @@ public:
     using std::runtime_error::runtime_error;
 };
 
+class config_error : public loading_error {
+public:
+    explicit config_error(const std::string& msg);
+};
+
 class asset_error final : public loading_error {
 public:
     explicit asset_error(const std::string &name);

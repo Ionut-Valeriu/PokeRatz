@@ -65,13 +65,15 @@ void Game::init(const std::string &path) {
                 in >> levelPath;
                 levelLoader(levelPath);
             } else {
-                std::cerr << "Error: " << keyword << " does not match any configuration keyword.\n";
-                exit(1);
+                throw config_error(keyword);
             }
         }
+    } catch (const config_error &e) {
+        std::cerr << "Config error:\n\t" << e.what();
     } catch (const asset_error &e) {
-        std::cerr << "Asset error:\n" << e.what();
-        exit(1);
+        std::cerr << "Asset error:\n\t" << e.what();
+    } catch (const loading_error &e) {
+        std::cerr << "Loading error:\n\t" << e.what();
     }
 
     in.close();
