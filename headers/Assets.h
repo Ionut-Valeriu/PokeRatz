@@ -47,7 +47,7 @@ public:
 
     [[nodiscard]] const sf::Font &getFont(const std::string &fontName);
 
-    // [[nodiscard]] const sf::Sound &getSound(const std::string &soundName);
+    [[nodiscard]] const sf::Sound &getSound(const std::string &soundName);
 
     friend std::ostream &operator<<(std::ostream &os, const Assets &obj);
 };

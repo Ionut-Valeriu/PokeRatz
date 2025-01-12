@@ -71,6 +71,13 @@ void Game::init(const std::string &path) {
                 float width, height;
                 in >> width >> height;
                 m_view.reset({0.0f, 0.0f, width, height});
+            } else if (keyword == "Sound") {
+                std::string musicName;
+                bool looping;
+                in >> musicName >> looping;
+                std::cout << musicName << "\n";
+                m_sound = m_assets.getSound(musicName);
+                m_sound.setLoop(looping);
             } else {
                 throw typing_error(keyword);
             }

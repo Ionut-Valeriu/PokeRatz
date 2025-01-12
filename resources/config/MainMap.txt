@@ -1,5 +1,4 @@
 P PStand 5 5 1 1 2 1 0
--S Main 1
 
 B Block 5 5 5 1 0 0 1
 B Block 5 5 5 1 0 4 1
