@@ -2,12 +2,6 @@
 // Created by ionut on 12.01.2025.
 //
 
-// #include "../headers/EntityFactory.h"
-#include "Player.h"
-#include "Monster.h"
-#include "Background.h"
-// #include "EntityManager.h"
-
 template<class T>
 std::shared_ptr<Entity> EntityFactory::addEntity(const size_t &id) {
     auto e = std::make_shared<T>(id, 1);
@@ -27,5 +21,3 @@ std::shared_ptr<Entity> EntityFactory::makeEntity(char type, size_t id) {
         default: throw std::invalid_argument("Invalid type: " + std::to_string(type));
     }
 }
-
-

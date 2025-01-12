@@ -200,8 +200,8 @@ void Game::sAnimation() {
 
 void Game::sCollision() {
     auto vec = m_entityManager.getEntities();
-    for (auto e1 = vec.begin(); e1 + 1 != vec.end(); e1++) {
-        for (auto e2 = e1 + 1; e2 != vec.end(); e2++) {
+    for (auto e1 = vec.begin(); e1 + 1 != vec.end(); ++e1) {
+        for (auto e2 = e1 + 1; e2 != vec.end(); ++e2) {
             if ((*e1)->collide(**e2)) {
                 (*e1)->onCollide((*e2)->isSolid());
                 (*e2)->onCollide((*e1)->isSolid());

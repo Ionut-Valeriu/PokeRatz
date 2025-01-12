@@ -5,12 +5,18 @@
 #ifndef LEVELLOADER_H
 #define LEVELLOADER_H
 
+////////// INCLUDE SECTION //////////
 #include <string>
 #include <memory>
 
 #include "Assets.h"
 #include "Player.h"
 
+////////// DESCRIPTION //////////
+
+/// Specialize class in loading a level map
+
+////////// DEFINITION OF CLASS //////////
 typedef std::vector<std::shared_ptr<Entity> > EntityVec;
 
 class LevelLoader {

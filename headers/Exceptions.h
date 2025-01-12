@@ -24,12 +24,12 @@ public:
     explicit loading_error(const std::string &msg);
 };
 
-class file_error : public loading_error {
+class file_error final : public loading_error {
 public:
     explicit file_error(const std::string &msg);
 };
 
-class typing_error : public loading_error {
+class typing_error final : public loading_error {
 public:
     explicit typing_error(const std::string &msg);
 };

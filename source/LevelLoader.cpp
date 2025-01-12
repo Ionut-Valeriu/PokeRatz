@@ -44,11 +44,13 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
                 break;
             }
             // default
-            // default: {
-            //     std::string line;
-            //     std::getline(in, line);
-            //     throw typing_error{"form LevelLoader:\tOn line: " + type + line + "\n"};
-            // }
+            default: {
+                if (object == nullptr) {
+                    std::string line;
+                    std::getline(in, line);
+                    throw typing_error{"form LevelLoader:\tOn line: " + type + line + "\n"};
+                }
+            }
         }
         sf::Vector2f scale;
         sf::Vector2i rect, pos;
