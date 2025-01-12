@@ -34,18 +34,12 @@ void EntityManager::removeDeadEntities(EntityVec &vec) {
     });
 }
 
-// template<class T>
-// std::shared_ptr<T> EntityManager::addEntity(const size_t &drawLevel) {
-//     m_maxDrawLevel = m_maxDrawLevel < drawLevel ? drawLevel : m_maxDrawLevel;
-//
-//     auto e = std::make_shared<T>(m_entitiesSpawned++, drawLevel);
-//
-//     m_entitiesToAdd.push_back(e);
-//     return e;
-// }
-//
-// template std::shared_ptr<Player> EntityManager::addEntity<Player>(const size_t &drawLevel);
-//
-// template std::shared_ptr<Background> EntityManager::addEntity<Background>(const size_t &drawLevel);
-//
-// template std::shared_ptr<Monster> EntityManager::addEntity<Monster>(const size_t &drawLevel);
+size_t EntityManager::getEntityCount() {
+    return m_entitiesSpawned++;
+}
+
+std::shared_ptr<Player> EntityManager::load(const std::string &fileName,
+    const LevelLoader &levelLoader,
+    sf::RenderWindow &rWindow) {
+    return levelLoader.fill(m_entitiesToAdd, fileName, rWindow);
+}

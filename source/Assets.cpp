@@ -82,7 +82,7 @@ void Assets::loadFromFile(const std::string &path) {
             file >> name >> bufferName;
             addSound(name, bufferName);
         } else {
-            throw asset_error{str};
+            throw typing_error{"form assets " + str};
         }
     }
     file.close();
@@ -109,9 +109,9 @@ const sf::Font &Assets::getFont(const std::string &fontName) {
     return m_fontMap[fontName];
 }
 
-const sf::Sound &Assets::getSound(const std::string &soundName) const {
-    return m_soundMap.at(soundName);
-}
+// const sf::Sound &Assets::getSound(const std::string &soundName) {
+//     return m_soundMap.at(soundName);
+// }
 
 std::ostream &operator<<(std::ostream &os, const Assets &obj) {
     os << "Assets:\n--Textures:\n";

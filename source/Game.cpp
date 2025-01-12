@@ -63,17 +63,26 @@ void Game::init(const std::string &path) {
             } else if (keyword == "Level") {
                 std::string levelPath;
                 in >> levelPath;
-                levelLoader(levelPath);
+                LevelLoader loader{m_assets};
+                std::cout << "loader build succesfull\n";
+                m_player = m_entityManager.load(levelPath, loader, m_window);
+                std::cout << "Level loaded!\n";
             } else {
-                throw config_error(keyword);
+                throw typing_error(keyword);
             }
         }
-    } catch (const config_error &e) {
-        std::cerr << "Config error:\n\t" << e.what();
-    } catch (const asset_error &e) {
-        std::cerr << "Asset error:\n\t" << e.what();
+    } catch (const file_error &e) {
+        std::cerr << "File error:\n\t" << e.what();
+        // throw standard_error(e.what());
+    } catch (const typing_error &e) {
+        std::cerr << "Typing error:\n\t" << e.what();
+        // throw standard_error(e.what());
     } catch (const loading_error &e) {
         std::cerr << "Loading error:\n\t" << e.what();
+        // throw standard_error(e.what());
+    } catch (const standard_error &e) {
+        std::cerr << "Exit because of:\n\t" << e.what();
+        exit(1);
     }
 
     in.close();
@@ -83,83 +92,7 @@ void Game::init(const std::string &path) {
     m_font = m_assets.getFont("Arial");
     //
 
-
     m_sound.play();
-}
-
-void Game::levelLoader(const std::string &path) {
-    std::cout << "Loading level " << path << "\n";
-
-    std::ifstream in(path);
-    char type;
-
-    while (in >> type) {
-        std::shared_ptr<Entity> block;
-
-        // The cases are ordered by frequency of occurrence,
-        // from the most frequent to the least frequent.
-        switch (type) {
-            // background
-            case 'B':
-                block = m_entityManager.addEntity<Background>(1);
-                break;
-            // monster
-            case 'M':
-                block = m_entityManager.addEntity<Monster>(2);
-                break;
-            // player
-            case 'P':
-                m_player = m_entityManager.addEntity<Player>(3);
-                block = m_player;
-                break;
-            // comments
-            case '-': {
-                std::string rest;
-                std::getline(in, rest);
-                continue;
-            }
-            // sound
-            case 'S': {
-                std::string musicName;
-                bool looping;
-                in >> musicName >> looping;
-                std::cout << musicName << "\n";
-                m_sound = m_assets.getSound(musicName);
-                m_sound.setLoop(looping);
-                continue;
-            }
-            // view
-            case 'V': {
-                float W, H;
-                in >> W >> H;
-                m_view.reset({0, 0, W, H});
-                continue;
-            }
-            default:
-                std::cerr << "Unrecognized character: " << type << "in the level loader\n";
-                exit(1);
-        }
-
-        std::cout << type << "\n";
-
-        sf::Vector2f scale;
-        sf::Vector2i rect, pos;
-        std::string animation;
-        bool solid;
-
-        in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
-
-        // block->init();
-        block->setAnimation(m_assets.getAnimation(animation));
-        block->setPosition({
-            block->getWidth() * static_cast<float>(pos.x) + block->getWidth() * static_cast<float>(rect.x) / 2.0f,
-            static_cast<float>(m_window.getSize().y) - block->getHeight() * static_cast<float>(pos.y) +
-            block->getHeight() * static_cast<float>(rect.y) / 2.0f
-        });
-        block->setRect({0, 0, rect.x * 16, rect.y * 16});
-        block->setScale(scale);
-        block->setSolidity(solid);
-    }
 }
 
 void Game::run() {

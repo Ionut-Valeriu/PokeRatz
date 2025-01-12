@@ -41,6 +41,7 @@ typedef std::map<int, std::string> ActionMap;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
+
     // size 536
     sf::RenderWindow m_window;
 
@@ -83,8 +84,6 @@ class Game {
     bool m_drawOrigin = false;
 
     void init(const std::string &path);
-
-    void levelLoader(const std::string &path);
 
     void sUserInput();
 

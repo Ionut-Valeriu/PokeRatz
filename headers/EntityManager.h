@@ -12,6 +12,8 @@
 #include <memory>
 
 #include "Entity.h"
+#include "LevelLoader.h"
+#include "Player.h"
 
 ////////// DESCRIPTION //////////
 
@@ -25,13 +27,12 @@
 
 ////////// SHORTCUTS //////////
 typedef std::vector<std::shared_ptr<Entity> > EntityVec;
-typedef std::map<std::string, EntityVec> EntityMap;
+// typedef std::map<std::string, EntityVec> EntityMap;
 typedef std::map<size_t, EntityVec> EntityDrawMap;
 
 ////////// DEFINITION OF CLASS //////////
 class EntityManager {
     // size 48
-    // EntityMap m_entityMap;     // the entity map on the 2nd point in the description
     EntityDrawMap m_entityDrawMap;
 
     // size 24
@@ -40,30 +41,22 @@ class EntityManager {
 
     // size 8
     static size_t m_entitiesSpawned;
-    size_t m_maxDrawLevel = 1;
+    size_t m_maxDrawLevel = 3;
 
 public:
     void update(); // adding and removing entities
     static void removeDeadEntities(EntityVec &vec); // this is called in update
-
-    // template <class T>
-    // std::shared_ptr<T> addEntity(const size_t& drawLevel = 1);
-
-    template<class T>
-    std::shared_ptr<T> addEntity(const size_t &drawLevel) {
-        m_maxDrawLevel = m_maxDrawLevel < drawLevel ? drawLevel : m_maxDrawLevel;
-
-        auto e = std::make_shared<T>(m_entitiesSpawned++, drawLevel);
-
-        m_entitiesToAdd.push_back(e);
-        return e;
-    }
+    static size_t getEntityCount();
 
     const EntityVec &getEntities() { return m_entities; }
     const EntityVec &getEntitiesOnLevel(const size_t &level) { return m_entityDrawMap[level]; }
 
     // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }
     [[nodiscard]] size_t getMaxDrawLevel() const { return m_maxDrawLevel; }
+
+    std::shared_ptr<Player> load (const std::string &fileName,
+        const LevelLoader &levelLoader,
+        sf::RenderWindow &rWindow);
 };
 
 #endif //ENTITYMANAGER_H

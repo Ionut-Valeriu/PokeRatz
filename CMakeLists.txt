@@ -60,13 +60,14 @@ add_executable(${PROJECT_NAME}
         headers/Background.h
         headers/Components.h
         headers/Entity.h
+        headers/EntityFactory.h
         headers/EntityManager.h
         headers/Enums.h
         headers/Exceptions.h
         headers/Game.h
+        headers/LevelLoader.h
         headers/Monster.h
         headers/Player.h
-
         # source
         source/Actions.cpp
         source/Animation.cpp
@@ -74,9 +75,11 @@ add_executable(${PROJECT_NAME}
         source/Background.cpp
         source/Components.cpp
         source/Entity.cpp
+        source/EntityFactory.cpp
         source/EntityManager.cpp
         source/Exceptions.cpp
         source/Game.cpp
+        source/LevelLoader.cpp
         source/Monster.cpp
         source/Player.cpp
 

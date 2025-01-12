@@ -4,12 +4,14 @@
 
 #include "Exceptions.h"
 
-config_error::config_error(const std::string &msg)
-    : loading_error("Unknown configuration command: " + msg
-                    + "\nSee \"resources/config/config.txt\"\n") {
+loading_error::loading_error(const std::string &msg)
+    : standard_error("Loading error: " + msg) {
 }
 
-asset_error::asset_error(const std::string &name)
-    : loading_error("Unknown Asset Type: " + name +
-        + "\nSee \"resources/config/assets.txt\"\n") {
+file_error::file_error(const std::string &msg)
+    : loading_error("File error:\n" + msg) {
+}
+
+typing_error::typing_error(const std::string &msg)
+    : loading_error("Typing error:\n" + msg) {
 }

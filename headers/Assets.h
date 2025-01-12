@@ -43,11 +43,11 @@ public:
 
     [[nodiscard]] const sf::Texture &getTexture(const std::string &textureName);
 
-    [[nodiscard]] Animation &getAnimation(const std::string &animationName);
+    [[nodiscard]]  Animation &getAnimation(const std::string &animationName);
 
     [[nodiscard]] const sf::Font &getFont(const std::string &fontName);
 
-    [[nodiscard]] const sf::Sound &getSound(const std::string &soundName) const;
+    // [[nodiscard]] const sf::Sound &getSound(const std::string &soundName);
 
     friend std::ostream &operator<<(std::ostream &os, const Assets &obj);
 };
