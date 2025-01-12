@@ -67,6 +67,10 @@ void Game::init(const std::string &path) {
                 std::cout << "loader build succesfull\n";
                 m_player = m_entityManager.load(levelPath, loader, m_window);
                 std::cout << "Level loaded!\n";
+            } else if (keyword == "View") {
+                float width, height;
+                in >> width >> height;
+                m_view.reset({0.0f, 0.0f, width, height});
             } else {
                 throw typing_error(keyword);
             }

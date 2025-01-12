@@ -1,5 +1,4 @@
 P PStand 5 5 1 1 2 1 0
--V 1920 1080
 -S Main 1
 
 B Block 5 5 5 1 0 0 1
