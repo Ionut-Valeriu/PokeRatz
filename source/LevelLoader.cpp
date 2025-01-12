@@ -48,7 +48,7 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
                 if (object == nullptr) {
                     std::string line;
                     std::getline(in, line);
-                    throw typing_error{"form LevelLoader:\tOn line: " + type + line + "\n"};
+                    throw typing_error{"form LevelLoader:\tOn line: " + std::to_string(type) + line + "\n"};
                 }
             }
         }
