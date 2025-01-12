@@ -29,7 +29,7 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
     while (in >> type) {
         std::cout << "Current type: " << type << "\n";
         std::shared_ptr<Entity> object;
-        if (type != 'P') object = EntityFactory::makeEntity(type, EntityManager::getEntityCount());
+        object = EntityFactory::makeEntity(type, EntityManager::getEntityCount());
 
         switch (type) {
             // comments
@@ -40,9 +40,7 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
             }
             // player
             case 'P': {
-                // player = std::dynamic_pointer_cast<Player>(object);
-                player = EntityFactory::make_Player(EntityManager::getEntityCount());
-                object = player;
+                player = std::dynamic_pointer_cast<Player>(object);
                 break;
             }
             // default

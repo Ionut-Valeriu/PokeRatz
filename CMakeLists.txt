@@ -75,7 +75,6 @@ add_executable(${PROJECT_NAME}
         source/Background.cpp
         source/Components.cpp
         source/Entity.cpp
-        source/EntityFactory.cpp
         source/EntityManager.cpp
         source/Exceptions.cpp
         source/Game.cpp
