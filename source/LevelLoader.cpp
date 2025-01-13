@@ -26,10 +26,10 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
 
     std::shared_ptr<Player> player;
     char type;
-    while (in >> type) {
-        std::cout << "Current type: " << type << "\n";
-        std::shared_ptr<Entity> object;
-        object = EntityFactory::makeEntity(type, EntityManager::getEntityCount());
+    size_t drawLevel;
+    while (in >> type >> drawLevel) {
+        // std::cout << "Current type: " << type << "\n";
+        std::shared_ptr<Entity> object = EntityFactory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
 
         switch (type) {
             // comments

@@ -12,19 +12,23 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Background.h"
+#include "Illusion.h"
 
 ////////// DESCRIPTION //////////
 
 /// Specialize class for creating entity and his descendants
 
 ////////// DEFINITION OF CLASS //////////
+template <class E>
 class EntityFactory {
-    template<class T>
-    static std::shared_ptr<Entity> addEntity(const size_t &id);
+    template<typename T>
+    static std::shared_ptr<E> addEntity(const size_t &id, size_t drawLevel);
 
 public:
-    static std::shared_ptr<Entity> makeEntity(char type, size_t id);
+    static std::shared_ptr<E> makeEntity(char type, size_t id, size_t drawLevel);
 };
+
+
 
 #include "../source/EntityFactory.cpp"
 
