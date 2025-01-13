@@ -12,6 +12,8 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Background.h"
+#include "Illusion.h"
+
 ////////// DESCRIPTION //////////
 
 /// Specialize class for creating entity and his descendants

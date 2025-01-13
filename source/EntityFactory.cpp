@@ -20,6 +20,8 @@ std::shared_ptr<E> EntityFactory<E>::makeEntity(char type, size_t id, size_t dra
 
         case 'B': return addEntity<Background>(id, drawLevel);
 
+        case 'I': return addEntity<Illusion>(id, drawLevel);
+
         default: throw std::invalid_argument("Invalid type: " + std::to_string(type));
     }
 }

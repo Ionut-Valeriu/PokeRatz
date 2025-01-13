@@ -81,6 +81,8 @@ add_executable(${PROJECT_NAME}
         source/LevelLoader.cpp
         source/Monster.cpp
         source/Player.cpp
+        source/Illusion.cpp
+        headers/Illusion.h
 
 )
 
