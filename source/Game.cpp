@@ -209,7 +209,10 @@ void Game::sCollision() {
                 auto m1 = std::dynamic_pointer_cast<Monster>(*e1);
                 auto m2 = std::dynamic_pointer_cast<Monster>(*e2);
 
-                if ((m2 != nullptr) ^ (m1 != nullptr)) {
+                auto p1 = std::dynamic_pointer_cast<Player>(*e1);
+                auto p2 = std::dynamic_pointer_cast<Player>(*e2);
+
+                if (m1 != nullptr && p2 != nullptr || m1 != nullptr && p2 != nullptr) {
                     std::cout << "You win\n";
                     onEnd();
                 }
