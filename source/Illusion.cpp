@@ -5,10 +5,11 @@
 #include "../headers/Illusion.h"
 
 Illusion::Illusion(size_t id, size_t drawLevel)
-    : Entity(id, drawLevel) {}
+    : Entity(id, drawLevel) {
+}
 
 void Illusion::onCollide(bool solid) {
-    remove();
+    if (solid) { m_transform->goToLastPos(); } else remove();
 }
 
 void Illusion::showType(std::ostream &os) const {

@@ -19,5 +19,4 @@ private:
 };
 
 
-
 #endif //ILLUSION_H
