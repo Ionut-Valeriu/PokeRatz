@@ -54,9 +54,6 @@ class Game {
     // size 152
     sf::Font m_font;
 
-    // size 144
-    Assets m_assets;
-
     // size 104
     EntityManager m_entityManager;
 

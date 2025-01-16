@@ -59,11 +59,11 @@ void Game::init(const std::string &path) {
             } else if (keyword == "Assets") {
                 std::string assetsPath;
                 in >> assetsPath;
-                m_assets.loadFromFile(assetsPath);
+                Assets::loadFromFile(assetsPath);
             } else if (keyword == "Level") {
                 std::string levelPath;
                 in >> levelPath;
-                LevelLoader loader{m_assets};
+                LevelLoader loader;
                 std::cout << "loader build succesfull\n";
                 m_player = m_entityManager.load(levelPath, loader, m_window);
                 std::cout << "Level loaded!\n";
@@ -76,7 +76,7 @@ void Game::init(const std::string &path) {
                 bool looping;
                 in >> musicName >> looping;
                 std::cout << musicName << "\n";
-                m_sound = m_assets.getSound(musicName);
+                m_sound = Assets::getSound(musicName);
                 m_sound.setLoop(looping);
             } else {
                 throw typing_error(keyword);
@@ -97,10 +97,10 @@ void Game::init(const std::string &path) {
     }
 
     in.close();
-    std::cout << "\nInit finished!\n" << m_assets << "\n";
+    std::cout << "\nInit finished!\n" << Assets() << "\n";
 
     // todo - remove - only for cppcheck
-    m_font = m_assets.getFont("Arial");
+    m_font = Assets::getFont("Arial");
     //
 
     m_sound.play();
@@ -189,7 +189,7 @@ void Game::sAnimation() {
     }
 
     if (m_player->getAnimation()->getName() != animationName) {
-        m_player->setAnimation(m_assets.getAnimation(animationName));
+        m_player->setAnimation(Assets::getAnimation(animationName));
     }
     m_player->getAnimation()->setScale(m_player->getScale());
 

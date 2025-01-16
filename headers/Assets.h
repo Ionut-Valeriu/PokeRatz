@@ -19,35 +19,35 @@
 ////////// DEFINITION OF CLASS //////////
 class Assets {
     // size 48
-    std::map<std::string, sf::Texture> m_textureMap;
-    std::map<std::string, Animation> m_animationMap;
-    std::map<std::string, sf::Font> m_fontMap;
-    std::map<std::string, sf::SoundBuffer> m_soundBufferMap;
-    std::map<std::string, sf::Sound> m_soundMap;
+    static std::map<std::string, sf::Texture> m_textureMap;
+    static std::map<std::string, Animation> m_animationMap;
+    static std::map<std::string, sf::Font> m_fontMap;
+    static std::map<std::string, sf::SoundBuffer> m_soundBufferMap;
+    static std::map<std::string, sf::Sound> m_soundMap;
 
-    void addTexture(const std::string &textureName, const std::string &path, bool repeated);
+    static void addTexture(const std::string &textureName, const std::string &path, bool repeated);
 
-    void addAnimation(const std::string &animationName, const std::string &textureName,
-                      size_t frameCount, size_t speed);
+    static void addAnimation(const std::string &animationName, const std::string &textureName, size_t frameCount,
+                             size_t speed);
 
-    void addFont(const std::string &fontName, const std::string &fontPath);
+    static void addFont(const std::string &fontName, const std::string &fontPath);
 
-    void addSoundBuffer(const std::string &bufferName, const std::string &bufferPath);
+    static void addSoundBuffer(const std::string &bufferName, const std::string &bufferPath);
 
-    void addSound(const std::string &soundName, const std::string &bufferName);
+    static void addSound(const std::string &soundName, const std::string &bufferName);
 
 public:
     Assets() = default;
 
-    void loadFromFile(const std::string &path);
+    static void loadFromFile(const std::string &path);
 
-    [[nodiscard]] const sf::Texture &getTexture(const std::string &textureName);
+    static const sf::Texture &getTexture(const std::string &textureName);
 
-    [[nodiscard]]  Animation &getAnimation(const std::string &animationName);
+    static Animation &getAnimation(const std::string &animationName);
 
-    [[nodiscard]] const sf::Font &getFont(const std::string &fontName);
+    static const sf::Font &getFont(const std::string &fontName);
 
-    [[nodiscard]] const sf::Sound &getSound(const std::string &soundName);
+    static const sf::Sound &getSound(const std::string &soundName);
 
     friend std::ostream &operator<<(std::ostream &os, const Assets &obj);
 };

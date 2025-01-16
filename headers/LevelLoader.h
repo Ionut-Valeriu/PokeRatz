@@ -20,9 +20,8 @@
 typedef std::vector<std::shared_ptr<Entity> > EntityVec;
 
 class LevelLoader {
-    Assets &m_assets;
 public:
-    explicit LevelLoader(Assets &assets);
+    explicit LevelLoader() = default;
 
     // this fill the entity vector, determine the maximum drawing level
     // and returns the player

@@ -10,6 +10,7 @@
 #include "Player.h"
 
 size_t EntityManager::m_entitiesSpawned = 1;
+size_t EntityManager::m_maxDrawLevel = 3;
 
 void EntityManager::update() {
     // adding new entities

@@ -16,9 +16,6 @@
 #include "EntityManager.h"
 #include "Game.h"
 
-LevelLoader::LevelLoader(Assets &assets) : m_assets(assets) {
-}
-
 std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fileName,
                                           sf::RenderWindow &rWindow) const {
     std::ifstream in(fileName);
@@ -59,7 +56,7 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
 
         in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
 
-        object->setAnimation(m_assets.getAnimation(animation));
+        object->setAnimation(Assets::getAnimation(animation));
         object->setPosition({
             object->getWidth() * static_cast<float>(pos.x) + object->getWidth() * static_cast<float>(rect.x) / 2.0f,
             static_cast<float>(rWindow.getSize().y) - object->getHeight() * static_cast<float>(pos.y) +

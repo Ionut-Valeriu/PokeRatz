@@ -41,18 +41,20 @@ class EntityManager {
 
     // size 8
     static size_t m_entitiesSpawned;
-    size_t m_maxDrawLevel = 3;
+    static size_t m_maxDrawLevel;
+
+    static void removeDeadEntities(EntityVec &vec); // this is called in update
 
 public:
     void update(); // adding and removing entities
-    static void removeDeadEntities(EntityVec &vec); // this is called in update
+
     static size_t getEntityCount();
 
     const EntityVec &getEntities() { return m_entities; }
     const EntityVec &getEntitiesOnLevel(const size_t &level) { return m_entityDrawMap[level]; }
 
     // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }
-    [[nodiscard]] size_t getMaxDrawLevel() const { return m_maxDrawLevel; }
+    static size_t getMaxDrawLevel() { return m_maxDrawLevel; }
 
     std::shared_ptr<Player> load (const std::string &fileName,
         const LevelLoader &levelLoader,

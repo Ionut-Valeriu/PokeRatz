@@ -10,6 +10,12 @@
 #include "Assets.h"
 #include "Exceptions.h"
 
+std::map<std::string, sf::Texture> Assets::m_textureMap;
+std::map<std::string, Animation> Assets::m_animationMap;
+std::map<std::string, sf::Font> Assets::m_fontMap;
+std::map<std::string, sf::SoundBuffer> Assets::m_soundBufferMap;
+std::map<std::string, sf::Sound> Assets::m_soundMap;
+
 void Assets::addTexture(const std::string &textureName, const std::string &path, const bool repeated) {
     if (auto texture = sf::Texture(); texture.loadFromFile(path)) {
         texture.setRepeated(repeated);
