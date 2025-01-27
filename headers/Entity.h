@@ -89,12 +89,10 @@ public:
 
     void setAnimation(Animation &anim);
 
-    void setState(const State &state);
-
     void setSolidity(bool solid);
 
     // updates
-    void updatePos() const;
+    virtual void updatePos();
 
     void updateAnimation() const;
 

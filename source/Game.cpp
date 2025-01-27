@@ -64,7 +64,7 @@ void Game::init(const std::string &path) {
                 std::string levelPath;
                 in >> levelPath;
                 LevelLoader loader;
-                std::cout << "loader build succesfull\n";
+                std::cout << "loader build successful\n";
                 m_player = m_entityManager.load(levelPath, loader, m_window);
                 std::cout << "Level loaded!\n";
             } else if (keyword == "View") {
@@ -164,7 +164,7 @@ void Game::sUserInput() {
     }
 }
 
-void Game::sAnimation() {
+void Game::sAnimation() const {
     std::string animationName;
 
     switch (m_player->state()) {
@@ -236,28 +236,6 @@ void Game::sRender() {
 }
 
 void Game::sMovement() {
-    auto x = Move::STAY;
-    auto y = Move::STAY;
-
-    if (m_player->up()) {
-        m_player->setState(State::UP);
-        y = Move::REVERSE;
-    } else if (m_player->down()) {
-        m_player->setState(State::DOWN);
-        y = Move::GO;
-    } else if (m_player->left()) {
-        m_player->setState(State::LEFT);
-        x = Move::REVERSE;
-    } else if (m_player->right()) {
-        m_player->setState(State::RIGHT);
-        x = Move::GO;
-    }
-
-    if (x == Move::STAY && y == Move::STAY) {
-        m_player->setState(State::STAND);
-    }
-    m_player->setVelocity(x, y);
-
     for (const auto &e: m_entityManager.getEntities()) {
         e->updatePos();
     }

@@ -97,7 +97,7 @@ void Entity::setPosition(const sf::Vector2f &position) const {
     // m_origin->setPosition(tempShape->getOrigin());
 }
 
-void Entity::updatePos() const {
+void Entity::updatePos() {
     if (m_transform->has()) {
         m_transform->updatePos();
     }
@@ -113,10 +113,6 @@ bool Entity::isSolid() const { return m_solid; }
 
 void Entity::setAnimation(Animation &anim) {
     m_animation = std::make_shared<Animation>(anim);
-}
-
-void Entity::setState(const State &state) {
-    m_state = state;
 }
 
 void Entity::setSolidity(const bool solid) {

@@ -32,12 +32,6 @@ class Player final : public Entity {
 public:
     explicit Player(size_t id, const size_t &drawLevel = 3);
 
-    //getters
-    [[nodiscard]] bool up() const { return m_up; }
-    [[nodiscard]] bool down() const { return m_down; }
-    [[nodiscard]] bool left() const { return m_left; }
-    [[nodiscard]] bool right() const { return m_right; }
-
     // setters
     void setUp(const bool up) { this->m_up = up; }
     void setDown(const bool down) { this->m_down = down; }
@@ -49,13 +43,13 @@ public:
 
     void setRight();
 
-    void setVelocity(Move x, Move y);
-
     void incFrame();
 
     void onCollide(bool solid) override;
 
 private:
+    void updatePos() override;
+
     void showType(std::ostream &os) const override;
 };
 

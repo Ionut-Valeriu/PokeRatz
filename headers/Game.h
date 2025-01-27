@@ -41,7 +41,6 @@ typedef std::map<int, std::string> ActionMap;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
-
     // size 536
     sf::RenderWindow m_window;
 
@@ -90,7 +89,7 @@ class Game {
 
     void sMovement();
 
-    void sAnimation();
+    void sAnimation() const;
 
     void sRender();
 
