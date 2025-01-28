@@ -15,7 +15,7 @@ enum class Move {
     GO = 1
 };
 
-enum class State {
+enum class AnimationState {
     STAND = 0,
     UP,
     LEFT,

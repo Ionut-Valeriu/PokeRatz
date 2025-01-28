@@ -193,21 +193,21 @@ void Game::sAnimation() const {
     std::string animationName;
 
     switch (m_player->state()) {
-        case State::UP:
+        case AnimationState::UP:
             animationName = "PUp";
             break;
 
-        case State::DOWN:
-        case State::STAND:
+        case AnimationState::DOWN:
+        case AnimationState::STAND:
             animationName = "PStand";
             break;
 
-        case State::LEFT:
+        case AnimationState::LEFT:
             animationName = "PSide";
             m_player->setLeft();
             break;
 
-        case State::RIGHT:
+        case AnimationState::RIGHT:
             animationName = "PSide";
             m_player->setRight();
             break;

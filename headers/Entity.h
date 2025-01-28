@@ -31,7 +31,7 @@
 class Entity {
 protected:
     // size 32
-    State m_state = State::STAND;
+    AnimationState m_state = AnimationState::STAND;
 
     // size 16
     std::shared_ptr<CTransform> m_transform;
@@ -61,7 +61,7 @@ public:
     [[nodiscard]] size_t id() const { return m_id; }
     [[nodiscard]] size_t level() const { return m_drawLevel; }
     [[nodiscard]] bool active() const { return m_active; }
-    [[nodiscard]] State state() const { return m_state; }
+    [[nodiscard]] AnimationState state() const { return m_state; }
 
     [[nodiscard]] std::shared_ptr<Animation> getAnimation() const;
 

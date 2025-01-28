@@ -58,21 +58,21 @@ void Player::updatePos() {
     auto y = Move::STAY;
 
     if (m_up) {
-        m_state = State::UP;
+        m_state = AnimationState::UP;
         y = Move::REVERSE;
     } else if (m_down) {
-        m_state = State::DOWN;
+        m_state = AnimationState::DOWN;
         y = Move::GO;
     } else if (m_left) {
-        m_state = State::LEFT;
+        m_state = AnimationState::LEFT;
         x = Move::REVERSE;
     } else if (m_right) {
-        m_state = State::RIGHT;
+        m_state = AnimationState::RIGHT;
         x = Move::GO;
     }
 
     if (x == Move::STAY && y == Move::STAY) {
-        m_state = State::STAND;
+        m_state = AnimationState::STAND;
     }
 
     m_transform->setVelocity({0.0f, 0.0f});
