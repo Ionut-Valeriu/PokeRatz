@@ -37,7 +37,7 @@
 /// - lifespan (not implemented)
 
 ////////// SHORTCUTS //////////
-typedef std::map<int, std::string> ActionMap;
+typedef std::map<int, std::pair<ActionName, Direction> > ActionMap;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
@@ -57,13 +57,13 @@ class Game {
     EntityManager m_entityManager;
 
     // size 48
-    ActionMap m_actions; // this will be implemented o  scene
+    ActionMap m_actions; // this will be implemented into scene
 
     // size 24
     sf::Sound m_sound;
 
     // size 16
-    std::shared_ptr<Player> m_player; // this might be temporary (can be implemented on scene)
+    std::shared_ptr<Player> m_player;
 
     // size 8
     size_t currentFrame = 0;
@@ -96,7 +96,7 @@ class Game {
     const ActionMap &getActionMap() const { return m_actions; }
 
     // scene play related
-    void registerAction(int inputKey, const std::string &actionName);
+    void registerAction(int inputKey, const ActionName &aName, const Direction dir);
 
     void onEnd();
 

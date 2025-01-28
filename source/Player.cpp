@@ -9,6 +9,33 @@ Player::Player(const size_t id, const size_t &drawLevel)
     : Entity(id, drawLevel) {
 }
 
+void Player::setDirection(const Actions &a) {
+    const bool mode = static_cast<bool>(a.type());
+    switch (a.dir()) {
+        case Direction::UP: {
+            m_up = mode;
+            break;
+        }
+        case Direction::DOWN: {
+            m_down = mode;
+            break;
+        }
+        case Direction::LEFT: {
+            m_left = mode;
+            break;
+        }
+        case Direction::RIGHT: {
+            m_right = mode;
+            break;
+        }
+        case Direction::NONE:
+            break;
+        default:
+            // throw;
+            break;
+    }
+}
+
 void Player::setLeft() {
     if (m_transform->getScale().x > 0)
         m_transform->setScale({-m_transform->getScale().x, m_transform->getScale().y});

@@ -18,18 +18,23 @@
 #include "Player.h"
 #include "Exceptions.h"
 
+void Game::registerAction(int inputKey, const ActionName &aName, const Direction dir = Direction::NONE) {
+    m_actions.insert({inputKey, {aName, dir}});
+}
+
 void Game::init(const std::string &path) {
     // initialization controls
-    registerAction(sf::Keyboard::Escape, "CLOSE");
-    registerAction(sf::Keyboard::W, "UP");
-    registerAction(sf::Keyboard::S, "DOWN");
-    registerAction(sf::Keyboard::A, "LEFT");
-    registerAction(sf::Keyboard::D, "RIGHT");
-    registerAction(sf::Keyboard::P, "PAUSE");
-    registerAction(sf::Keyboard::E, "INTERACT");
-    registerAction(sf::Keyboard::Num1, "SPRITES");
-    registerAction(sf::Keyboard::Num2, "SHAPES");
-    registerAction(sf::Keyboard::Num3, "ORIGIN");
+    // registerAction(sf::Keyboard::E, ActionName::INTERACT);
+    registerAction(sf::Keyboard::Escape, ActionName::CLOSE);
+    registerAction(sf::Keyboard::P, ActionName::PAUSE);
+    registerAction(sf::Keyboard::Num1, ActionName::SPRITES);
+    registerAction(sf::Keyboard::Num2, ActionName::SHAPES);
+    registerAction(sf::Keyboard::Num3, ActionName::ORIGIN);
+    // movements
+    registerAction(sf::Keyboard::W, ActionName::MOVE, Direction::UP);
+    registerAction(sf::Keyboard::S, ActionName::MOVE, Direction::DOWN);
+    registerAction(sf::Keyboard::A, ActionName::MOVE, Direction::LEFT);
+    registerAction(sf::Keyboard::D, ActionName::MOVE, Direction::RIGHT);
 
     // loading assets and settings
     std::ifstream in{path};
@@ -126,21 +131,41 @@ void Game::run() {
 }
 
 void Game::sDoActions(const Actions &action) {
-    if (action.type() == "START") {
-        if (action.name() == "UP") { m_player->setUp(true); } else if (
-            action.name() == "DOWN") { m_player->setDown(true); } else if (
-            action.name() == "LEFT") { m_player->setLeft(true); } else if (
-            action.name() == "RIGHT") { m_player->setRight(true); } else if (
-            action.name() == "SPRITES") { m_drawSprites = !m_drawSprites; } else if (
-            action.name() == "SHAPES") { m_drawOutline = !m_drawOutline; } else if (
-            action.name() == "ORIGIN") { m_drawOrigin = !m_drawOrigin; } else if (
-            action.name() == "PAUSE") { m_paused = !m_paused; } else if (
-            action.name() == "CLOSE") { onEnd(); }
-    } else if (action.type() == "END") {
-        if (action.name() == "UP") { m_player->setUp(false); } else if (
-            action.name() == "DOWN") { m_player->setDown(false); } else if (
-            action.name() == "LEFT") { m_player->setLeft(false); } else if (
-            action.name() == "RIGHT") { m_player->setRight(false); }
+    switch (action.name()) {
+        // basic movement
+        case ActionName::MOVE: {
+            m_player->setDirection(action);
+            break;
+        }
+        // toggle pause
+        case ActionName::PAUSE: {
+            if (action.type() == ActionType::START)
+                m_paused = !m_paused;
+            break;
+        }
+        // toggle the visibility of textures / bounding box / origin of every entity
+        case ActionName::SPRITES: {
+            if (action.type() == ActionType::START)
+                m_drawSprites = !m_drawSprites;
+            break;
+        }
+        case ActionName::SHAPES: {
+            if (action.type() == ActionType::START)
+                m_drawOutline = !m_drawOutline;
+            break;
+        }
+        case ActionName::ORIGIN: {
+            if (action.type() == ActionType::START)
+                m_drawOrigin = !m_drawOrigin;
+            break;
+        }
+        // close the game
+        case ActionName::CLOSE: {
+            if (action.type() == ActionType::END)
+                onEnd();
+            break;
+        }
+        // default: throw;
     }
 }
 
@@ -156,10 +181,10 @@ void Game::sUserInput() {
             if (!getActionMap().contains(event.key.code)) { continue; }
 
             // determine start or end action by whether it was key pres or release
-            const std::string actionType = event.type == sf::Event::KeyPressed ? "START" : "END";
+            auto type = event.type == sf::Event::KeyPressed ? ActionType::START : ActionType::END;
 
             // look up the action and send the action to the scene
-            sDoActions({getActionMap().at(event.key.code), actionType});
+            sDoActions({type, getActionMap().at(event.key.code)});
         }
     }
 }
@@ -241,9 +266,6 @@ void Game::sMovement() {
     }
 }
 
-void Game::registerAction(int inputKey, const std::string &actionName) {
-    m_actions.insert({inputKey, actionName});
-}
 
 void Game::onEnd() { m_running = false; }
 

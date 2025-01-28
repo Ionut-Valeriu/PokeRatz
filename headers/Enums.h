@@ -15,19 +15,34 @@ enum class Move {
     GO = 1
 };
 
-enum class Direction {
-    UP = 'W',
-    DOWN = 'S',
-    LEFT = 'A',
-    RIGHT = 'D'
-};
-
 enum class State {
     STAND = 0,
-    UP = 1,
-    LEFT = 2,
-    DOWN = 3,
-    RIGHT = 4
+    UP,
+    LEFT,
+    DOWN,
+    RIGHT
+};
+
+enum class ActionType {
+    END = 0,
+    START = 1
+};
+
+enum class Direction {
+    NONE = 0,
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
+enum class ActionName {
+    CLOSE,
+    MOVE,
+    PAUSE,
+    SPRITES,
+    SHAPES,
+    ORIGIN
 };
 
 #endif //ENUMS_H

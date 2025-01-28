@@ -8,6 +8,8 @@
 ////////// INCLUDE SECTION //////////
 #include <string>
 
+#include "Enums.h"
+
 ////////// DESCRIPTION //////////
 
 /// this class is used to define the action that can take part in a scene
@@ -15,14 +17,18 @@
 
 ////////// DEFINITION OF CLASS //////////
 class Actions {
-    std::string m_name = "NONE";
-    std::string m_type = "NONE";
+    ActionType m_type;
+    ActionName m_name;
+    Direction m_dir = Direction::NONE;
 
 public:
-    Actions(std::string name, std::string type);
+    Actions(ActionType, const std::pair<ActionName, Direction> &);
 
-    [[nodiscard]] const std::string &name() const { return m_name; }
-    [[nodiscard]] const std::string &type() const { return m_type; }
+    [[nodiscard]] ActionName name() const;
+
+    [[nodiscard]] ActionType type() const;
+
+    [[nodiscard]] Direction dir() const;
 };
 
 #endif //ACTIONS_H

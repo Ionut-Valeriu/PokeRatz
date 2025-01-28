@@ -6,6 +6,7 @@
 #define PLAYER_H
 
 ////////// INCLUDE SECTION //////////
+#include "Actions.h"
 #include "Entity.h"
 #include "Enums.h"
 
@@ -32,13 +33,8 @@ class Player final : public Entity {
 public:
     explicit Player(size_t id, const size_t &drawLevel = 3);
 
-    // setters
-    void setUp(const bool up) { this->m_up = up; }
-    void setDown(const bool down) { this->m_down = down; }
-    void setLeft(const bool left) { this->m_left = left; }
-    void setRight(const bool right) { this->m_right = right; }
+    void setDirection(const Actions &);
 
-    // other methods
     void setLeft();
 
     void setRight();
