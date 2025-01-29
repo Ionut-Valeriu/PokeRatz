@@ -12,12 +12,12 @@
 #include "LevelLoader.h"
 
 #include "Assets.h"
-#include "EntityFactory.h"
+#include "Factory.h"
 #include "EntityManager.h"
 #include "Game.h"
 
 std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fileName,
-                                          sf::RenderWindow &rWindow) const {
+                                          sf::RenderWindow &rWindow){
     std::ifstream in(fileName);
     if (!in.is_open()) { throw file_error{"File \"" + fileName + "\" not found"}; }
 
@@ -26,7 +26,7 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
     size_t drawLevel;
     while (in >> type >> drawLevel) {
         // std::cout << "Current type: " << type << "\n";
-        std::shared_ptr<Entity> object = EntityFactory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
+        std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
 
         switch (type) {
             // comments

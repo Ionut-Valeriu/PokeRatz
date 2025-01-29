@@ -1,5 +1,5 @@
 Font Arial resources/fonts/arial.ttf
-Texture TexMonster resources/images/test_draw.png 0
+Texture TexMonster resources/images/green.png 0
 Texture TexPlayer resources/images/playerStandV1.png 0
 Texture TexPlayerUp resources/images/playerUpV1.png 0
 Texture TexPlayerSide resources/images/playerSideV1.png 0

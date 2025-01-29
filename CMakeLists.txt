@@ -60,14 +60,18 @@ add_executable(${PROJECT_NAME}
         headers/Background.h
         headers/Components.h
         headers/Entity.h
-        headers/EntityFactory.h
         headers/EntityManager.h
         headers/Enums.h
         headers/Exceptions.h
+        headers/Factory.h
         headers/Game.h
+        headers/Illusion.h
         headers/LevelLoader.h
         headers/Monster.h
         headers/Player.h
+        #headers/Scene.h
+        #headers/Scenes/MenuScene.h
+        #headers/Scenes/PlayScene.h
         # source
         source/Actions.cpp
         source/Animation.cpp
@@ -78,12 +82,13 @@ add_executable(${PROJECT_NAME}
         source/EntityManager.cpp
         source/Exceptions.cpp
         source/Game.cpp
+        source/Illusion.cpp
         source/LevelLoader.cpp
         source/Monster.cpp
         source/Player.cpp
-        source/Illusion.cpp
-        headers/Illusion.h
-
+        #source/Scene.cpp
+        #source/Scenes/MenuScene.cpp
+        #source/Scenes/PlayScene.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

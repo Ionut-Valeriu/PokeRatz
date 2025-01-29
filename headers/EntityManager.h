@@ -56,9 +56,7 @@ public:
     // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }
     static size_t getMaxDrawLevel() { return m_maxDrawLevel; }
 
-    std::shared_ptr<Player> load (const std::string &fileName,
-        const LevelLoader &levelLoader,
-        sf::RenderWindow &rWindow);
+    std::shared_ptr<Player> load(const std::string &fileName, sf::RenderWindow &rWindow);
 };
 
 #endif //ENTITYMANAGER_H

@@ -39,8 +39,6 @@ size_t EntityManager::getEntityCount() {
     return m_entitiesSpawned++;
 }
 
-std::shared_ptr<Player> EntityManager::load(const std::string &fileName,
-    const LevelLoader &levelLoader,
-    sf::RenderWindow &rWindow) {
-    return levelLoader.fill(m_entitiesToAdd, fileName, rWindow);
+std::shared_ptr<Player> EntityManager::load(const std::string &fileName, sf::RenderWindow &rWindow) {
+    return LevelLoader::fill(m_entitiesToAdd, fileName, rWindow);
 }

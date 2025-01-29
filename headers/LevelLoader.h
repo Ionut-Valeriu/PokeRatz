@@ -26,8 +26,8 @@ public:
     // this fill the entity vector, determine the maximum drawing level
     // and returns the player
     // so it have 3 functionalities
-    std::shared_ptr<Player> fill(EntityVec &vec, const std::string &fileName,
-                                        sf::RenderWindow &rWindow) const;
+    static std::shared_ptr<Player> fill(EntityVec &vec, const std::string &fileName,
+                                        sf::RenderWindow &rWindow);
 };
 
 
