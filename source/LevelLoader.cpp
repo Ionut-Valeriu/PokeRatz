@@ -16,6 +16,25 @@
 #include "EntityManager.h"
 #include "Game.h"
 
+void LevelLoader::setUpEntity(const std::shared_ptr<Entity> &object, std::ifstream &in, const sf::RenderWindow &rWindow) {
+    sf::Vector2f scale;
+    sf::Vector2i rect, pos;
+    std::string animation;
+    bool solid;
+
+    in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
+
+    object->setAnimation(Assets::getAnimation(animation));
+    object->setPosition({
+        object->getWidth() * static_cast<float>(pos.x) + object->getWidth() * static_cast<float>(rect.x) / 2.0f,
+        static_cast<float>(rWindow.getSize().y) - object->getHeight() * static_cast<float>(pos.y) +
+        object->getHeight() * static_cast<float>(rect.y) / 2.0f
+    });
+    object->setRect({0, 0, rect.x * 16, rect.y * 16});
+    object->setScale(scale);
+    object->setSolidity(solid);
+}
+
 std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fileName,
                                           sf::RenderWindow &rWindow) {
     std::ifstream in(fileName);
@@ -24,20 +43,13 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
     std::shared_ptr<Player> player;
     char type;
     size_t drawLevel;
-    while (in >> type >> drawLevel) {
-        std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
-
+    while (in >> type) {
         switch (type) {
             // comments
             case '-': {
                 std::string line;
                 std::getline(in, line);
                 continue;
-            }
-            // player
-            case 'P': {
-                player = std::dynamic_pointer_cast<Player>(object);
-                break;
             }
             // window
             case 'W': {
@@ -61,31 +73,19 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
             }
             // default
             default: {
+                in >> drawLevel;
+                std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
                 if (object == nullptr) {
                     std::string line;
                     std::getline(in, line);
                     throw typing_error{"form LevelLoader:\tOn line: " + std::to_string(type) + line + "\n"};
                 }
+                if (type == 'P') player = std::dynamic_pointer_cast<Player>(object);
+                setUpEntity(object, in, rWindow);
+                vec.push_back(object);
             }
         }
-        sf::Vector2f scale;
-        sf::Vector2i rect, pos;
-        std::string animation;
-        bool solid;
 
-        in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
-
-        object->setAnimation(Assets::getAnimation(animation));
-        object->setPosition({
-            object->getWidth() * static_cast<float>(pos.x) + object->getWidth() * static_cast<float>(rect.x) / 2.0f,
-            static_cast<float>(rWindow.getSize().y) - object->getHeight() * static_cast<float>(pos.y) +
-            object->getHeight() * static_cast<float>(rect.y) / 2.0f
-        });
-        object->setRect({0, 0, rect.x * 16, rect.y * 16});
-        object->setScale(scale);
-        object->setSolidity(solid);
-
-        vec.push_back(object);
     }
 
     in.close();

@@ -20,6 +20,8 @@
 typedef std::vector<std::shared_ptr<Entity> > EntityVec;
 
 class LevelLoader {
+
+    static void setUpEntity(const std::shared_ptr<Entity> &object, std::ifstream &in, const sf::RenderWindow &rWindow);
 public:
     explicit LevelLoader() = default;
 
