@@ -18,24 +18,19 @@
 #include "Player.h"
 #include "Exceptions.h"
 
-void Game::registerAction(int inputKey, const ActionName &aName, const Direction dir = Direction::NONE) {
-    m_actions.insert({inputKey, {aName, dir}});
+
+void Game::changeScene(const std::string &name, const std::string &file) {
+    if (m_sceneName == name) { return; }
+    m_sceneName = name;
+    if (m_scenes.contains(name)) {
+        m_currentScene = m_scenes.at(name);
+    } else {
+        m_currentScene = Factory<Scene>::makeScene(name, file, m_window);
+        m_scenes[name] = m_currentScene;
+    }
 }
 
 void Game::init(const std::string &path) {
-    // initialization controls
-    // registerAction(sf::Keyboard::E, ActionName::INTERACT);
-    registerAction(sf::Keyboard::Escape, ActionName::CLOSE);
-    registerAction(sf::Keyboard::P, ActionName::PAUSE);
-    registerAction(sf::Keyboard::Num1, ActionName::SPRITES);
-    registerAction(sf::Keyboard::Num2, ActionName::SHAPES);
-    registerAction(sf::Keyboard::Num3, ActionName::ORIGIN);
-    // movements
-    registerAction(sf::Keyboard::W, ActionName::MOVE, Direction::UP);
-    registerAction(sf::Keyboard::S, ActionName::MOVE, Direction::DOWN);
-    registerAction(sf::Keyboard::A, ActionName::MOVE, Direction::LEFT);
-    registerAction(sf::Keyboard::D, ActionName::MOVE, Direction::RIGHT);
-
     // loading assets and settings
     std::ifstream in{path};
 
@@ -68,9 +63,7 @@ void Game::init(const std::string &path) {
             } else if (keyword == "Level") {
                 std::string levelPath;
                 in >> levelPath;
-                LevelLoader loader;
-                std::cout << "loader build successful\n";
-                m_player = m_entityManager.load(levelPath, loader, m_window);
+                changeScene("PlayScene1", levelPath);
                 std::cout << "Level loaded!\n";
             } else if (keyword == "View") {
                 float width, height;
@@ -113,59 +106,8 @@ void Game::init(const std::string &path) {
 
 void Game::run() {
     while (m_running) {
-        m_entityManager.update();
-
         sUserInput();
-        if (!m_paused) {
-            sMovement();
-            sCollision();
-            sAnimation();
-        }
-        sRender();
-
-        if (!m_paused) {
-            currentFrame++;
-            m_player->incFrame();
-        }
-    }
-}
-
-void Game::sDoActions(const Actions &action) {
-    switch (action.name()) {
-        // basic movement
-        case ActionName::MOVE: {
-            m_player->setDirection(action);
-            break;
-        }
-        // toggle pause
-        case ActionName::PAUSE: {
-            if (action.type() == ActionType::START)
-                m_paused = !m_paused;
-            break;
-        }
-        // toggle the visibility of textures / bounding box / origin of every entity
-        case ActionName::SPRITES: {
-            if (action.type() == ActionType::START)
-                m_drawSprites = !m_drawSprites;
-            break;
-        }
-        case ActionName::SHAPES: {
-            if (action.type() == ActionType::START)
-                m_drawOutline = !m_drawOutline;
-            break;
-        }
-        case ActionName::ORIGIN: {
-            if (action.type() == ActionType::START)
-                m_drawOrigin = !m_drawOrigin;
-            break;
-        }
-        // close the game
-        case ActionName::CLOSE: {
-            if (action.type() == ActionType::END)
-                onEnd();
-            break;
-        }
-        // default: throw;
+        m_currentScene->update();
     }
 }
 
@@ -173,99 +115,24 @@ void Game::sUserInput() {
     sf::Event event{};
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
-            m_running = false;
+            onEnd();
         }
 
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
             // if the current scene does not have an action associated with this key, skip the event
-            if (!getActionMap().contains(event.key.code)) { continue; }
+            // if (!getActionMap().contains(event.key.code)) { continue; }
 
             // determine start or end action by whether it was key pres or release
             auto type = event.type == sf::Event::KeyPressed ? ActionType::START : ActionType::END;
 
             // look up the action and send the action to the scene
-            sDoActions({type, getActionMap().at(event.key.code)});
-        }
-    }
-}
-
-void Game::sAnimation() const {
-    std::string animationName;
-
-    switch (m_player->state()) {
-        case AnimationState::UP:
-            animationName = "PUp";
-            break;
-
-        case AnimationState::DOWN:
-        case AnimationState::STAND:
-            animationName = "PStand";
-            break;
-
-        case AnimationState::LEFT:
-            animationName = "PSide";
-            m_player->setLeft();
-            break;
-
-        case AnimationState::RIGHT:
-            animationName = "PSide";
-            m_player->setRight();
-            break;
-    }
-
-    if (m_player->getAnimation()->getName() != animationName) {
-        m_player->setAnimation(Assets::getAnimation(animationName));
-    }
-    m_player->getAnimation()->setScale(m_player->getScale());
-
-    m_player->updateAnimation();
-
-    // todo - all E
-}
-
-void Game::sCollision() {
-    auto vec = m_entityManager.getEntities();
-    for (auto e1 = vec.begin(); e1 + 1 != vec.end(); ++e1) {
-        for (auto e2 = e1 + 1; e2 != vec.end(); ++e2) {
-            if ((*e1)->collide(**e2)) {
-                (*e1)->onCollide((*e2)->isSolid());
-                (*e2)->onCollide((*e1)->isSolid());
-
-                auto m1 = std::dynamic_pointer_cast<Monster>(*e1);
-                auto m2 = std::dynamic_pointer_cast<Monster>(*e2);
-
-                auto p1 = std::dynamic_pointer_cast<Player>(*e1);
-                auto p2 = std::dynamic_pointer_cast<Player>(*e2);
-
-                if ((m1 != nullptr && p2 != nullptr) || (m2 != nullptr && p1 != nullptr)) {
-                    std::cout << "You win\n";
-                    onEnd();
-                }
+            if (m_currentScene->sDoActions(type, event.key.code)) {
+                std::cout << "on end\n";
+                onEnd();
             }
         }
     }
 }
-
-void Game::sRender() {
-    m_window.clear(m_bgColor);
-    m_view.setCenter(m_player->getX(), m_player->getY());
-    m_window.setView(m_view);
-
-    for (size_t i = 1; i <= m_entityManager.getMaxDrawLevel(); i++) {
-        for (const std::shared_ptr<Entity> &e: m_entityManager.getEntitiesOnLevel(i)) {
-            e->draw(m_window, m_drawSprites, m_drawOutline, m_drawOrigin);
-        }
-    }
-
-    m_window.display();
-}
-
-void Game::sMovement() {
-    for (const auto &e: m_entityManager.getEntities()) {
-        e->updatePos();
-    }
-}
-
 
 void Game::onEnd() { m_running = false; }
 

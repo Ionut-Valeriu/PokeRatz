@@ -51,6 +51,7 @@ public:
     static size_t getEntityCount();
 
     const EntityVec &getEntities() { return m_entities; }
+    const EntityVec &getEntitiesAdd() { return m_entitiesToAdd; }
     const EntityVec &getEntitiesOnLevel(const size_t &level) { return m_entityDrawMap[level]; }
 
     // void setMaxDrawLevel(size_t maxDrawLevel) { m_maxDrawLevel = maxDrawLevel; }

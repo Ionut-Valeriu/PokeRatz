@@ -69,9 +69,9 @@ add_executable(${PROJECT_NAME}
         headers/LevelLoader.h
         headers/Monster.h
         headers/Player.h
-        #headers/Scene.h
-        #headers/Scenes/MenuScene.h
-        #headers/Scenes/PlayScene.h
+        headers/Scene.h
+        headers/Scenes/MenuScene.h
+        headers/Scenes/PlayScene.h
         # source
         source/Actions.cpp
         source/Animation.cpp
@@ -86,9 +86,9 @@ add_executable(${PROJECT_NAME}
         source/LevelLoader.cpp
         source/Monster.cpp
         source/Player.cpp
-        #source/Scene.cpp
-        #source/Scenes/MenuScene.cpp
-        #source/Scenes/PlayScene.cpp
+        source/Scene.cpp
+        source/Scenes/MenuScene.cpp
+        source/Scenes/PlayScene.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

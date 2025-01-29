@@ -11,12 +11,14 @@
 #include "Actions.h"
 #include "Assets.h"
 #include "EntityManager.h"
+#include "Factory.h"
 #include "Player.h"
+#include "Scene.h"
 
 ////////// DESCRIPTION //////////
 
 /// todo - separate in 2 classes
-/// this class is a temporary class that functions
+/// this class is a temporary class that functionsclass Game
 /// like 2 different ones: GameEngine and Scene
 /// lots of the functionality were based on entity components that were public
 /// so this class just iterates through entities and call specific functions
@@ -37,7 +39,7 @@
 /// - lifespan (not implemented)
 
 ////////// SHORTCUTS //////////
-typedef std::map<int, std::pair<ActionName, Direction> > ActionMap;
+typedef std::map<std::string, std::shared_ptr<Scene> > SceneMap;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
@@ -53,55 +55,35 @@ class Game {
     // size 152
     sf::Font m_font;
 
-    // size 104
-    EntityManager m_entityManager;
-
     // size 48
-    ActionMap m_actions; // this will be implemented into scene
+    SceneMap m_scenes;
 
     // size 24
     sf::Sound m_sound;
 
     // size 16
-    std::shared_ptr<Player> m_player;
-
-    // size 8
-    size_t currentFrame = 0;
+    std::shared_ptr<Scene> m_currentScene;
 
     // size 4
-    sf::Color m_bgColor;
+    sf::Color m_bgColor; // todo mark
 
     // size 1
     bool m_running = true;
-    bool m_paused = false;
 
-    bool m_drawSprites = true;
-    bool m_drawOutline = false;
-    bool m_drawOrigin = false;
+    std::string m_sceneName;
 
     void init(const std::string &path);
 
     void sUserInput();
 
-    void sDoActions(const Actions &action);
+    // const ActionMap &getActionMap() const { return m_actions; }
 
-    void sCollision();
-
-    void sMovement();
-
-    void sAnimation() const;
-
-    void sRender();
-
-    const ActionMap &getActionMap() const { return m_actions; }
-
-    // scene play related
-    void registerAction(int inputKey, const ActionName &aName, const Direction dir);
-
-    void onEnd();
+    void changeScene(const std::string &name, const std::string &file);
 
 public:
     explicit Game(const std::string &path);
+
+    void onEnd();
 
     void run();
 };

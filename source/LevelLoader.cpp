@@ -17,7 +17,7 @@
 #include "Game.h"
 
 std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fileName,
-                                          sf::RenderWindow &rWindow){
+                                          sf::RenderWindow &rWindow) {
     std::ifstream in(fileName);
     if (!in.is_open()) { throw file_error{"File \"" + fileName + "\" not found"}; }
 
@@ -25,7 +25,6 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
     char type;
     size_t drawLevel;
     while (in >> type >> drawLevel) {
-        // std::cout << "Current type: " << type << "\n";
         std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
 
         switch (type) {
@@ -38,6 +37,26 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
             // player
             case 'P': {
                 player = std::dynamic_pointer_cast<Player>(object);
+                break;
+            }
+            // window
+            case 'W': {
+                int width, height, framerate;
+                // r_read, g_read, b_read;
+                // unsigned char r, g, b;
+                bool fullscreen;
+
+                in >> width >> height >> framerate >> fullscreen;
+                // >> r_read >> g_read >> b_read;
+                // r = r_read;
+                // b = b_read;
+                // g = g_read;
+
+                rWindow.create(sf::VideoMode(width, height), "PokeRatz",
+                               fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+                rWindow.setFramerateLimit(framerate);
+
+                // m_bgColor = sf::Color{r, g, b};
                 break;
             }
             // default
