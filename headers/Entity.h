@@ -55,7 +55,7 @@ public:
 
     void setRect(sf::IntRect rect);
 
-    void draw(sf::RenderWindow &window, bool s, bool r, bool o) const;
+    virtual void draw(sf::RenderWindow &window, bool s = true, bool r = false, bool o = false) const;
 
     // getters
     [[nodiscard]] size_t id() const { return m_id; }

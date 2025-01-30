@@ -14,8 +14,6 @@
 
 ////////// DEFINITION OF CLASS //////////
 class PlayScene : public Scene {
-    sf::RenderWindow &m_window;
-
     sf::View m_view{{0, 0, 1920, 1080}};
 
     bool m_drawSprites = true;
@@ -38,6 +36,8 @@ public:
     bool sDoActions(ActionType, sf::Keyboard::Key) override;
 
     void update() override;
+
+    SceneManager getNext() override;
 };
 
 

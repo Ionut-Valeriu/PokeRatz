@@ -18,16 +18,46 @@
 #include "Player.h"
 #include "Exceptions.h"
 
+void Game::addScene(const std::string &name, char type = '-', const std::string &file = "") {
+    if (m_scenes.contains(name)) throw typing_error("Scene already exists" + name + "\n");
 
-void Game::changeScene(const std::string &name, const std::string &file) {
-    if (m_sceneName == name) { return; }
-    m_sceneName = name;
-    if (m_scenes.contains(name)) {
-        m_currentScene = m_scenes.at(name);
-    } else {
-        m_currentScene = Factory<Scene>::makeScene(name, file, m_window);
-        m_scenes[name] = m_currentScene;
+    m_currentScene = Factory<Scene>::makeScene(name, type, file, m_window);
+    m_scenes[name] = m_currentScene;
+}
+
+void Game::changeScene(SceneManager name) {
+    std::map<std::string, std::shared_ptr<Scene> >::iterator a;
+    switch (name) {
+        case SceneManager::FIRST: {
+            a = m_scenes.begin();
+
+            break;
+        }
+        case SceneManager::NEXT: {
+            a = m_scenes.find(m_sceneName);
+            if (a == m_scenes.end()) {
+                a = m_scenes.begin();
+            } else {
+                a = std::next(a);
+                if (a == m_scenes.end()) {
+                    a = m_scenes.begin();
+                }
+            }
+            break;
+        }
+        case SceneManager::PREVIOUS:
+            break;
+        case SceneManager::LAST:
+            break;
+        case SceneManager::NONE: return;
     }
+
+    m_sceneName = a->first;
+    m_currentScene = a->second;
+}
+
+void Game::update() {
+    changeScene(m_currentScene->getNext());
 }
 
 void Game::init(const std::string &path) {
@@ -60,11 +90,12 @@ void Game::init(const std::string &path) {
                 std::string assetsPath;
                 in >> assetsPath;
                 Assets::loadFromFile(assetsPath);
-            } else if (keyword == "Level") {
-                std::string levelPath;
-                in >> levelPath;
-                changeScene("PlayScene1", levelPath);
-                std::cout << "Level loaded!\n";
+            } else if (keyword == "Scene") {
+                std::string name, levelPath;
+                char type;
+                in >> type >> name >> levelPath;
+                addScene(name, type, levelPath);
+                std::cout << "Scene loaded!\n";
             } else if (keyword == "View") {
                 float width, height;
                 in >> width >> height;
@@ -82,14 +113,14 @@ void Game::init(const std::string &path) {
         }
     } catch (const file_error &e) {
         std::cerr << "File error:\n\t" << e.what();
-        // throw standard_error(e.what());
+        // throw game_error(e.what());
     } catch (const typing_error &e) {
         std::cerr << "Typing error:\n\t" << e.what();
-        // throw standard_error(e.what());
+        // throw game_error(e.what());
     } catch (const loading_error &e) {
         std::cerr << "Loading error:\n\t" << e.what();
-        // throw standard_error(e.what());
-    } catch (const standard_error &e) {
+        // throw game_error(e.what());
+    } catch (const game_error &e) {
         std::cerr << "Exit because of:\n\t" << e.what();
         exit(1);
     }
@@ -97,10 +128,7 @@ void Game::init(const std::string &path) {
     in.close();
     std::cout << "\nInit finished!\n" << Assets() << "\n";
 
-    // todo - remove - only for cppcheck
-    m_font = Assets::getFont("Arial");
-    //
-
+    changeScene(SceneManager::FIRST);
     m_sound.play();
 }
 
@@ -108,6 +136,7 @@ void Game::run() {
     while (m_running) {
         sUserInput();
         m_currentScene->update();
+        update();
     }
 }
 

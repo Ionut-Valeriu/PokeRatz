@@ -5,7 +5,7 @@
 #include "Exceptions.h"
 
 loading_error::loading_error(const std::string &msg)
-    : standard_error("Loading error: " + msg) {
+    : game_error("Loading error: " + msg + "\n") {
 }
 
 file_error::file_error(const std::string &msg)

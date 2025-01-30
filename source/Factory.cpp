@@ -24,13 +24,13 @@ std::shared_ptr<E> Factory<E>::makeEntity(char type, size_t id, size_t drawLevel
     switch (type) {
         case '-': return nullptr;
 
-        case 'P': return addEntity<Player>(id, drawLevel);
-
-        case 'M': return addEntity<Monster>(id, drawLevel);
-
         case 'B': return addEntity<Background>(id, drawLevel);
 
         case 'I': return addEntity<Illusion>(id, drawLevel);
+
+        case 'M': return addEntity<Monster>(id, drawLevel);
+
+        case 'P': return addEntity<Player>(id, drawLevel);
 
         default: throw std::invalid_argument("Invalid type: " + std::to_string(type));
     }
@@ -42,20 +42,20 @@ std::shared_ptr<E> Factory<E>::makeEntity(char type, size_t id, size_t drawLevel
 template<class E>
 template<typename T>
 std::shared_ptr<E> Factory<E>::addScene(std::string file, sf::RenderWindow &window) {
-    auto e = std::make_shared<T>(file, window);
-    return e;
+    auto s = std::make_shared<T>(file, window);
+    return s;
 }
 
 /// UPDATE JUST HERE (IN SWITCH) FOR NEW DERIVED CLASSES FROM SCENE
 template<class E>
-std::shared_ptr<E> Factory<E>::makeScene(const std::string &name, std::string file, sf::RenderWindow &window) {
-    const char c = name[0];
-    switch (c) {
+std::shared_ptr<E> Factory<E>::makeScene(const std::string &name, char type, std::string file,
+                                         sf::RenderWindow &window) {
+    switch (type) {
         case '-': return nullptr;
 
         case 'P': return addScene<PlayScene>(file, window);
 
-        // case 'M': return addScene<MenuScene>(file, window);
+        case 'M': return addScene<MenuScene>(file, window);
 
         default: throw std::invalid_argument("Invalid type: " + name);
     }

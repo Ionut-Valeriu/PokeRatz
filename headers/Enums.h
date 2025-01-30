@@ -42,7 +42,16 @@ enum class ActionName {
     PAUSE,
     SPRITES,
     SHAPES,
-    ORIGIN
+    ORIGIN,
+    SUBMIT
+};
+
+enum class SceneManager {
+    NONE = 0,
+    FIRST,
+    NEXT,
+    PREVIOUS,
+    LAST
 };
 
 #endif //ENUMS_H

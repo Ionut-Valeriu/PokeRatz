@@ -16,10 +16,18 @@
 
 ////////// DEFINITION OF CLASS //////////
 class MenuScene : public Scene {
+    sf::Text text{"PRESS ENTER TO PLAY", Assets::getFont("Arial")};
+
+    void sRender();
+
+    void init();
+
 public:
-    MenuScene(const std::string &file, sf::RenderWindow &window)
-        : Scene(file, window) {
-    }
+    SceneManager getNext() override;
+
+    bool sDoActions(ActionType, sf::Keyboard::Key) override;
+
+    MenuScene(const std::string &file, sf::RenderWindow &window);
 
     void update() override;
 };

@@ -16,15 +16,15 @@
 #include "EntityManager.h"
 #include "Game.h"
 
-void LevelLoader::setUpEntity(const std::shared_ptr<Entity> &object, std::ifstream &in, const sf::RenderWindow &rWindow) {
+
+void LevelLoader::setUpNonAnimation(const std::shared_ptr<Entity> &object, std::ifstream &in,
+                                    const sf::RenderWindow &rWindow) {
     sf::Vector2f scale;
     sf::Vector2i rect, pos;
-    std::string animation;
     bool solid;
 
-    in >> animation >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
+    in >> scale.x >> scale.y >> rect.x >> rect.y >> pos.x >> pos.y >> solid;
 
-    object->setAnimation(Assets::getAnimation(animation));
     object->setPosition({
         object->getWidth() * static_cast<float>(pos.x) + object->getWidth() * static_cast<float>(rect.x) / 2.0f,
         static_cast<float>(rWindow.getSize().y) - object->getHeight() * static_cast<float>(pos.y) +
@@ -33,6 +33,14 @@ void LevelLoader::setUpEntity(const std::shared_ptr<Entity> &object, std::ifstre
     object->setRect({0, 0, rect.x * 16, rect.y * 16});
     object->setScale(scale);
     object->setSolidity(solid);
+}
+
+void LevelLoader::setUpEntity(const std::shared_ptr<Entity> &object, std::ifstream &in,
+                              const sf::RenderWindow &rWindow) {
+    std::string animation;
+    in >> animation;
+    object->setAnimation(Assets::getAnimation(animation));
+    setUpNonAnimation(object, in, rWindow);
 }
 
 std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fileName,
@@ -71,10 +79,12 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
                 // m_bgColor = sf::Color{r, g, b};
                 break;
             }
-            // default
+
+            // default for every entity
             default: {
                 in >> drawLevel;
-                std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(type, EntityManager::getEntityCount(), drawLevel);
+                std::shared_ptr<Entity> object = Factory<Entity>::makeEntity(
+                    type, EntityManager::getEntityCount(), drawLevel);
                 if (object == nullptr) {
                     std::string line;
                     std::getline(in, line);
@@ -85,7 +95,6 @@ std::shared_ptr<Player> LevelLoader::fill(EntityVec &vec, const std::string &fil
                 vec.push_back(object);
             }
         }
-
     }
 
     in.close();

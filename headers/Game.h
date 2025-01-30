@@ -76,9 +76,11 @@ class Game {
 
     void sUserInput();
 
-    // const ActionMap &getActionMap() const { return m_actions; }
+    void addScene(const std::string &name, char type, const std::string &file);
 
-    void changeScene(const std::string &name, const std::string &file);
+    void changeScene(SceneManager name);
+
+    void update();
 
 public:
     explicit Game(const std::string &path);

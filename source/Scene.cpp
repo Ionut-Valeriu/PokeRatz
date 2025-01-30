@@ -10,6 +10,7 @@ void Scene::registerAction(sf::Keyboard::Key inputKey, const ActionName &aName, 
     m_actions.insert({inputKey, {aName, dir}});
 }
 
-Scene::Scene(const std::string &file, sf::RenderWindow &window) {
+Scene::Scene(const std::string &file, sf::RenderWindow &window)
+    : m_window(window) {
     m_player = m_entities.load(file, window);
 }

@@ -38,7 +38,9 @@ protected:
     // size 1
     bool m_paused = false;
 
-    // scene play related
+    SceneManager m_next = SceneManager::NONE;
+    sf::RenderWindow &m_window;
+
     void registerAction(sf::Keyboard::Key inputKey, const ActionName &aName, const Direction dir = Direction::NONE);
 
 public:
@@ -49,6 +51,8 @@ public:
     virtual void update() = 0;
 
     virtual bool sDoActions(ActionType, sf::Keyboard::Key) = 0;
+
+    virtual SceneManager getNext() = 0;
 };
 
 

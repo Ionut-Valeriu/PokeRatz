@@ -9,7 +9,7 @@
 #include "Monster.h"
 
 PlayScene::PlayScene(const std::string &levelPath, sf::RenderWindow &window)
-    : Scene(levelPath, window), m_window(window) {
+    : Scene(levelPath, window){
     init();
 }
 
@@ -51,6 +51,12 @@ void PlayScene::update() {
         m_currentFrame++;
         m_player->incFrame();
     }
+}
+
+SceneManager PlayScene::getNext() {
+    SceneManager aux = m_next;
+    m_next = SceneManager::NONE;
+    return aux;
 }
 
 bool PlayScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
@@ -126,7 +132,6 @@ void PlayScene::sAnimation() const {
     // todo - all E
 }
 
-// to move
 void PlayScene::sCollision() {
     auto vec = m_entities.getEntities();
     for (auto e1 = vec.begin(); e1 + 1 != vec.end(); ++e1) {
@@ -143,6 +148,7 @@ void PlayScene::sCollision() {
 
                 if ((m1 != nullptr && p2 != nullptr) || (m2 != nullptr && p1 != nullptr)) {
                     std::cout << "You win\n";
+                    m_next = SceneManager::FIRST;
                 }
             }
         }

@@ -25,7 +25,8 @@ class Factory {
 public:
     static std::shared_ptr<E> makeEntity(char type, size_t id, size_t drawLevel);
 
-    static std::shared_ptr<E> makeScene(const std::string &name, std::string file, sf::RenderWindow &window);
+    static std::shared_ptr<E> makeScene(const std::string &name, char type, std::string file,
+                                        sf::RenderWindow &window);
 };
 
 #include "../source/Factory.cpp"
