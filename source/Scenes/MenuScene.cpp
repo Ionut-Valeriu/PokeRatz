@@ -35,17 +35,10 @@ bool MenuScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
     if (type == ActionType::START) return false;
 
     Actions action{type, m_actions.at(key)};
-    switch (action.name()) {
-        // close the game
-        case ActionName::SUBMIT: {
-            m_next = SceneManager::NEXT;
-            break;
-        }
-        // close the game
-        case ActionName::CLOSE: {
-            return true;
-        }
-    }
+    if (action.name() == ActionName::CLOSE) { return true; }
+
+    if (action.name() == ActionName::SUBMIT) { m_next = SceneManager::NEXT; }
+
     return false;
 }
 

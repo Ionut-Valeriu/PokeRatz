@@ -93,6 +93,8 @@ bool PlayScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
         case ActionName::CLOSE: {
             return true;
         }
+        case ActionName::SUBMIT:
+        default: ;
         // default: throw;
     }
     return false;
