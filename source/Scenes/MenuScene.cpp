@@ -34,11 +34,13 @@ void MenuScene::sRender() {
 bool MenuScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
     if (type == ActionType::START) return false;
 
-    Actions action{type, m_actions.at(key)};
-    if (action.name() == ActionName::CLOSE) { return true; }
+    if (m_actions.contains(key)) {
+        Actions action{type, m_actions.at(key)};
+        if (action.name() == ActionName::CLOSE) { return true; }
 
-    if (action.name() == ActionName::SUBMIT) { m_next = SceneManager::NEXT; }
-
+        if (action.name() == ActionName::SUBMIT) { m_next = SceneManager::NEXT; }
+    }
+    else std::cout << "does not have registered " << key << std::endl;
     return false;
 }
 

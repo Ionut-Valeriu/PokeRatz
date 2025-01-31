@@ -23,6 +23,9 @@ void Game::addScene(const std::string &name, char type = '-', const std::string 
 
     m_currentScene = Factory<Scene>::makeScene(name, type, file, m_window);
     m_scenes[name] = m_currentScene;
+    if (!m_sceneSettings.contains(name)) {
+        m_sceneSettings[name] = {type, file};
+    }
 }
 
 void Game::changeScene(SceneManager name) {
@@ -50,6 +53,12 @@ void Game::changeScene(SceneManager name) {
         case SceneManager::LAST:
             break;
         case SceneManager::NONE: return;
+    }
+
+    if (m_scenes.contains(m_sceneName)) {
+        m_scenes[m_sceneName].reset();
+        m_scenes.erase(m_sceneName);
+        addScene(m_sceneName, m_sceneSettings.at(m_sceneName).first, m_sceneSettings.at(m_sceneName).second);
     }
 
     m_sceneName = a->first;

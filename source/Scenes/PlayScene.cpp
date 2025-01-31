@@ -60,6 +60,10 @@ SceneManager PlayScene::getNext() {
 }
 
 bool PlayScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
+    if (!m_actions.contains(key)) {
+        std::cout << "Key " << key << " doesn't exist" << std::endl;
+        return false;
+    }
     Actions action{type, m_actions.at(key)};
     switch (action.name()) {
         // basic movement
@@ -94,7 +98,9 @@ bool PlayScene::sDoActions(ActionType type, sf::Keyboard::Key key) {
             return true;
         }
         case ActionName::SUBMIT:
-        default: ;
+        default: {
+
+        };
         // default: throw;
     }
     return false;

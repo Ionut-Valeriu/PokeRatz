@@ -40,6 +40,7 @@
 
 ////////// SHORTCUTS //////////
 typedef std::map<std::string, std::shared_ptr<Scene> > SceneMap;
+typedef std::map<std::string, std::pair<char, std::string> > SceneSettings;
 
 ////////// DEFINITION OF CLASS //////////
 class Game {
@@ -57,6 +58,7 @@ class Game {
 
     // size 48
     SceneMap m_scenes;
+    SceneSettings m_sceneSettings;
 
     // size 24
     sf::Sound m_sound;
